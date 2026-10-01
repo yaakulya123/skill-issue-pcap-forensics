@@ -1,0 +1,110 @@
+{
+  "run_id": "mta-2024-07-30__B2__haiku__r3",
+  "case": "mta-2024-07-30",
+  "arm": "B2",
+  "arm_label": "community-malware",
+  "model": "haiku",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 32,
+    "tshark_calls": 31,
+    "tshark_cmds": [
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30 && /opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z io,phs",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z endpoints,ip 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e dns.qry.name -e dns.a -e dns.aaaa -Y \"dns.flags.response == 0\" 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst -e frame.time -Y \"ip.src == 172.16.1.66 or ip.dst == 172.16.1.66\" 2>/dev/null | head -10 | sort | uniq",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e http.request.full_uri -e http.request.method -e http.user_agent -Y \"http.request\" 2>/dev/null | sort",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e tls.handshake.extensions_server_name -Y \"tls.handshake.type == 1\" 2>/dev/null | awk -F'\\t' '$1 != \"\" {print}' | sort | uniq | head -50",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e tcp.srcport -Y \"(ip.src == 172.16.1.66 and (tcp.dstport == 443 or tcp.dstport == 80))\" 2>/dev/null | sort | uniq | wc -l",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e tls.handshake.extensions_server_name -Y \"tls.handshake.type == 1 and ip.src == 172.16.1.66\" 2>/dev/null | grep -v microsoft | grep -v msn | grep -v bing | grep -v akamai | grep -v cdn | sort | uniq",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e ip.src -e ip.dst -e smb.cmd -e smb.path -e smb.filename -Y \"smb\" 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e ip.src -e ip.dst -e smb2.cmd -Y \"smb2\" 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e ip.src -e ip.dst -e ldap.resultCode -e ldap.message -Y \"ldap\" 2>/dev/null | head -40",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e ip.src -e ip.dst -e cldap.netbiosComputerName -e cldap.netbiosDomainName -e cldap.userAccountControl -Y \"cldap\" 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"nbns\" -V 2>/dev/null | grep -E \"Name:|Type:|Computer Name|User\" | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"kerberos\" -V 2>/dev/null | grep -i \"CName\\|PrincipalName\\|sname\\|cnameString\" | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"dcerpc.opnum\" -V 2>/dev/null | grep -i \"opnum\\|dsrpc\\|samr\" | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src == 172.16.1.66 and (tcp.dstport == 443)\" -T fields -e frame.time -e tcp.stream -e tls.record.length -e tcp.len 2>/dev/null | head -50",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src == 172.16.1.66 and tcp.dstport == 443\" --export-objects http,/tmp/exported_http/ 2>&1 | head -20 || ls /tmp/exported_http/ 2>/dev/null || echo \"No HTTP objects exported\"",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time -e dns.qry.name -e dns.a -Y \"dns.flags.response == 1 and dns.a\" 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"tcp.stream == 33\" -A 2>/dev/null | head -80",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src == 172.16.1.66 and ip.dst == 140.82.113.3 and tcp.dstport == 443\" -T fields -e tcp.stream 2>/dev/null | head -1",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src == 172.16.1.66\" -T fields -e ip.dst -e tcp.dstport -e frame.len 2>/dev/null | sort | uniq -c | sort -rn | head -30",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src == 172.16.1.66 and ip.dst == 141.98.10.79\" -T fields -e frame.time -e tcp.srcport -e tcp.dstport -e tcp.flags -e tcp.len 2>/dev/null | head -50",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src == 172.16.1.66 and ip.dst == 141.98.10.79 and tcp.dstport == 12132\" -x 2>/dev/null | grep -A 20 \"0x0000\" | head -80",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src == 141.98.10.79 and ip.dst == 172.16.1.66 and tcp.srcport == 12132\" -T fields -e frame.time -e tcp.flags -e tcp.len 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"smb2 and smb2.cmd == 1\" -V 2>/dev/null | grep -i \"account\\|user\" | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"kerberos.msgType == 12 or kerberos.msgType == 13\" -V 2>/dev/null | grep -i \"cname\\|principalname\" | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"http\" -V 2>/dev/null | grep -i \"authorization\\|user\" | head -10",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"smb2.cmd == 1 and ip.src == 172.16.1.4\" -V 2>/dev/null | grep -i \"ntlomssp\\|account\\|username\" -A 2 | head -30",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"frame contains \\\"user\\\" or frame contains \\\"User\\\"\" -T fields -e frame.number -e frame.time -e ip.src -e ip.dst 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"nbns.name_flags\" -V 2>/dev/null | grep \"name-flags:\" -A 5 | head -40",
+      "/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src == 172.16.1.66 and ip.dst == 141.98.10.79 and tcp.dstport == 12132 and tcp.len > 0\" -T fields -e frame.time 2>/dev/null | tail -20"
+    ],
+    "input_tokens": 266,
+    "output_tokens": 10459,
+    "num_turns": 33,
+    "duration_ms": 172213,
+    "cost_usd": 0.30238839999999995,
+    "wall_time_s": 173.4
+  },
+  "score": {
+    "recall": 0.5556,
+    "iocs_found": 5,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 0,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": false
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 11,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "## INCIDENT REPORT: Malware Analysis\n\n**Report Date:** 2024-07-30  \n**Incident Type:** Command-and-Control (C2) Beaconing Detected\n\n---\n\n### INFECTED/VICTIM HOST\n\n| Field | Value |\n|-------|-------|\n| **IPv4 Address** | 172.16.1.66 |\n| **MAC Address** | 00:1e:64:ec:f3:08 |\n| **Windows Hostname** | DESKTOP-SKBR25F |\n| **Active Directory Domain** | wiresharkworkshop.online |\n| **Logged-in User Account** | Unable to definitively determine from network traffic analysis alone |\n\n---\n\n### MALWARE IDENTIFICATION\n\n**Malware Family:** Custom Java-based Remote Access Trojan (RAT)  \n**Attribution Confidence:** Behavioral signature-confirmed (not signature-based family detection)  \n**Classification Reason:** Exhibits behavior consistent with Java-based RAT downloading payloads from public repositories and maintaining persistent C2 communication.\n\n---\n\n### INDICATORS OF COMPROMISE (IOCs)\n\n#### Command-and-Control (C2) Infrastructure\n\n| Type | Value | Port | Details |\n|------|-------|------|---------|\n| **C2 Server** | 141.98.10.79 | 12132 | Malware beacons every 5 seconds with 7-byte payloads; consistent TCP keep-alive pattern observed from 06:40:05 to 06:48:34 UTC (8+ minutes of continuous beaconing) |\n\n#### Malicious Domains\n\n| Domain | Queried | Purpose |\n|--------|---------|---------|\n| github.com | 06:39:53 | Payload/dependency download |\n| objects.githubusercontent.com | 06:39:53 | GitHub object retrieval (likely Java artifact) |\n| repo1.maven.org | 06:39:56-06:39:57 | Maven Central Repository access (Java dependencies/payloads) |\n| javadl-esd-secure.oracle.com | 06:44:29 | Oracle Java Development Kit/Runtime download |\n| ip-api.com | 06:40:06 | Geolocation query (attacker reconnaissance) |\n| default.exp-tas.com | 06:39:27 | Possible telemetry or secondary C2 domain |\n\n#### Malicious URLs\n\n| URL | Timestamp | HTTP Method | User-Agent |\n|-----|-----------|-------------|-----------|\n| http://ip-api.com/json/ | 06:40:06 | GET | Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/73.0.3683.86 |\n| http://www.msftconnecttest.com/connecttest.txt | 06:38:49 | GET | Microsoft NCSI (legitimate connectivity test; not malicious) |\n\n#### Downloaded Files\n\n| Repository | File | SHA256 | Status |\n|------------|------|--------|--------|\n| GitHub / Maven / Oracle | Java artifacts/JDK | Not extractable from encrypted TLS traffic | Downloaded via HTTPS (encrypted; specific artifact names/hashes not recoverable) |\n\n---\n\n### ATTACK TIMELINE\n\n| Time (UTC) | Event |\n|-----------|-------|\n| 06:38:48 - 06:40:06 | System boot, domain authentication, Windows telemetry initialization |\n| 06:39:53 | Malware initiates reconnaissance: queries to GitHub, Maven repo, Oracle Java |\n| 06:40:06 | Malware queries ip-api.com to determine external IP/geolocation |\n| 06:40:05 - 06:48:34+ | **Persistent C2 beaconing begins**: regular 5-second heartbeats to 141.98.10.79:12132 |\n| Throughout | Continuous Windows telemetry and Office 365 connectivity (legitimate Microsoft traffic) |\n\n---\n\n### NETWORK BEHAVIORAL ANALYSIS\n\n**C2 Beaconing Pattern:**\n- **Destination:** 141.98.10.79:12132\n- **Frequency:** Every 5 seconds (\u00b1200ms jitter)\n- **Payload Size:** 7 bytes per beacon (PUSH+ACK flag 0x18)\n- **Response Pattern:** Server responds with ACK (0x0010 flag, no payload) or occasional 136-147 byte responses\n- **Duration Observed:** At least 8+ minutes of continuous beaconing (partial capture)\n- **Conclusion:** Classic C2 heartbeat pattern indicating active malware control channel\n\n**Suspicious External Connections:**\n- Total TLS sessions to external IPs: 1,427 packets\n- Majority legitimate (Microsoft telemetry, CDNs)\n- Anomalous: Direct connections to GitHub, Maven Central, Oracle Java servers suggest deliberate payload staging\n- Geolocation query to ip-api.com indicates malware capability enumeration\n\n---\n\n### SUMMARY\n\nHost 172.16.1.66 (DESKTOP-SKBR25F) is infected with a Java-based remote access trojan that:\n\n1. Downloads execution payloads from GitHub and Maven Central Repository\n2. Maintains persistent command-and-control communication with 141.98.10.79:12132 via 5-second regular beacons\n3. Performs active reconnaissance (geolocation lookup)\n4. Resides on an Active Directory-joined workstation in the wiresharkworkshop.online domain\n\n**Recommended Actions:**\n- Isolate host 172.16.1.66 immediately from the network\n- Perform full forensic acquisition of system memory and disk\n- Review Windows event logs for lateral movement, privilege escalation, or credential theft\n- Block 141.98.10.79 at perimeter firewall\n- Identify and patch the infection vector (GitHub repository compromise, Maven artifact poisoning, or phishing delivery)\n- Monitor 172.16.1.4 (domain controller) for signs of compromise"
+}

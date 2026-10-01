@@ -1,0 +1,88 @@
+{
+  "run_id": "mta-2021-09-10__A__sonnet__r2",
+  "case": "mta-2021-09-10",
+  "arm": "A",
+  "arm_label": "vanilla",
+  "model": "sonnet",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 18,
+    "tshark_calls": 13,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -q -z io,phs 2>/dev/null | head -50",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\necho \"--- DHCP ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e ip.src -e ip.dst -e dhcp.option.hostname -e dhcp.option.requested_ip_address -e dhcp.option.value 2>/dev/null\necho \"--- NBNS ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u | head -30\necho \"--- Kerberos (usernames) ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.addr==10.9.10.102\" -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst 2>/dev/null | head -5\necho \"---DNS queries from victim---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dns.flags.response==0 && ip.src==10.9.10.102\" -T fields -e dns.qry.name 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\necho \"---HTTP requests---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\necho \"--- full conversation with 194.62.42.206 ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.addr==194.62.42.206\" -T fields -e frame.number -e frame.time -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.request.uri -e http.response.code -e http.content_type -e http.file_data 2>/dev/null | head -30\necho \"--- tcp conversations ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -q -z conv,tcp -Y \"ip.addr==194.62.42.206\" 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\necho \"--- TLS SNI per dest IP (unique) ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\necho \"--- 167.172.37.9 TLS handshake details ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.addr==167.172.37.9 && tls.handshake.type==1\" -T fields -e ip.dst -e tcp.dstport -e tls.handshake.extensions_server_name -e tls.record.version -e tls.handshake.ciphersuites 2>/dev/null | head -5\necho \"--- 167.172.37.9 cert ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.addr==167.172.37.9 && tls.handshake.type==11\" -T fields -e x509sat.uTF8String -e x509sat.printableString 2>/dev/null | head -5\necho \"--- 94.158.245.52 cert ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.addr==94.158.245.52 && tls.handshake.type==11\" -T fields -e x509sat.uTF8String -e x509sat.printableString 2>/dev/null | head -5\necho \"--- count of distinct connections to 94.158.245.52 ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.addr==94.158.245.52 && tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e frame.time -e tcp.srcport 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\necho \"--- all http.request across whole file (any host) sorted by time, check earliest ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"http.request or http.response\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e http.request.method -e http.request.uri -e http.response.code -e http.content_type -e http.file_data 2>/dev/null | awk -F'\\t' '$2<200'\necho \"--- export http objects ---\"\nmkdir -p /tmp/httpobjs\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap --export-objects http,/tmp/httpobjs 2>/dev/null\nls -la /tmp/httpobjs\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"http.request.uri contains \\\"osk\\\" or http.request.uri contains \\\"main.php\\\"\" -T fields -e frame.number -e ip.src -e ip.dst -e http.host -e http.request.uri -e http.response.code -e http.content_type 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"http.response\" -T fields -e frame.number -e ip.src -e ip.dst -e http.request.uri -e http.response.code -e http.content_type -e http.content_length 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\necho \"--- DNS for simpsonsavingss.com ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dns.qry.name==\\\"simpsonsavingss.com\\\"\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e dns.flags.response -e dns.a 2>/dev/null\necho \"--- DNS for myexternalip.com ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dns.qry.name==\\\"myexternalip.com\\\"\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e dns.flags.response -e dns.a 2>/dev/null\necho \"--- Any DNS resolving to 167.172.37.9 or 94.158.245.52 ---\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dns.a==167.172.37.9 or dns.a==94.158.245.52\" -T fields -e dns.qry.name -e dns.a 2>/dev/null\necho \"--- MZ header check on payload for arch ---\"\nxxd /tmp/httpobjs/\"date1%3fBNLv65=pAAS\" | head -20\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dns.flags.response==0 && ip.src==10.9.10.102\" -T fields -e frame.time_relative -e dns.qry.name 2>/dev/null | awk -F'\\t' '$1<145'\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\n/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.addr==10.9.10.103\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e smb2.cmd -e smb.cmd 2>/dev/null | head -20\n"
+    ],
+    "input_tokens": 38,
+    "output_tokens": 14064,
+    "num_turns": 19,
+    "duration_ms": 208729,
+    "cost_usd": 1.0149594,
+    "wall_time_s": 209.9
+  },
+  "score": {
+    "recall": 0.9,
+    "iocs_found": 9,
+    "iocs_total": 10,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 3,
+        "total": 3
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 8,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report \u2014 MTA 2021-09-10 Traffic Analysis Exercise\n\n## 1. Scope of evidence\nOnly one artifact was present in the evidence folder: `2021-09-10-traffic-analysis-exercise.pcap` (9,221 frames). No Suricata/IDS alert export was provided alongside it, so no signature-based (rule-hit) confirmation is possible \u2014 all findings below are traffic/behavioral analysis performed directly against the packet capture with tshark.\n\n## 2. Victim host identification\n| Attribute | Value | Evidence |\n|---|---|---|\n| IPv4 address | **10.9.10.102** | Consistent source across all suspicious traffic |\n| MAC address | **00:4f:49:b1:e8:c3** | DHCP Request (frame options) and Ethernet source on all frames from 10.9.10.102 |\n| Windows hostname | **DESKTOP-KKITB6Q** | DHCP Option 12 hostname; NBNS name registrations `DESKTOP-KKITB6Q<00>`/`<20>`; DNS PTR/A queries `DESKTOP-KKITB6Q.angrypoutine.com` |\n| Windows domain | angrypoutine.com (AD domain, DC = ANGRYPOUTINE-DC / 10.9.10.9) | DHCP option 15, LDAP/Kerberos/CLDAP traffic to 10.9.10.9 |\n| Logged-in user account | **hobart.gunnarsson** | Kerberos AS-REQ/TGS-REQ CNameString from 10.9.10.102 to the DC (10.9.10.9) |\n\n## 3. Malware family and attribution\n**Assessed family: Hancitor (aka Chanitor/Tordal), used here as a loader that pulled down a Cobalt Strike-style beacon.**\n\n**Attribution basis: behavioral, not signature-confirmed.** No IDS/Suricata alert file was supplied with this evidence, so no ET/Suricata rule hit backs this call. The identification rests entirely on the traffic pattern observed:\n\n- At t=139.7s, `10.9.10.102` resolved and connected to a malicious \"gate\" domain and immediately issued an HTTP GET carrying the User-Agent string:\n  `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)`\n  This spoofed, decade-obsolete IE7 UA on a Windows 10 host is the long-documented fingerprint used by Hancitor gate/checkin requests.\n- The URI structure (`/bmdff/BhoHsCtZ/MLdmpfjaX/5uFG3Dz7yt/date1?BNLv65=pAAS` \u2014 a randomized multi-segment path ending in a fixed keyword, `date1`) matches Hancitor's known gate-URI convention.\n- The server's HTTP 200 response to that exact request delivered a Windows PE32+ (x86-64) DLL (`MZ`/`PE` header, machine type `0x8664`), served as `Content-Type: application/octet-stream` \u2014 consistent with Hancitor's payload delivery via a \"fake\" document/gate check-in rather than a real webpage.\n- Within seconds of the DLL delivery, the host began sustained, periodic (~2\u201310 min interval) outbound HTTPS beaconing directly to two IP addresses with **no preceding DNS lookups** (i.e., hardcoded IPs), each presenting the **same self-signed TLS certificate** (Subject/Issuer: `C=UK, ST=London, L=London, O=UK System, OU=LL EST, CN=londonareloeli.uk`). Hardcoded-IP C2 with a shared self-signed cert of this shape is the classic signature of a Cobalt Strike (or similar) beacon staged by a Hancitor infection \u2014 Hancitor itself is a downloader/loader and is very commonly observed dropping Cobalt Strike as the follow-on payload.\n\nNo malicious email/attachment delivery was visible in the capture (no SMTP/POP3 traffic present), so the initial infection vector (phishing document) is outside the captured traffic window; the capture begins with normal Windows/Office/AD traffic before the gate check-in at t=139.7s.\n\n## 4. Indicators of Compromise\n\n### Command-and-control endpoints\n| Indicator | Role | Notes |\n|---|---|---|\n| **194.62.42.206:80** | Hancitor gate / payload host | HTTP GET gate check-in + DLL payload delivery |\n| **167.172.37.9:443** | Secondary C2 (beacon) | Direct-to-IP TLS, self-signed cert `CN=londonareloeli.uk`, no SNI |\n| **94.158.245.52:443** | Primary beacon C2 | Direct-to-IP TLS, same self-signed cert, ~35 repeated connections over the full capture (periodic beaconing) |\n\n### Malicious domain\n- **simpsonsavingss.com** \u2014 resolved by the internal DNS server (10.9.10.9) to 194.62.42.206 at t=139.5s, immediately followed by the gate GET request.\n\n### Malicious URL\n- `hxxp://simpsonsavingss[.]com/bmdff/BhoHsCtZ/MLdmpfjaX/5uFG3Dz7yt/date1?BNLv65=pAAS`\n\n### Transferred file\n| File (as served) | Size | Type | SHA256 |\n|---|---|---|---|\n| `date1?BNLv65=pAAS` (Hancitor payload) | 284,816 bytes | PE32+ DLL, x86-64 | `eed363fc4af7a9070d69340592dcab7c78db4f90710357de29e3b624aa957cf8` |\n\n*(All other file transfers seen in the capture \u2014 Windows Update `.cab` files, the `am_delta_patch_*.exe` Windows Defender definition update, Microsoft Store thumbnail images, `ncsi.txt` \u2014 were verified as legitimate Microsoft infrastructure traffic and are not IOCs.)*\n\n## 5. Recommended actions\n- Isolate DESKTOP-KKITB6Q (10.9.10.102) from the network immediately; treat as compromised with active C2 beaconing.\n- Reset credentials for `hobart.gunnarsson` (domain account) as a precaution given AD environment exposure.\n- Block/alert on 194.62.42.206, 167.172.37.9, 94.158.245.52, and the domain simpsonsavingss.com at the perimeter.\n- Hunt across the environment for the SHA256 hash above and for outbound TLS to raw IPs presenting a self-signed certificate with CN `londonareloeli.uk`.\n- Preserve host-level forensic artifacts (memory, disk, process tree, Office recent-files/macro logs) to identify the original delivery document, since the delivery vector predates this capture."
+}

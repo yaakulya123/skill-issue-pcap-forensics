@@ -1,0 +1,91 @@
+{
+  "run_id": "mta-2024-11-26__B4__sonnet__r1",
+  "case": "mta-2024-11-26",
+  "arm": "B4",
+  "arm_label": "community-wireshark2",
+  "model": "sonnet",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 15,
+    "tshark_calls": 13,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\necho \"=== capinfos ===\"\n/opt/homebrew/bin/capinfos 2024-11-26-traffic-analysis-exercise.pcap 2>/dev/null\necho \"=== MAC for 10.11.26.183 (from ARP/eth) ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.addr==10.11.26.183\" -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst -c 20 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\necho \"=== NBNS names ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u | head -30\necho \"=== DHCP hostname ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.option.client_id -e ip.src 2>/dev/null | sort -u\necho \"=== Kerberos usernames ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString 2>/dev/null | sort -u\necho \"=== SMB2 usernames/session ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"ntlmssp\" -T fields -e ntlmssp.auth.username -e ntlmssp.auth.domain -e ntlmssp.auth.hostname 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\necho \"=== Kerberos src/dst with CNameString ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e ip.src -e ip.dst -e kerberos.CNameString 2>/dev/null | sort -u\necho \"\"\necho \"=== All DNS queries from victim, unique ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.src==10.11.26.183 && dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\necho \"=== DNS answers for modandcrackedapk.com ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"dns.qry.name==modandcrackedapk.com\" -T fields -e frame.time -e dns.qry.name -e dns.a -e dns.flags.response 2>/dev/null | sort -u\necho \"\"\necho \"=== HTTP requests full list (uri host) ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e frame.time -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\necho \"=== TCP conversations involving victim, sorted by bytes ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -q -z conv,tcp,ip.addr==10.11.26.183 2>/dev/null | head -60\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\necho \"=== TLS SNI for key suspicious IPs ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"tls.handshake.extensions_server_name && ip.dst==193.42.38.139\" -T fields -e frame.time -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\necho \"--- 213.246.109.5 ---\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"tls.handshake.extensions_server_name && ip.dst==213.246.109.5\" -T fields -e frame.time -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\necho \"--- 194.180.191.64 ---\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.addr==194.180.191.64 && tls.handshake\" -T fields -e frame.time -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\necho \"\"\necho \"=== HTTP objects list (export-object style) ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"http.response\" -T fields -e frame.time -e ip.src -e http.content_type -e http.content_length -e http.file_data 2>/dev/null | cut -c1-200 | head -40\necho \"\"\necho \"=== all http.request.full_uri ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e http.request.full_uri 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\necho \"=== DNS query order around infection window (04:49-04:51 capture / 08:49-08:51 local) ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.src==10.11.26.183 && dns.flags.response==0 && frame.time >= \\\"2024-11-26 08:49:50\\\" && frame.time <= \\\"2024-11-26 08:51:00\\\"\" -T fields -e frame.time -e dns.qry.name 2>/dev/null\necho \"\"\necho \"=== SMB2 filenames accessed (10.11.26.183 <-> 10.11.26.3) ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"smb2.filename\" -T fields -e frame.time -e ip.src -e ip.dst -e smb2.filename -e smb2.tree 2>/dev/null | sort -u | head -30\necho \"\"\necho \"=== SMB (v1) filenames ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"smb.file\" -T fields -e frame.time -e ip.src -e ip.dst -e smb.file 2>/dev/null | sort -u | head -30\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\necho \"=== exact domain spelling check ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"dns.qry.name contains \\\"nemoto\\\"\" -T fields -e dns.qry.name 2>/dev/null | sort -u\necho \"---kerberos realm---\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"kerberos.realm\" -T fields -e kerberos.realm 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\n/opt/homebrew/bin/tshark -n -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"smb2.tree\" -T fields -e smb2.tree 2>/dev/null | sort -u | head -10\necho \"---\"\n/opt/homebrew/bin/tshark -n -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"kerberos.realm\" -T fields -e kerberos.realm -e frame.number 2>/dev/null | sort -u | head -10\necho \"--- raw frame with kerberos realm, ascii ---\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"kerberos.realm\" -T fields -e frame.number 2>/dev/null | head -1\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\n/opt/homebrew/bin/tshark -n -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"dns.qry.name==\\\"wpad.nemotoads.health\\\"\" -T fields -e frame.number 2>/dev/null | head -1\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -c 1 -Y \"frame.number==1141\" -x 2>/dev/null | head -40\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"frame.number==15\" -x 2>/dev/null",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\necho \"=== NTLMSSP full details ===\"\n/opt/homebrew/bin/tshark -n -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"ntlmssp\" -T fields -e ip.src -e ntlmssp.negotiate.version -e ntlmssp.auth.username -e ntlmssp.auth.hostname -e ntlmssp.auth.domain 2>/dev/null | sort -u\necho \"\"\necho \"=== SMB2 client dialect/negotiate (OS via smb2 session setup?) ===\"\n/opt/homebrew/bin/tshark -n -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"smb2.dialect\" -T fields -e smb2.dialect 2>/dev/null | sort -u\necho \"\"\necho \"=== Kerberos SNameString / CNameString full ===\"\n/opt/homebrew/bin/tshark -n -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"kerberos && ip.src==10.11.26.183\" -T fields -e kerberos.CNameString -e kerberos.realm -e kerberos.SNameString 2>/dev/null | sort -u | head -20\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nfor d in confirmsubscription.com classicgrand.com geo.netsupportsoftware.com modandcrackedapk.com; do\necho \"--- $d ---\"\n/opt/homebrew/bin/tshark -n -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"dns.qry.name==\\\"$d\\\" && dns.flags.response==1\" -T fields -e dns.a 2>/dev/null | sort -u | grep -v '^$'\ndone\necho \"\"\necho \"=== last C2 beacon time & total beacon count ===\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.addr==194.180.191.64 && http.request\" -T fields -e frame.time 2>/dev/null | wc -l\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.addr==194.180.191.64 && http.request\" -T fields -e frame.time 2>/dev/null | tail -1\n"
+    ],
+    "input_tokens": 32,
+    "output_tokens": 15759,
+    "num_turns": 16,
+    "duration_ms": 233500,
+    "cost_usd": 0.809218,
+    "wall_time_s": 235.4
+  },
+  "score": {
+    "recall": 1.0,
+    "iocs_found": 9,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [
+      "desktop-b8tqk49.nemotodes.health",
+      "nemotodes.health"
+    ],
+    "hallucination_count": 2,
+    "ioc_tokens_emitted": 13,
+    "hallucination_rate": 0.1538
+  },
+  "final_text": "## Incident Report: NetSupport RAT Infection\n\n**Case:** mta-2024-11-26 | **Analyst source:** PCAP + Suricata/ET alerts (network evidence only)\n\n---\n\n### 1. Victim Host\n\n| Attribute | Value |\n|---|---|\n| IPv4 address | **10.11.26.183** |\n| MAC address | **d0:57:7b:ce:fc:8b** |\n| Windows hostname | **DESKTOP-B8TQK49** (confirmed via NBNS, mDNS, and Kerberos SPN `host/desktop-b8tqk49.nemotodes.health`) |\n| AD domain | nemotodes.health (NetBIOS domain **NEMOTODES**), domain controller **NEMOTODES-DC** at 10.11.26.3 |\n| Logged-in user account | **oboomwald** (confirmed via Kerberos AS-REQ/TGS-REQ `CNameString`, realm NEMOTODES.HEALTH) |\n\n### 2. Malware Family\n\n**NetSupport RAT** (NetSupport Manager legitimate RAT tooling abused as a remote-access trojan).\n\nAttribution is **signature-confirmed**: ETPRO/ET rules fired directly on the traffic \u2014\n- `ETPRO TROJAN NetSupport RAT CnC Activity`\n- `ETPRO TROJAN Malicious NetSupport Rat CnC Checkin`\n- `ET INFO NetSupport Remote Admin Checkin` / `NetSupport Remote Admin Response`\n- `ET POLICY NetSupport GeoLocation Lookup Request`\n\nThis is corroborated **behaviorally** in the raw pcap: the client's own `User-Agent: NetSupport Manager/1.3` header, POSTs to `/fakeurl.htm`, and a body prefixed `CMD=ENCD\\nES=1\\nDATA=<hex blob>` \u2014 the known NetSupport client-to-server checkin protocol \u2014 repeating on a steady ~60-second beacon interval.\n\n### 3. Infection Chain (observed in traffic, UTC)\n\n1. **04:50:11** \u2014 DNS query for `classicgrand.com` (\u2192 213.246.109.5), TLS session opened. Likely a redirector/landing page in a malvertising or fake-download chain.\n2. **04:50:14 \u2013 04:50:40** \u2014 Multiple DNS queries and TLS sessions to `modandcrackedapk.com` (\u2192 193.42.38.139), a \"cracked software\" themed lure domain, flagged by `ET CURRENT_EVENTS ZPHP Domain in DNS Lookup` and `...in TLS SNI`. ~5.7 MB is transferred over this TLS session (largest single conversation in the capture), consistent with a payload/installer download inside the encrypted channel.\n3. **04:50:45** \u2014 Host queries `geo.netsupportsoftware.com` (\u2192 104.26.1.231) and issues `GET /location/loca.asp` \u2014 a startup artifact of a freshly launched NetSupport Manager client performing a geolocation lookup.\n4. **04:50:45 onward** \u2014 Host begins persistent C2 beaconing to **194.180.191.64:443** using plaintext HTTP (mislabeled as port 443, no TLS handshake present) \u2014 58 checkins observed, continuing every ~60 seconds through the end of the capture at **05:43:29 UTC** (~53 minutes of active C2).\n\nTwo unrelated SMBv1/NTLMSSP alerts against the DC (10.11.26.3:139/445) and one EFSRPC alert were also present in the Suricata log around 04:49:55\u201304:50:10; these match ordinary legacy NTLMSSP session-setup/logon behavior toward the domain controller and are not tied to any malicious payload transfer \u2014 assessed as noisy/legacy-signature false positives, not part of this compromise.\n\n### 4. Indicators of Compromise\n\n**Command-and-control:**\n- `194.180.191.64:443` \u2014 NetSupport RAT C2, plaintext HTTP POST to `http://194.180.191.64/fakeurl.htm`, User-Agent `NetSupport Manager/1.3`\n\n**Malicious/lure domains:**\n- `modandcrackedapk.com` \u2192 193.42.38.139 \u2014 delivery/lure site (fake cracked-software page)\n- `classicgrand.com` \u2192 213.246.109.5 \u2014 preceding redirector in the infection chain\n- `geo.netsupportsoftware.com` \u2192 104.26.1.231 / 104.26.0.231 / 172.67.68.212 \u2014 NetSupport client geolocation service (benign infrastructure abused by the RAT; confirms the client is running)\n\n**Malicious URLs:**\n- `http://194.180.191.64/fakeurl.htm` (C2 checkin endpoint)\n- `http://geo.netsupportsoftware.com/location/loca.asp` (NetSupport client startup callout)\n\n**Transferred files / hashes:**\nNone recoverable. The payload delivery to `modandcrackedapk.com` (193.42.38.139:443) occurred entirely inside TLS, so no filename or file content is visible in cleartext, and no SHA256 can be computed from this capture. All C2 checkin bodies are hex-encoded/obfuscated (`CMD=ENCD` blobs), not raw file data. No HTTP objects with executable/archive content-types were observed anywhere in the capture.\n\n---\n**Bottom line:** Workstation DESKTOP-B8TQK49 (10.11.26.183, MAC d0:57:7b:ce:fc:8b), logged in as domain user `oboomwald` on the NEMOTODES.HEALTH domain, was infected with NetSupport RAT after visiting a fake cracked-software site (`modandcrackedapk.com`, reached via `classicgrand.com`). The malware established persistent C2 to `194.180.191.64:443` and was still actively beaconing at the end of the capture."
+}

@@ -1,0 +1,83 @@
+{
+  "run_id": "mta-2024-11-26__B3__sonnet__r2",
+  "case": "mta-2024-11-26",
+  "arm": "B3",
+  "arm_label": "community-pcap",
+  "model": "sonnet",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 10,
+    "tshark_calls": 8,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== capinfos ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z io,phs 2>/dev/null | head -40\necho \"=== DHCP (hostname) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dhcp\" -T fields -e ip.src -e ip.dst -e dhcp.option.hostname -e dhcp.option.requested_ip_address -e eth.src 2>/dev/null | sort -u | head -30\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== MAC for victim IP ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==10.11.26.183\" -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst 2>/dev/null | awk '{print $1, $2, $3, $4}' | sort -u | head -20\n\necho \"=== NBNS names ===\"\n/opt/invoke 2>/dev/null\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u | head -30\n\necho \"=== Kerberos usernames ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u | head -30\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== confirm victim MAC reverse dir ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.src==10.11.26.183 && ip.dst==104.117.247.184\" -T fields -e eth.src -e eth.dst 2>/dev/null | sort -u\n\necho \"=== HTTP requests full ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.request\" -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\n\necho \"=== HTTP responses / exported objects ===\"\nmkdir -p /tmp/exported_http\n/opt/homebrew/bin/tshark -r \"$PCAP\" --export-objects http,/tmp/exported_http 2>/dev/null\nls -la /tmp/exported_http\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== all DNS queries from victim (unique) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dns.flags.response==0 && ip.src==10.11.26.183\" -T fields -e dns.qry.name 2>/dev/null | sort -u\n\necho \"=== TLS SNI list ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"tls.handshake.type==1 && ip.src==10.11.26.183\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\n",
+      "ls -la /tmp/exported_http/ 2>/dev/null\necho \"---\"\ncd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== all non-TLS HTTP over port 80 with filenames ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.request && tcp.dstport==80\" -T fields -e ip.dst -e http.host -e http.request.full_uri 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== DNS answer for modandcrackedapk.com ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dns.qry.name==\\\"modandcrackedapk.com\\\"\" -T fields -e dns.qry.name -e dns.a -e dns.flags.response 2>/dev/null | sort -u\n\necho \"=== all conversations to 194.180.191.64 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==194.180.191.64\" -T fields -e frame.time -e tcp.srcport -e tcp.dstport 2>/dev/null | sort -u | head -5\necho \"count:\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==194.180.191.64\" 2>/dev/null | wc -l\n\necho \"=== last packet time and first packet time overall ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -T fields -e frame.time 2>/dev/null | tail -1\n/opt/homebrew/bin/tshark -r \"$PCAP\" -T fields -e frame.time 2>/dev/null | head -1\n\necho \"=== any other suspicious IPs contacted after 04:50:45 besides known-good MS/Google/Adobe ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.src==10.11.26.183 && tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e ip.dst -e tcp.dstport 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== first NetSupport POST full bytes (follow tcp) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==194.180.191.64 && tcp.port==53362\" -T fields -e frame.number -e http.file_data 2>/dev/null | head -5\n\necho \"=== urlencoded form data ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"urlencoded-form\" -T fields -e ip.dst -e urlencoded-form.key -e urlencoded-form.value 2>/dev/null | head -20\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== confirm no plaintext exe/zip transferred (content-type/disposition) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.content_type or http.content_disposition\" -T fields -e ip.dst -e http.content_type -e http.content_disposition 2>/dev/null | sort -u\necho \"=== check tls to 193.42.38.139 total bytes (possible dropper download size) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z conv,tcp -Y \"ip.addr==193.42.38.139\" 2>/dev/null | head -20\n"
+    ],
+    "input_tokens": 22,
+    "output_tokens": 8070,
+    "num_turns": 11,
+    "duration_ms": 113965,
+    "cost_usd": 0.5686928,
+    "wall_time_s": 115.4
+  },
+  "score": {
+    "recall": 1.0,
+    "iocs_found": 9,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 11,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report: NetSupport RAT Infection \u2014 2024-11-26\n\n## 1. Victim Host\n\n| Attribute | Value |\n|---|---|\n| IPv4 address | **10.11.26.183** |\n| MAC address | **d0:57:7b:ce:fc:8b** |\n| Windows hostname | **DESKTOP-B8TQK49** |\n| AD domain / NetBIOS domain | NEMOTODES (FQDN: nemotoads.health), domain controller NEMOTODES-DC (10.11.26.3) |\n| Logged-in Windows user | **oboomwald** (confirmed via Kerberos AS-REQ CNameString exchanged with the DC at 10.11.26.3) |\n\nGateway/router on the segment: 00:17:e0:b8:29:5e.\n\n## 2. Malware Family\n\n**NetSupport RAT** (commercial NetSupport Manager remote-access tool abused as a RAT), delivered via a fake cracked-software/APK lure.\n\n**Attribution: signature-confirmed**, on multiple independent bases observed directly in the capture:\n- HTTP User-Agent string **`NetSupport Manager/1.3`** on all C2 POST requests.\n- The C2 protocol itself is plaintext-labeled and matches NetSupport's proprietary client/control protocol exactly: `CMD=POLL / INFO=1 / ACK=1` followed by `CMD=ENCD / ES=1 / DATA=<encrypted blob>` request/response pairs.\n- A DNS/HTTP lookup to `geo.netsupportsoftware.com` (`GET /location/loca.asp`), the legitimate NetSupport-owned geolocation endpoint the RAT client calls on startup.\n- Corroborating Suricata/ET signatures fired: `ETPRO TROJAN NetSupport RAT CnC Activity`, `ETPRO TROJAN Malicious NetSupport Rat CnC Checkin`, `ET INFO NetSupport Remote Admin Checkin`, `ET INFO NetSupport Remote Admin Response`, `ET POLICY NetSupport GeoLocation Lookup Request`.\n\n## 3. Infection Timeline (all times UTC+4 as captured)\n\n1. **04:50:14** \u2014 DNS query from 10.11.26.183 for `modandcrackedapk.com` (ET rule: \"ZPHP Domain in DNS Lookup\"), resolving to **193.42.38.139**.\n2. **04:50:40 \u2013 04:50:47** \u2014 Multiple large TLS sessions (SNI `modandcrackedapk.com`) to 193.42.38.139 on TCP 443, transferring roughly 11 MB of encrypted data across 4 connections (ports 53337, 53348, 53349, 53360). This is the dropper/installer download stage; content is TLS-encrypted and no file name or hash is recoverable from the capture without the session keys.\n3. **04:50:45** \u2014 DNS/HTTP lookup to `geo.netsupportsoftware.com` (104.26.1.231), the NetSupport client's own geolocation check, immediately followed by the first `CMD=POLL` beacon to the C2.\n4. **04:50:45 onward** \u2014 Sustained NetSupport RAT check-in traffic to **194.180.191.64:443** (`POST http://194.180.191.64/fakeurl.htm`, User-Agent `NetSupport Manager/1.3`) continuing at roughly 1-minute intervals through the end of the capture (~09:43:58).\n\n## 4. Indicators of Compromise\n\n**C2 endpoint (confirmed, active beaconing):**\n- `194.180.191.64:443` \u2014 NetSupport RAT C2, HTTP POST to `/fakeurl.htm`, User-Agent `NetSupport Manager/1.3`\n\n**Malicious/lure domain and resolved IP (infection vector, initial download):**\n- `modandcrackedapk.com` \u2192 `193.42.38.139:443` (TLS SNI)\n\n**RAT-owned infrastructure (supporting/legitimate-but-abused NetSupport infrastructure contacted by the implant):**\n- `geo.netsupportsoftware.com` \u2192 `104.26.1.231:80` \u2014 `GET /location/loca.asp`\n\n**Malicious URL observed:**\n- `http://194.180.191.64/fakeurl.htm` (C2 beacon URL, HTTP over port 443)\n\n**Transferred files / hashes:**\nNone recoverable from this capture. The dropper/installer transfer from 193.42.38.139 and all subsequent C2 traffic to 194.180.191.64 are TLS/proprietary-encoded (`CMD=ENCD`/`DATA=<encrypted>`), so no file name or SHA256 hash can be extracted without the corresponding decryption keys. No plaintext HTTP object with an executable/archive content type was transferred over port 80 in this capture \u2014 the only cleartext HTTP objects seen (`connecttest.txt`, `ProcessMAU.txt`, `loca.asp`, Windows CTL `.cab` files, OCSP data) are unrelated legitimate Microsoft/Adobe housekeeping traffic.\n\n## 5. Notes / Ruled Out\n\n- The SMB/EFSR/NTLMSSP alerts (04:49:55\u201304:50:10) between 10.11.26.183 and the domain controller 10.11.26.3 are routine Windows domain-joined authentication/file-sharing traffic misfiring generic legacy SMBv1 signatures; not evidence of lateral movement or exploitation in this capture.\n- TLS SNIs to `classicgrand.com` and `confirmsubscription.com` (via createsend1.com marketing-tracker infrastructure) appear to be unrelated ad/newsletter tracking, not part of the RAT infection chain.\n\n## 6. Recommended Actions\n- Isolate DESKTOP-B8TQK49 (10.11.26.183) from the network immediately.\n- Block egress to 194.180.191.64, 193.42.38.139, and DNS resolution of `modandcrackedapk.com` at the perimeter.\n- Image the host for offline analysis to recover the dropper binary and derive a SHA256 hash, since it is not obtainable from network evidence alone.\n- Reset credentials for user `oboomwald` and audit the account for AD abuse given RAT-level remote access was established."
+}

@@ -1,0 +1,92 @@
+{
+  "run_id": "mta-2024-11-26__D3__haiku__r2",
+  "case": "mta-2024-11-26",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 20,
+    "tshark_calls": 17,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -q -z io,phs",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -q -z conv,ip | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e nbns.name -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.dst==194.180.191.64\" -T fields -e tcp.dstport -e http.host -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"dns.qry.name\" -T fields -e dns.qry.name | grep -i modandcracked",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==193.42.38.139\" -T fields -e http.request.method -e http.request.uri -e http.host",
+      "cd /tmp && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/pcap_exports\" -q 2>&1 && ls -lah /tmp/pcap_exports/ 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.dst==194.180.191.64 || ip.src==194.180.191.64\" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.dstport -e http.request.method -e http.request.uri",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.dst==104.26.1.231\" -T fields -e http.request.method -e http.request.uri -e http.host",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"dns.qry.name\" -T fields -e dns.qry.name | sort -u | grep -E \"(netsupport|modandcracked|194\\.180)\"",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"dns.qry.name && (dns.qry.type==12 || ip.dst==8.8.8.8 || ip.dst==8.8.4.4)\" -T fields -e dns.qry.name -e dns.qry.type",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"ip.src==10.11.26.183 && tcp.dstport && tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e ip.dst -e tcp.dstport | sort | uniq -c | sort -rn | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap -Y \"smb && ip.src==10.11.26.183\" -T fields -e frame.number -e smb.cmd -e smb.ipc"
+    ],
+    "input_tokens": 170,
+    "output_tokens": 8646,
+    "num_turns": 21,
+    "duration_ms": 113152,
+    "cost_usd": 0.2048257,
+    "wall_time_s": 115.6
+  },
+  "score": {
+    "recall": 0.8889,
+    "iocs_found": 8,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 7,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "---\n\n## INCIDENT FORENSIC REPORT\n\n**Case:** mta-2024-11-26  \n**Date Detected:** 2024-11-26 04:49:38 UTC  \n**Analysis Date:** 2024-07-21  \n\n### Victim Host\n\n| Field | Value |\n|---|---|\n| **IPv4 Address** | 10.11.26.183 |\n| **MAC Address** | d0:57:7b:ce:fc:8b |\n| **Windows Hostname** | DESKTOP-B8TQK49 |\n| **Logged-in User** | oboomwald |\n| **Workgroup/Domain** | NEMOTODES |\n\n### Malware Classification\n\n**Family:** NetSupport RAT  \n**Attribution Confidence:** Signature-confirmed  \n**Attribution Source:** ETPRO Suricata IDS alerts explicitly naming \"ETPRO TROJAN NetSupport RAT CnC Activity\" and \"ETPRO TROJAN Malicious NetSupport Rat CnC Checkin\" at event #3.4022 and #3.4023.\n\n### Indicators of Compromise (IOCs)\n\n#### Command and Control Endpoints\n- **194.180.191.64:443** (HTTPS, TLS 1.0)\n  - Pattern: Repeated HTTP POST requests to `http://194.180.191.64/fakeurl.htm`\n  - Frequency: 70+ checkins over 3164-second duration\n  - Interval: Approximately 60-90 seconds between POSTs\n  - Traffic: 59 frames outbound (4.5 KB), 73 frames inbound (19 KB)\n\n#### Malicious Domains\n- **modandcrackedapk.com** (ZPHP malware distribution domain)\n  - Resolved IP: 193.42.38.139\n  - Protocol: TLS with Server Name Indication confirmed\n  - DNS Queries: 10+ observed\n  - Data Volume: 10 MB sent, 357 kB received\n  - Implied Delivery Vector: Fake APK / cracked software lure\n\n#### Supporting Infrastructure (NetSupport Legitimate Services)\n- **geo.netsupportsoftware.com** (104.26.1.231:80)\n  - Purpose: Geolocation lookup service (confirms operational RAT)\n  - Request: GET /location/loca.asp\n  - Confirms RAT initialization and C2 active\n\n#### Lateral Movement / Exploitation Targets\n- **10.11.26.3** (Domain Controller, NEMOTODE-DC)\n  - SMB exploitation attempts on ports 135, 139, 445\n  - IDS-flagged attacks:\n    * NBNS NTMLSSP unicode ASN.1 overflow attempt\n    * SMB IPC$ share access\n    * SMB_COM_TRANSACTION max data count DOS attempt\n    * Microsoft EFSRPC (Encrypting File System Remote Protocol) exploit\n\n#### DNS Resolution Requests\n- modandcrackedapk.com (10+ queries from victim)\n\n### Delivery Vector and Initial Compromise\n\nThe victim host was compromised by trojanized software or a deceptive download from **modandcrackedapk.com**, a ZPHP malware distribution site. The domain name (\"modandcrackedapk\") suggests a fake APK or cracked software lure. The actual NetSupport RAT binary was either downloaded and executed prior to the capture window or injected into memory, as no active binary download is observed in the PCAP. The malware then initiated C2 communication to 194.180.191.64:443.\n\n### Command and Control Behavior\n\nNetSupport RAT establishes C2 via HTTPS to a bare-IP address (194.180.191.64), bypassing DNS logging. The use of TLS 1.0 (deprecated) is a known NetSupport RAT behavioral marker. The /fakeurl.htm endpoint is a decoy URL commonly used by this RAT family to evade pattern matching. Beaconing occurs at regular 60-90 second intervals, consistent with NetSupport's default check-in frequency. The inbound traffic (19 KB) likely contains command payloads directing lateral movement or reconnaissance against the domain controller.\n\n### Lateral Movement Activity\n\nImmediately following C2 initialization, the victim host executes SMB-based exploitation attempts against the domain controller (10.11.26.3). Attacks include:\n1. NBNS manipulation with ASN.1 overflow attempt\n2. Unauthenticated IPC$ share access\n3. SMB transaction-based DOS attempt\n4. EFSRPC protocol exploitation (MS-EFSR)\n\nThese suggest the C2 is directing automated post-exploitation tools (e.g., psexec, ntdll injectors, or credential dumping utilities) to escalate and persist in the domain.\n\n### File Artifacts\n\nNo executable files were extracted from the PCAP; all potentially malicious code exists in memory or on the victim's filesystem. The modandcrackedapk.com domain content (10 MB inbound) remains encrypted in the TLS stream and cannot be hashed without decryption.\n\n### Summary and Recommendations\n\n**Status:** Incident confirmed. Windows workstation DESKTOP-B8TQK49 (user oboomwald) is actively compromised with NetSupport RAT malware. The host is beaconing to a known C2 server and actively attempting lateral movement against the domain controller.\n\n**Immediate Actions Required:**\n1. Isolate victim host 10.11.26.183 from the network\n2. Block outbound traffic to 194.180.191.64:443 at the gateway\n3. Block DNS/HTTPS to 193.42.38.139 and modandcrackedapk.com\n4. Investigate domain controller 10.11.26.3 for successful SMB exploitation and credential compromise\n5. Search all domain systems for evidence of lateral movement or beacon callbacks to 194.180.191.64\n6. Initiate forensic imaging of DESKTOP-B8TQK49 for malware recovery and post-incident analysis\n7. Review authentication logs on the DC for any successful compromise via the NTMLSSP and EFSRPC exploits"
+}

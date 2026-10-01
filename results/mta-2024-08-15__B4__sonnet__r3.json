@@ -1,0 +1,93 @@
+{
+  "run_id": "mta-2024-08-15__B4__sonnet__r3",
+  "case": "mta-2024-08-15",
+  "arm": "B4",
+  "arm_label": "community-wireshark2",
+  "model": "sonnet",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 33,
+    "tshark_calls": 14,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z io,phs 2>/dev/null | head -60",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\necho \"== DHCP (hostname) ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dhcp\" -T fields -e ip.src -e ip.dst -e dhcp.option.hostname -e dhcp.option.dhcp -e eth.src 2>/dev/null\necho \"== NBNS (hostname) ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u\necho \"== Kerberos (usernames) ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\necho \"== ARP for 10.8.15.133 ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"arp && arp.src.proto_ipv4==10.8.15.133\" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 2>/dev/null | sort -u\necho \"== DNS hostname (query) 10.8.15.133 ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==10.8.15.133 && dhcp\" -T fields -e eth.src -e ip.src 2>/dev/null | sort -u\necho \"== conv ip ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z conv,ip 2>/dev/null | head -30\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\necho \"== HTTP requests ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.request\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\necho \"== DNS queries (unique) ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u | head -100\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\necho \"== stream index for checkfedexexp GET ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.host==\\\"quote.checkfedexexp.com\\\"\" -T fields -e tcp.stream -e http.request.method -e http.response.code -e http.content_type -e http.content_length 2>/dev/null\necho \"== full http.host list with counts ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.request\" -T fields -e http.host 2>/dev/null | sort | uniq -c | sort -rn\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z follow,http,ascii,112 2>/dev/null | head -200\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\nmkdir -p /tmp/httpobjs\n/opt/homebrew/bin/tshark -r \"$PCAP\" --export-objects http,/tmp/httpobjs 2>/dev/null\nls -la /tmp/httpobjs\necho \"== hashes ==\"\nfor f in /tmp/httpobjs/*; do echo \"$f\"; shasum -a 256 \"$f\"; file \"$f\"; done\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\necho \"== POST bodies to 72.5.43.29 (stream nums) ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.request.method==\\\"POST\\\" && ip.dst==72.5.43.29\" -T fields -e tcp.stream -e http.content_length -e http.content_type 2>/dev/null | head -10\necho \"== response sizes for GET / to 72.5.43.29 ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.response && ip.src==72.5.43.29\" -T fields -e frame.number -e http.content_length -e http.content_type -e http.response.code 2>/dev/null | sort -k2 -n -r | head -10\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\necho \"== frame 10613 headers ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"frame.number==10613\" -T fields -e http.server -e http.date -e http.content_type -e http.response.code 2>/dev/null\necho \"== 400 response body sample ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"frame.number==18186\" -T fields -e http.file_data 2>/dev/null\necho \"== stream for frame 10613 ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"frame.number==10613\" -T fields -e tcp.stream 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"frame.number==10613\" -T fields -e tcp.stream -e http.request_in 2>/dev/null\necho \"-- follow stream 134 http ascii, first part --\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z follow,http,ascii,134 2>/dev/null | head -60\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\necho \"== distinct GET/HEAD paths to 72.5.43.29 (non-root) ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.request && ip.dst==72.5.43.29 && http.request.uri!=\\\"/\\\"\" -T fields -e frame.time_relative -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dns.qry.name contains \\\"checkfedexexp\\\"\" -T fields -e frame.time_relative -e dns.qry.name -e dns.a -e dns.flags.response 2>/dev/null\necho \"== TLS SNI to 104.21.55.70 ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==104.21.55.70 && tls.handshake.extensions_server_name\" -T fields -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\necho \"== last beacon timestamp ==\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==72.5.43.29\" -T fields -e frame.time_relative 2>/dev/null | tail -3\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nPCAP=2024-08-15-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==172.67.170.159 && (http.request or tls.handshake.type==1)\" -T fields -e frame.time_relative -e http.request.method -e http.request.uri -e http.host -e tls.handshake.extensions_server_name 2>/dev/null | sort -u | head -20\n"
+    ],
+    "input_tokens": 68,
+    "output_tokens": 18717,
+    "num_turns": 34,
+    "duration_ms": 324202,
+    "cost_usd": 1.7928490000000001,
+    "wall_time_s": 325.6
+  },
+  "score": {
+    "recall": 0.9091,
+    "iocs_found": 10,
+    "iocs_total": 11,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      },
+      "file_name": {
+        "found": 1,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 2,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 8,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report: MTA-2024-08-15 Malware Infection\n\n## Victim Host\n| Field | Value |\n|---|---|\n| IPv4 address | **10.8.15.133** |\n| MAC address | **00:1c:bf:03:54:82** (Intel NIC) |\n| Windows hostname | **DESKTOP-H8ALZBV** |\n| Windows domain | LAFONTAINEBLEU (AD domain `lafontainebleu.org`, DC `WIN-JEGJIX7Q9RS`) |\n| Logged-in user | **plucero** (confirmed via Kerberos AS-REQ `CNameString` from 10.8.15.133 to DC 10.8.15.4) |\n\nConfirmed by cross-referencing DHCP (option 12 hostname), NBNS name registration, ARP (MAC/IP binding), and Kerberos authentication traffic \u2014 all point to the same host/identity.\n\n## Malware Family\n**GootLoader** \u2014 a JScript-based malware downloader/loader.\n\n**Attribution basis: behavioral, not signature-confirmed.** No AV/YARA/IDS alert files were present in the evidence directory (only the raw pcap), so this is not a signature hit \u2014 it is a behavioral match based on:\n- The oversized (6.9 MB) `.js` file padded with thousands of words of unrelated scraped text (MPI programming manual, IPCC/OECD reports) to inflate file size and dilute string-based detection \u2014 a hallmark GootLoader anti-analysis technique.\n- Dozens of randomly-named decoy functions (`ztCjbXd465`, `zPrLwA285`, `zjOeHZvoeNyBHhU`, etc.) buried in the padding, with the real payload built via dynamic `Function()` constructor calls and string concatenation to assemble object/property names (avoids static string signatures), e.g.:\n  `var EKyAEvSNwkYzjOeHZvoeNyBHhU = Function('sytBOTNswtgoSpZtlzkvZaV', \"ret\" + ...)`\n- Use of `WScript.Sleep` for sandbox/timing evasion.\n- Delivery via a fake-invoice ZIP from a phishing/typosquat domain impersonating FedEx, matching GootLoader's known invoice-lure distribution pattern.\n- Follow-on retrieval of a packed x64 PE32+ DLL via BITS from a hardcoded IP (no DNS lookup), and a persistent raw-IP HTTP beacon \u2014 consistent with GootLoader's staged loader \u2192 secondary payload behavior, though the specific secondary backdoor/beacon implant could not be fingerprinted further from packet data alone.\n\n## Indicators of Compromise\n\n### Delivery / initial access\n- **Phishing domain:** `quote.checkfedexexp.com` (resolves to Cloudflare-fronted IPs 104.21.55.70 / 172.67.170.159)\n- **Malicious URL:** `http://quote.checkfedexexp.com/managements?16553a25e45250a41fd5&endeds=MIGpq&JStx=59bf050d37df88a9-ade43358-eaa1220b-0571422b-0f33e6aa150e86bafd0ed4&Ld=9d7502d88d752a27b1d00587309184b5a215` (GET at t=74.7s, HTTP 200, `Content-Disposition: attachment; filename=\"Invoice 876597035_003.zip\"`)\n- **Secondary domain observed (TLS only, no plaintext):** `business.checkfedexexp.com` (172.67.170.159 / 104.21.55.70)\n- **Dropped file 1 \u2014 ZIP archive:** `Invoice 876597035_003.zip`\n  SHA256: `798563fcf7600f7ef1a35996291a9dfb5f9902733404dd499e2e736ea1dc6fc5`\n- **Dropped file 2 \u2014 JScript downloader (inside ZIP):** `Invoice-876597035-003-8331775-8334138.js` (6,990,020 bytes)\n  SHA256: `dab98819d1d7677a60f5d06be210d45b74ae5fd8cf0c24ec1b3766e25ce6dc2c`\n\n### Second-stage payload retrieval\n- **C2 / hosting endpoint:** `72.5.43.29:80` (no DNS lookup preceded this \u2014 hardcoded IP)\n- **Malicious URL:** `http://72.5.43.29/data/0f60a3e7baecf2748b1c8183ed37d1e4` (fetched via `Microsoft BITS/7.8` at t=135.9s \u2014 living-off-the-land BITS abuse)\n- **Dropped file 3 \u2014 x64 PE32+ DLL:** 159,232 bytes, high entropy (~6.13/8), no readable strings (packed)\n  SHA256: `b7aec5f73d2a6bbd8cd920edb4760e2edadc98c3a45bf4fa994d47ca9cbd02f6`\n  MD5: `59b7b8d29252a9128536fbd08d24375f`\n\n### Command-and-control / beaconing\n- **C2 endpoint:** `72.5.43.29:80` (same IP as payload host)\n- Beaconing starts ~t=196s and continues to the end of the capture (~t=1962s): repeated `GET /` and `POST /` requests, roughly every 5\u20137 seconds, using a spoofed legacy User-Agent (`Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705)`), a hardcoded string not matching the host's real browser (Edge 127 on Win10/11).\n- POST bodies observed up to 305,148 bytes of high-entropy binary data (likely encrypted tasking/exfil), interleaved with mostly generic `400 Bad Request` responses (94-byte stub HTML) and occasional large `200 OK` responses.\n\n## Summary Timeline\n| Time (rel.) | Event |\n|---|---|\n| t=74.7s | User/browser fetches ZIP from FedEx phishing lure (`quote.checkfedexexp.com`) |\n| t~100s | Additional connection to `business.checkfedexexp.com` (TLS, same lure infrastructure) |\n| t=135.9s | BITS-based download of packed DLL payload from `72.5.43.29` |\n| t=196s \u2192 1962s (end of capture) | Continuous HTTP beaconing from infected host to `72.5.43.29:80` |\n\n**Recommendation:** Isolate DESKTOP-H8ALZBV (10.8.15.133) immediately, reset credentials for `plucero` and any domain accounts used on that host, and block egress to `72.5.43.29`, `quote.checkfedexexp.com`, and `business.checkfedexexp.com` at the perimeter."
+}

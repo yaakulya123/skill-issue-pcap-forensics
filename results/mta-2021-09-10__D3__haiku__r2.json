@@ -1,0 +1,93 @@
+{
+  "run_id": "mta-2021-09-10__D3__haiku__r2",
+  "case": "mta-2021-09-10",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 22,
+    "tshark_calls": 18,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -q -z io,phs",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -q -z conv,ip | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"nbns\" -T fields -e nbns.name -e ip.src | grep 10.9.10.102",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"http.request\" -T fields -e ip.src -e ip.dst -e http.request.method -e http.host -e http.request.uri | sort -u | head -40",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.9.10.102 && ip.dst==23.1.237.225\" -T fields -e tcp.dstport -e http.request.method -e http.host -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"http.request.method==POST\" -T fields -e ip.src -e ip.dst -e tcp.dstport -e http.host -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"tcp.flags.syn==1 && tcp.flags.ack==0 && ip.src==10.9.10.102\" -T fields -e ip.dst -e tcp.dstport | sort | uniq -c | sort -rn | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.9.10.102 && ip.dst==94.158.245.52\" -T fields -e frame.number -e tcp.dstport -e tcp.flags | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"tls.handshake.type==1 && ip.dst==94.158.245.52\" -T fields -e ip.dst -e tls.handshake.extensions_server_name | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" --export-objects \"http,/tmp/pcap_exports\" -q 2>&1; ls -lah /tmp/pcap_exports/ | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name | sort -u | grep -v \"^$\"",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"http.host contains simpsonsavingss\" -T fields -e http.request.method -e http.host -e http.request.uri -e ip.dst | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name==simpsonsavingss.com || dns.resp.name==simpsonsavingss.com\" -T fields -e dns.qry.name -e dns.a -e frame.number | head -10",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.9.10.102 && ip.dst==194.62.42.206\" -T fields -e frame.time_relative -e tcp.dstport -e tcp.flags -e http.request.uri 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"tls.handshake.type==1 && ip.src==10.9.10.102\" -T fields -e ip.dst -e tls.handshake.extensions_server_name | sort -u | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.9.10.102 && ip.dst==94.158.245.52\" -T fields -e frame.number -e frame.time_relative -e tcp.flags | wc -l"
+    ],
+    "input_tokens": 186,
+    "output_tokens": 8521,
+    "num_turns": 23,
+    "duration_ms": 131386,
+    "cost_usd": 0.20336399999999996,
+    "wall_time_s": 132.6
+  },
+  "score": {
+    "recall": 0.7,
+    "iocs_found": 7,
+    "iocs_total": 10,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 2,
+        "total": 3
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 7,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "---\n\n## NETWORK INCIDENT FORENSICS REPORT\n\n**Date:** 2021-09-10\n\n---\n\n### VICTIM HOST\n- **IPv4 Address:** 10.9.10.102\n- **MAC Address:** 00:4f:49:b1:e8:c3\n- **Hostname:** DESKTOP-KKITB6Q\n- **Domain:** ANGRYPOUTINE\n- **Logged-in User:** hobart.gunnarsson\n\n---\n\n### MALWARE FAMILY\n**Gootkit** (behavioral attribution)\n\n*Attribution is behavioral, not signature-confirmed. The FakeUpdate delivery vector combined with obfuscated HTTP C2 beaconing and bare-IP HTTPS control channel is consistent with Gootkit or similar banking trojans.*\n\n---\n\n### INDICATORS OF COMPROMISE\n\n**C2 Endpoints:**\n- `194.62.42.206:80` (HTTP C2 beacon via simpsonsavingss.com)\n- `94.158.245.52:443` (HTTPS C2 control channel, bare IP, no SNI)\n\n**Malicious Domains:**\n- `simpsonsavingss.com` (resolves to 194.62.42.206)\n\n**Malicious URLs:**\n- `http://au.download.windowsupdate.com/d/msdownload/update/software/defu/2021/09/am_delta_patch_1.349.439.0_dcf977cccce1b58289d270f71f8151b3acc1566b.exe` (FakeUpdate delivery)\n- `http://simpsonsavingss.com/bmdff/BhoHsCtZ/MLdmpfjaX/5uFG3Dz7yt/date1?BNLv65=pAAS` (C2 beacon with obfuscated URI)\n\n**File Hashes (SHA256):**\n- `0fb4d47bcda9b77b0fbd8cb88b34ba180365991f6a376e00add1ac880b67fd8f` (am_delta_patch_1.349.439.0_dcf977cccce1b58289d270f71f8151b3acc1566b.exe)\n\n**Delivery Infrastructure:**\n- `23.1.237.225` (FakeUpdate delivery, spoofs au.download.windowsupdate.com)\n- `23.1.237.216` (FakeUpdate delivery, spoofs au.download.windowsupdate.com)\n\n---\n\n### INFECTION CHAIN\n1. Victim was lured to FakeUpdate site or redirected via malvertising\n2. Downloaded fake Windows antimalware patch from 23.1.237.225/23.1.237.216 impersonating au.download.windowsupdate.com\n3. Executed am_delta_patch_1.349.439.0_dcf977cccce1b58289d270f71f8151b3acc1566b.exe\n4. Malware established dual C2 channels: HTTP beacon to simpsonsavingss.com (194.62.42.206:80) with obfuscated path, and bare-IP HTTPS control channel (94.158.245.52:443)\n5. 416 packets observed to C2 control IP, indicating active remote compromise\n\nAll indicators observed and grounded in network traffic."
+}

@@ -1,0 +1,84 @@
+{
+  "run_id": "mta-2026-02-28__D3__haiku__r1",
+  "case": "mta-2026-02-28",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 23,
+    "tshark_calls": 17,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -q -z io,phs",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -q -z conv,ip",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"nbns\" -T fields -e nbns.name -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"tcp.dstport==80 && ip.dst==45.131.214.85\" -T fields -e frame.time -e tcp.flags.syn -e tcp.flags.ack | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"ip.dst==45.131.214.85 && http.request\" -T fields -e frame.time -e http.request.method -e http.request.uri | sort",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"ip.dst==45.131.214.85 && http.request\" -T fields -e http.content_length | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"tls.handshake.type==1 && (ip.dst==23.64.147.24 || ip.dst==23.218.232.148)\" -T fields -e ip.dst -e tls.handshake.extensions_server_name | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"http.request && (ip.dst==23.64.147.24 || ip.dst==23.218.232.148 || ip.dst==23.192.223.23)\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"ip.dst==23.64.147.24\" -T fields -e frame.number -e frame.time -e tcp.dstport -e tls.handshake.extensions_server_name | head -20",
+      "mkdir -p /tmp/evidence_extract && /opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" --export-objects \"http,/tmp/evidence_extract\" -q 2>&1 && ls -lah /tmp/evidence_extract/",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"ip.dst==45.131.214.85 && http.request.method==POST\" -T fields -e http.file_data | head -5 | od -c",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"ip.dst==45.131.214.85 && http.request.method==POST && frame.number==1\" -T fields -e http.file_data 2>/dev/null | head -c 200",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\" -Y \"ip.dst==45.131.214.85 && http.request.method==POST\" -z follow,tcp,ascii,0 2>&1 | head -80"
+    ],
+    "input_tokens": 194,
+    "output_tokens": 7666,
+    "num_turns": 24,
+    "duration_ms": 130935,
+    "cost_usd": 0.3080052999999999,
+    "wall_time_s": 132.4
+  },
+  "score": {
+    "recall": 0.8333,
+    "iocs_found": 5,
+    "iocs_total": 6,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 10,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "## INCIDENT REPORT: MTA-2026-02-28 Network Forensic Analysis\n\n### Victim Host\n- **IPv4 Address:** 10.2.28.88\n- **MAC Address:** 00:19:d1:b2:4d:ad\n- **Windows Hostname:** DESKTOP-TEYQ2NR\n- **Logged-In User:** brolf\n\n### Malware Family\n**Emotet (Win32/Heodo)**\n- **Attribution Type:** Behavioral (signature-unconfirmed)\n- **Confidence:** High\n\n#### Attribution Basis\nThe malware exhibits the distinctive C2 communication pattern and behavioral signatures of Emotet:\n- Bare-IP HTTP POST beaconing to a single external IP\n- Unencrypted HTTP requests to /fakeurl.htm (URI consistent with Emotet variants)\n- Regular 60-second heartbeat interval with structured POST requests\n- C2 responses with CMD=POLL (keep-alive) and CMD=ENCD (encoded commands) format\n- Initial beacons larger (~220-490 bytes) with system reconnaissance data; subsequent beacons standardized (~286 bytes)\n- C2 commands encoded with ES=1 (encrypted/secured flag) containing binary payload data\n\n### Indicators of Compromise\n\n#### Command-and-Control Endpoints\n| Type | Value | Port | Protocol |\n|---|---|---|---|\n| IP Address | 45.131.214.85 | 80 | HTTP |\n| URL | http://45.131.214.85/fakeurl.htm | 80 | HTTP |\n\n#### Beaconing Behavior\n- **Pattern:** POST request every 60 seconds\n- **Request Type:** HTTP POST with application/x-www-form-urlencoded content\n- **Duration:** Continuous from 2026-02-28 23:55:51 UTC through 2026-03-01 04:16 UTC (observed capture window)\n- **Total Beacons Observed:** 273+ confirmed C2 checkins\n\n#### C2 Protocol Indicators\n- **Heartbeat Response:** `CMD=POLL\\nINFO=1\\nACK=1\\n`\n- **Command Response Format:** `CMD=ENCD\\nES=1\\nDATA=<binary>`\n- **Response Characteristics:** Variable-length encoded/encrypted command payloads (36-244 bytes observed)\n\n#### Extracted C2 Response Samples\n| Filename | Size | SHA256 |\n|---|---|---|\n| fakeurl.htm (keep-alive) | 36 B | 2b69346572041eefe558a82b58d654237e087ce9ab4e0876254a40a8954279a9 |\n| fakeurl(1).htm (encoded cmd) | 69 B | 2357d0f3455f3503085c4af2543eec16315223eefeebb3f611f0933d229ae6e7 |\n| fakeurl(2).htm (encoded cmd) | 244 B | 98cf8b62e22638ceeea90caaa3083f9dfc698a5e8277b372e28d55acdf457a12 |\n\n### Traffic Context (Benign)\nThe following traffic observed in the capture is benign and not indicative of malicious activity:\n- Windows domain traffic (LDAP, SMB2, Kerberos) to 10.2.28.2 (EASYAS123-DC.easyas123.tech)\n- Microsoft Edge/Windows Update delivery to CDN endpoints (23.218.232.148 serving msedge.b.tlu.dl.delivery.mp.microsoft.com)\n- Adobe product updates (acroipm2.adobe.com, armmf.adobe.com, assets.adobedtm.com)\n- Windows connectivity checks (msftconnecttest.com)\n\n### Summary\nHost 10.2.28.88 (DESKTOP-TEYQ2NR, user brolf) is infected with Emotet malware and actively beaconing to C2 infrastructure at 45.131.214.85:80. The malware maintains persistent command-and-control communication via HTTP POST to /fakeurl.htm with a 60-second heartbeat interval. Immediate isolation and forensic collection recommended."
+}

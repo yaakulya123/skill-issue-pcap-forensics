@@ -1,0 +1,98 @@
+{
+  "run_id": "mta-2024-08-15__D3__haiku__r1",
+  "case": "mta-2024-08-15",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 24,
+    "tshark_calls": 19,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -q -z io,phs 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -q -z endpoints,ip 2>&1 | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"nbns\" -T fields -e nbns.name -e ip.src 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString 2>&1 | sort -u | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -q -z conv,tcp 2>&1 | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name 2>&1 | sort -u | head -40",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request.method\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>&1 | sort -u | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.dst==72.5.43.29 && http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>&1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.dst==104.21.55.70 && http.request\" -T fields -e frame.number -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>&1 | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" --export-objects http /tmp/http_objects 2>&1; ls -lh /tmp/http_objects/ 2>&1 | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name contains checkfedexexp\" -T fields -e frame.time_epoch -e dns.qry.name -e dns.answers -e ip.src 2>&1 | head -10",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name contains checkfedexexp\" -T fields -e frame.time_epoch -e dns.qry.name -e ip.src 2>&1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns && dns.qry.name == quote.checkfedexexp.com\" -T fields -e frame.time_epoch -e dns.resp.name -e dns.a -e ip.dst 2>&1 | head -5",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>&1 | sort -u | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request.uri contains am_delta_patch\" -T fields -e frame.time_epoch -e ip.dst -e http.host -e http.request.uri 2>&1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.8.15.133\" -T fields -e tcp.dstport 2>&1 | sort -u | grep -v \"^$\"",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.8.15.133 && tcp.dstport==80\" -T fields -e ip.dst 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.8.15.133 && ip.dst==72.5.43.29\" -T fields -e frame.time_epoch -e tcp.srcport -e tcp.dstport -e tcp.flags 2>&1 | awk '{print $1, $2, $3}' | sort -u | head -30"
+    ],
+    "input_tokens": 202,
+    "output_tokens": 8260,
+    "num_turns": 25,
+    "duration_ms": 133875,
+    "cost_usd": 0.2332151,
+    "wall_time_s": 135.1
+  },
+  "score": {
+    "recall": 0.7273,
+    "iocs_found": 8,
+    "iocs_total": 11,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 8,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "---\n\n## INCIDENT REPORT: MTA-2024-08-15\n\n### VICTIM HOST\n\n| Attribute | Value |\n|---|---|\n| IPv4 Address | 10.8.15.133 |\n| MAC Address | 00:1c:bf:03:54:82 |\n| Windows Hostname | DESKTOP-H8ALZBV |\n| Logged-in User | plucero |\n| Host Role | Enterprise workstation on /24 LAN (gateway 10.8.15.1) |\n\n---\n\n### MALWARE FAMILY\n\n**Attribution: Banking trojan (behavioral confirmation, not signature-confirmed)**\n\nThe traffic pattern is consistent with **IcedID** or **Qakbot** family:\n- Fake Windows Update delivery mechanism (fake `am_delta_patch` executable).\n- Staged payload via fake business domains (FedEx phishing).\n- Deployment of legitimate remote-access tool (TeamViewer) for hands-on-keyboard access.\n- Injected malware DLL for C2 persistence and beaconing.\n- HTTP beaconing to bare-IP C2 on port 80 with repeated GET/POST pattern.\n\n---\n\n### INDICATORS OF COMPROMISE\n\n#### C2 Endpoints\n\n| Type | Indicator | Port | Evidence |\n|---|---|---|---|\n| IPv4 (bare IP) | 72.5.43.29 | 80/TCP | 237+ HTTP GET/POST requests over 77 seconds; no domain, repeated beaconing to `/` root path |\n\n#### Malicious Domains\n\n| Domain | Resolved IP | Purpose | Evidence |\n|---|---|---|---|\n| quote.checkfedexexp.com | 104.21.55.70 | Malware delivery | 2.6 MB ZIP archive downloaded containing JavaScript \"invoice\" lure |\n| business.checkfedexexp.com | 172.67.170.159 | Malware delivery (HTTPS) | TLS handshake observed; paired with quote variant |\n\n#### Downloaded Files (SHA256 hashes)\n\n| Filename | SHA256 | Size | Type | Evidence |\n|---|---|---|---|---|\n| am_delta_patch_1.421.1491.0_c8e6042b36d8f357a8e298b6f9f2fcde561c2e02.exe | `3e3466677fbd2cb42ff84577f3aab9d1128c2e90361596363529786f61aa5fab` | 390 KB | PE32+ x86-64 executable (fake Windows Update patch) | Downloaded from CDN; filename mimics Windows KB patch |\n| TeamViewer | `904280f20d697d876ab90a1b74c0f22a83b859e8b0519cb411fda26f1642f53e` | 4.2 MB | PE32 x86-64 GUI executable (legitimate remote-access tool, weaponized) | Large binary deployed post-infection |\n| 0f60a3e7baecf2748b1c8183ed37d1e4 (malware DLL) | `b7aec5f73d2a6bbd8cd920edb4760e2edadc98c3a45bf4fa994d47ca9cbd02f6` | 156 KB | PE32+ x86-64 DLL (GUI) | Hash matches C2 requests to `/data/0f60a3e7baecf2748b1c8183ed37d1e4` |\n| Zip archive (Invoice-876597035-003...) | `798563fcf7600f7ef1a35996291a9dfb5f9902733404dd499e2e736ea1dc6fc5` | 2.6 MB | ZIP containing JavaScript file disguised as invoice PDF | Downloaded from quote.checkfedexexp.com |\n\n#### URLs\n\n| URL | Host | Method | Evidence |\n|---|---|---|---|\n| `http://quote.checkfedexexp.com/managements?16553a25e45250a41fd5&endeds=MIGpq&JStx=...` | 104.21.55.70 | GET | Single request to retrieve 2.6 MB ZIP archive |\n| `http://72.5.43.29/` | 72.5.43.29 | GET/POST | 237+ repeated requests over 77 seconds; classic beaconing pattern |\n| `http://72.5.43.29/data/0f60a3e7baecf2748b1c8183ed37d1e4` | 72.5.43.29 | HEAD/GET | DLL hash in path; C2 artifact tracking |\n\n---\n\n### DELIVERY CHAIN\n\n1. **Lure:** Victim accessed fake Windows Update patch via fake FedEx phishing domain (`checkfedexexp.com`).\n2. **Stage 1:** Downloaded `am_delta_patch` executable (390 KB) from CDN, likely triggering UAC bypass or direct execution.\n3. **Stage 2:** Payload ZIP archive (\"Invoice-876597035...\") downloaded from quote.checkfedexexp.com (2.6 MB); contained JavaScript downloader/injector.\n4. **Stage 3:** TeamViewer remote-access tool installed (4.2 MB), enabling attacker hands-on keyboard access.\n5. **Stage 4:** Malware DLL (0f60a3e7..., 156 KB) injected for C2 persistence.\n6. **C2 Established:** Victim host beacons repeatedly to 72.5.43.29:80 for command/control.\n\n---\n\n### TIMELINE\n\n- **T+0 (1723680655):** DNS queries to quote.checkfedexexp.com begin (victim 10.8.15.133).\n- **T+3 seconds:** First HTTP GET to fake FedEx domain (104.21.55.70).\n- **T+63 seconds (1723680718):** First HTTP beaconing observed to 72.5.43.29:80.\n- **T+77 seconds:** Beaconing continues at high frequency; capture ends.\n\n---\n\n### CLASSIFICATION\n\n- **Infected Host:** 10.8.15.133 (DESKTOP-H8ALZBV, user plucero)\n- **Malware Family:** Banking trojan (IcedID/Qakbot behavioral profile)\n- **Attribution Confidence:** Behavioral; no IDS/YARA signature match in provided evidence\n- **Threat Level:** Critical (active C2 beaconing, hands-on-keyboard remote access deployed)"
+}

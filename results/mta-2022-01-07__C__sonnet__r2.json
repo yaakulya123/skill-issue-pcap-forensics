@@ -1,0 +1,81 @@
+{
+  "run_id": "mta-2022-01-07__C__sonnet__r2",
+  "case": "mta-2022-01-07",
+  "arm": "C",
+  "arm_label": "custom",
+  "model": "sonnet",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 13,
+    "tshark_calls": 6,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07\"\nPCAP=2022-01-07-traffic-analysis-exercise.pcap\necho \"=== PROTO HIERARCHY ===\"\n/opt/homebrew/bin/tshark -r $PCAP -q -z io,phs 2>/dev/null\necho \"=== TOP CONV IP ===\"\n/opt/homebrew/bin/tshark -r $PCAP -q -z conv,ip 2>/dev/null | head -40\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07\"\nPCAP=2022-01-07-traffic-analysis-exercise.pcap\necho \"=== DNS QUERIES ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dns.qry.name\" -T fields -e frame.time_relative -e dns.qry.name -e dns.a 2>/dev/null | sort -u -k2,2 | head -60\necho \"=== HTTP REQUESTS ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"http.request\" -T fields -e frame.time_relative -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\necho \"=== TLS SNI ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07\"\nPCAP=2022-01-07-traffic-analysis-exercise.pcap\necho \"=== HTTP request/response pairs with content-type and lengths ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"http\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e http.request.method -e http.request.uri -e http.response.code -e http.content_type -e http.content_length -e http.file_data.length 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07\"\nPCAP=2022-01-07-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r $PCAP -Y \"http\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e http.request.method -e http.request.uri -e http.response.code -e http.content_type -e http.content_length 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07\"\nPCAP=2022-01-07-traffic-analysis-exercise.pcap\necho \"=== ARP (IP<->MAC) ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>/dev/null | sort -u\necho \"=== NBNS names ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u\necho \"=== DHCP hostname/mac ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.hw.mac_addr -e ip.src 2>/dev/null | sort -u\necho \"=== Kerberos CNameString (user) ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u\necho \"=== eth.src for 192.168.1.216 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.src==192.168.1.216\" -T fields -e eth.src 2>/dev/null | sort -u | head -5\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07\"\nPCAP=2022-01-07-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==2.56.57.108 && tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e ip.dst -e tcp.dstport 2>/dev/null | sort -u\necho \"--- any DNS query resolving to 2.56.57.108 ---\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dns.a==2.56.57.108\" -T fields -e dns.qry.name 2>/dev/null\n"
+    ],
+    "input_tokens": 28,
+    "output_tokens": 10776,
+    "num_turns": 14,
+    "duration_ms": 156607,
+    "cost_usd": 0.677039,
+    "wall_time_s": 157.8
+  },
+  "score": {
+    "recall": 0.8889,
+    "iocs_found": 8,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 2,
+        "total": 2
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 19,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "## Incident Report \u2014 2022-01-07 Traffic Analysis Exercise\n\n### Victim host\n| Field | Value | Evidence |\n|---|---|---|\n| IPv4 | 192.168.1.216 | Dominant conversation partner in `conv,ip` stats, subnet 192.168.1.0/24 |\n| MAC | 9c:5c:8e:32:58:f9 | ARP (`arp.src.proto_ipv4`/`arp.src.hw_mac`) and Ethernet source for all frames from 192.168.1.216 |\n| Hostname | DESKTOP-GXMYNO2 | DHCP option 12 hostname, Kerberos `CNameString` (`DESKTOP-GXMYNO2$`), mDNS/LLMNR queries |\n| Domain | spoonwatch.net (AD domain, DC at 192.168.1.2 / SPOONWATCH-DC) | DNS SRV queries, NBNS |\n| Logged-in user | steve.smith | Kerberos `CNameString` on TGS/AS exchanges between 192.168.1.216 and DC 192.168.1.2 |\n\n### Malware family\n**Vidar Stealer** (Arkei/Vidar/Mars Stealer lineage) \u2014 **behavioral attribution**, not signature-confirmed (no IDS/Suricata alert file was present in the evidence directory).\n\nBasis for attribution:\n- Victim beacons to a single bare-IP host, **2.56.57.108:80**, with no preceding DNS lookup for it \u2014 classic Vidar C2 pattern.\n- Seven files retrieved from that host with `.jpg` names and `image/jpeg` Content-Type headers are in fact **PE32 DLLs** (confirmed by MZ header and `file`): `1.jpg`\u2013`7.jpg`. Embedded strings identify them as `sqlite3.dll`, `freebl3.dll`, `nss3.dll`, `msvcp140.dll`, `vcruntime140.dll`, `softokn3.dll`, `nssdbm3.dll` \u2014 the exact legitimate Mozilla NSS / SQLite support libraries Vidar sideloads to read Firefox/Chromium credential and cookie databases.\n- Victim then POSTs to `/osk//main.php` (0-byte reply) followed by a final multipart POST to `/osk/` carrying a **379,629-byte ZIP** (Content-Disposition filename `_5861695120.zip`) containing: `autofill/`, `cc/`, `cookies/`, `outlook.txt`, `passwords.txt`, `screenshot.jpg`, `system.txt` \u2014 this is Vidar's characteristic stolen-data archive layout (browser autofill, saved credit cards, cookies, mail client data, credentials, desktop screenshot, host fingerprint).\n\n### Indicators of Compromise\n\n**C2 endpoint**\n- `2.56.57.108:80` \u2014 TCP conversation, all malicious HTTP traffic (evidence: `conv,ip` shows 3,335 frames/3.6 MB to this host vs. next-largest legitimate MS conversation at 373 frames; SYN capture confirms port 80)\n\n**Malicious URLs** (host `2.56.57.108`, all HTTP)\n- `http://2.56.57.108/osk//1.jpg` through `/osk//7.jpg` \u2014 fake-image PE DLL downloads\n- `http://2.56.57.108/osk//main.php` \u2014 C2 checkin\n- `http://2.56.57.108/osk/` \u2014 exfiltration upload (POST body = stolen-data ZIP)\n\n**Domain**\n- None observed. C2 was contacted by bare IP with no corresponding DNS query in the capture.\n\n**Transferred files / payload DLLs (downloaded, disguised as `.jpg`)**\n| Filename as served | SHA256 |\n|---|---|\n| 1.jpg (PE32 DLL) | 16574f51785b0e2fc29c2c61477eb47bb39f714829999511dc8952b43ab17660 |\n| 2.jpg (PE32 DLL) | a770ecba3b08bbabd0a567fc978e50615f8b346709f8eb3cfacf3faab24090ba |\n| 3.jpg (PE32 DLL) | 3fe6b1c54b8cf28f571e0c5d6636b4069a8ab00b4f11dd842cfec00691d0c9cd |\n| 4.jpg (PE32 DLL) | 334e69ac9367f708ce601a6f490ff227d6c20636da5222f148b25831d22e13d4 |\n| 5.jpg (PE32 DLL) | e2935b5b28550d47dc971f456d6961f20d1633b4892998750140e0eaa9ae9d78 |\n| 6.jpg (PE32 DLL) | 43536adef2ddcc811c28d35fa6ce3031029a2424ad393989db36169ff2995083 |\n| 7.jpg (PE32 DLL) | c40bb03199a2054dabfc7a8e01d6098e91de7193619effbd0f142a7bf031c14d |\n\n**Exfiltrated data**\n- File: `_5861695120.zip` (multipart form field `name=\"file\"`, `Content-Type: zip`), 379,629 bytes, uploaded via POST to `http://2.56.57.108/osk/`\n- SHA256 (raw multipart body as captured): 1ecee6ff37e03c1160b8bf66d5ca8dc784e0b35fb9fd105f0964b314d310c07f\n- Zip contents (evidence of what was stolen): `autofill/Google Chrome_Default.txt`, `autofill/Microsoft Edge_Default.txt`, `cc/Google Chrome_Default.txt`, `cc/Microsoft Edge_Default.txt`, `cookies/Google Chrome_Network.txt`, `cookies/Microsoft Edge_Default.txt`, `outlook.txt`, `passwords.txt`, `screenshot.jpg`, `system.txt`\n\n### Benign context (not IOCs)\n- Windows Update / Delivery Optimization traffic to `download.windowsupdate.com`, `au.download.windowsupdate.com`, `ctldl.windowsupdate.com` (23.38.189.225, 23.38.189.201, 8.253.189.126) and the `.cab`/`am_delta_patch_*.exe` (Windows Defender signature update) \u2014 legitimate Microsoft update infrastructure.\n- Microsoft telemetry/services traffic: `www.bing.com`, `api.msn.com`, `client.wns.windows.com`, `*.events.data.microsoft.com`, `settings-win.data.microsoft.com`, `*.prod.do.dsp.mp.microsoft.com`, `pti.store.microsoft.com` \u2014 all IPs in the 20.x/40.x/52.x/104.x/184.x/204.79.197.x Microsoft ranges.\n- Active Directory traffic to DC 192.168.1.2 (SPOONWATCH-DC.spoonwatch.net): Kerberos, LDAP, CLDAP, SMB/SMB2, DRSUAPI/SAMR/LSARPC (DCE-RPC) \u2014 normal domain-joined workstation behavior.\n- DHCP, NBNS, mDNS/LLMNR, SSDP/M-SEARCH broadcast noise from the LAN.\n\n### Incident summary\nWindows workstation DESKTOP-GXMYNO2 (192.168.1.216, MAC 9c:5c:8e:32:58:f9), domain-joined to spoonwatch.net and logged in as steve.smith, was infected with a Vidar-family infostealer. The malware reached out over plain HTTP to bare-IP C2 2.56.57.108, downloaded seven support DLLs disguised as JPEG images to parse Firefox/Chromium credential and cookie stores, checked in via `/osk//main.php`, then exfiltrated a 379 KB ZIP of stolen browser autofill data, saved passwords, saved credit-card data, cookies, Outlook data, a desktop screenshot, and system information to `http://2.56.57.108/osk/`. Attribution to Vidar is behavioral, based on the C2 pattern and the exfil archive's characteristic folder/file naming \u2014 no IDS signature was available in the provided evidence to confirm it."
+}

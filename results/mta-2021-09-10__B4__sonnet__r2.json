@@ -1,0 +1,89 @@
+{
+  "run_id": "mta-2021-09-10__B4__sonnet__r2",
+  "case": "mta-2021-09-10",
+  "arm": "B4",
+  "arm_label": "community-wireshark2",
+  "model": "sonnet",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 18,
+    "tshark_calls": 14,
+    "tshark_cmds": [
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== capinfos ===\"\n/opt/homebrew/bin/capinfos \"$PCAP\" 2>/dev/null\necho \"=== conversations (ip) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z conv,ip 2>/dev/null | head -40\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== DHCP / hostname ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.option.requested_ip_address -e eth.src 2>/dev/null | sort -u\necho \"=== NBNS host announce ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u | head -20\necho \"=== kerberos usernames ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString 2>/dev/null | sort -u\necho \"=== eth addr for victim ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==10.9.10.102\" -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst 2>/dev/null | head -5\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== DNS queries (unique) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== HTTP requests ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.request\" -T fields -e frame.time -e ip.src -e ip.dst -e http.host -e http.request.full_uri -e http.user_agent 2>/dev/null\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== all http traffic to 194.62.42.206 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==194.62.42.206 && http\" -T fields -e frame.number -e ip.src -e ip.dst -e http.request.method -e http.host -e http.request.uri -e http.response.code -e http.content_type -e http.content_length 2>/dev/null\necho \"=== tcp stream index for that convo ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==194.62.42.206\" -T fields -e tcp.stream 2>/dev/null | sort -u\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\nmkdir -p /tmp/mta_export\n/opt/homebrew/bin/tshark -r \"$PCAP\" --export-objects \"http,/tmp/mta_export\" -q 2>/dev/null\nls -la /tmp/mta_export\n",
+      "cd /tmp/mta_export\nshasum -a 256 \"date1%3fBNLv65=pAAS\"\necho \"---\"\ncd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== http objects listing (host + uri + size) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z http,tree 2>/dev/null | head -60\n",
+      "rm -rf /tmp/mta_export && mkdir -p /tmp/mta_export\ncd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r \"$PCAP\" --export-objects \"http,/tmp/mta_export\" -q 2>/dev/null\nls -la /tmp/mta_export",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== TLS SNI unique list ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"tls.handshake.extensions_server_name\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\necho \"=== traffic to 167.172.37.9 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==167.172.37.9\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.col.Protocol -e _ws.col.Info 2>/dev/null | head -20\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== cert info for 167.172.37.9 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==167.172.37.9 && tls.handshake.type==11\" -T fields -e x509sat.printableString -e x509sat.uTF8String -e tls.handshake.certificate 2>/dev/null | head -5\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==167.172.37.9 && tls.handshake.type==2\" -V 2>/dev/null | grep -iE \"issuer|subject|Common Name|Not Before|Not After\" | head -30\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== full ip conv list ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z conv,ip 2>/dev/null | tail -n +6\necho \"=== myexternalip.com traffic ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==34.117.59.81\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e _ws.col.Protocol -e _ws.col.Info 2>/dev/null | head -10\necho \"=== all TLS client hellos w/o SNI ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"tls.handshake.type==1 && !tls.handshake.extensions_server_name\" -T fields -e frame.time_relative -e ip.dst -e tcp.dstport 2>/dev/null\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== full http request headers for the simpsonsavingss GET ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"frame.number==1189\" -V 2>/dev/null | sed -n '/Hypertext Transfer Protocol/,/^$/p' | head -60\necho \"=== DNS query for simpsonsavingss.com timing ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dns.qry.name==\\\"simpsonsavingss.com\\\"\" -T fields -e frame.time_relative -e dns.flags.response -e dns.a 2>/dev/null\necho \"=== cert CN for 94.158.245.52 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==94.158.245.52 && tls.handshake.type==11\" -V 2>/dev/null | grep -iE \"rdnSequence|id-at|DirectoryString|printableString|utf8String\" -A2 | head -40\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== distinct tcp streams + ports to 94.158.245.52 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==94.158.245.52 && tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e frame.time_relative -e tcp.srcport -e tcp.dstport 2>/dev/null\necho \"=== bytes per stream (approx via conv,tcp) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z \"conv,tcp,ip.addr==94.158.245.52\" 2>/dev/null | head -30\necho \"=== JA3 if available ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==94.158.245.52 && tls.handshake.type==1\" -T fields -e tls.handshake.ja3 -e tls.handshake.ja3_full 2>/dev/null | head -3\n",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ntlmssp\" -T fields -e ntlmssp.auth.username -e ntlmssp.auth.domain 2>/dev/null | sort -u\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"kerberos.CNameString\" -T fields -e frame.time_relative -e ip.src -e kerberos.CNameString -e kerberos.realm 2>/dev/null | sort -u | head -5\n"
+    ],
+    "input_tokens": 38,
+    "output_tokens": 14813,
+    "num_turns": 19,
+    "duration_ms": 229399,
+    "cost_usd": 1.0198487999999999,
+    "wall_time_s": 230.6
+  },
+  "score": {
+    "recall": 0.9,
+    "iocs_found": 9,
+    "iocs_total": 10,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 3,
+        "total": 3
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 9,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report: Malware Infection \u2014 DESKTOP-KKITB6Q (10.9.10.102)\n\n**Evidence:** `2021-09-10-traffic-analysis-exercise.pcap` (9,221 packets, 2021-09-11 03:15:07\u201304:31:57 UTC+4, ~77 min). No IDS/Suricata alert export was present in the evidence folder; all findings below are derived directly from packet analysis with `tshark`/`capinfos`.\n\n## 1. Victim host\n\n| Field | Value |\n|---|---|\n| IPv4 | 10.9.10.102 |\n| MAC address | 00:4f:49:b1:e8:c3 |\n| Windows hostname | DESKTOP-KKITB6Q |\n| AD domain / NetBIOS | angrypoutine.com / ANGRYPOUTINE |\n| Logged-in user | **hobart.gunnarsson** (confirmed via Kerberos AS-REQ CNameString and SMB/NTLM auth to DC ANGRYPOUTINE-DC / 10.9.10.9, realm ANGRYPOUTINE.COM) |\n\n## 2. Malware family\n\n**QakBot (QBot/Qakbot)** \u2014 **behavioral attribution, not signature-confirmed.** No AV/IDS alert artifacts were provided with this evidence, so this is based on traffic pattern analysis, not a rule/hash match. The behavior observed matches Qakbot's documented pattern precisely:\n\n- A first-stage gate delivers a native **PE32+ DLL** (not an EXE, not .NET) over plain HTTP via a compromised legitimate-looking site, using a multi-segment randomized URI path and a `MSIE 7.0`-spoofed User-Agent (a long-standing Qakbot HTTP fingerprint).\n- The DLL is followed almost immediately by encrypted C2 beaconing directly to hardcoded IP addresses over TCP/443 with **no SNI extension** and a **self-signed certificate impersonating a fake UK business identity**, repeated at irregular intervals for the remainder of the capture \u2014 Qakbot's classic long-haul beacon behavior.\n\n## 3. Timeline / infection chain\n\n1. **T+139.7s (03:17:27):** DNS query for `simpsonsavingss.com` resolves to `194.62.42.206`.\n2. **T+139.7\u2013142.5s:** `GET http://simpsonsavingss.com/bmdff/BhoHsCtZ/MLdmpfjaX/5uFG3Dz7yt/date1?BNLv65=pAAS`, UA `Mozilla/4.0 (compatible; MSIE 7.0; ...)`. Server responds `200 OK`, `Content-Type: application/octet-stream`, 284,816 bytes \u2014 a PE32+ x86-64 **DLL**.\n3. **T+144.0s (~2s after download completes):** First TLS session to `167.172.37.9:443` \u2014 no SNI, self-signed cert `CN=londonareloeli.uk`.\n4. **T+148.7s onward:** Sustained beaconing to `94.158.245.52:443` \u2014 34 separate TLS sessions, no SNI, **identical self-signed certificate** (`CN=londonareloeli.uk, O=LL EST, OU=UK System, L=London, ST=London, C=UK`, issued 2021-09-08), recurring every few minutes to ~50 minutes across the remaining ~73 minutes of capture. Identical JA3 (`51c64c77e60f3980eea90869b68c58a8`) on every session \u2014 consistent C2 client stack, not a browser.\n\nAll other traffic from the host (Windows Update, Delivery Optimization, Office 365, Teams, Bing, MSN, OneNote, login.live.com, `myexternalip.com`) is legitimate Windows/enterprise background noise and not part of the compromise.\n\n## 4. Indicators of Compromise\n\n**Malicious domain**\n- `simpsonsavingss.com` \u2192 194.62.42.206\n\n**Malicious URL**\n- `http://simpsonsavingss.com/bmdff/BhoHsCtZ/MLdmpfjaX/5uFG3Dz7yt/date1?BNLv65=pAAS`\n\n**Dropped file**\n- Delivered filename/endpoint: `date1` (query string `BNLv65=pAAS`)\n- Type: PE32+ DLL, x86-64\n- Size: 284,816 bytes\n- SHA256: `eed363fc4af7a9070d69340592dcab7c78db4f90710357de29e3b624aa957cf8`\n\n**C2 infrastructure**\n- `167.172.37.9:443` (initial post-infection callback)\n- `94.158.245.52:443` (persistent beacon, 34+ sessions over ~73 min)\n- Both share TLS certificate `CN=londonareloeli.uk / O=LL EST / OU=UK System / L=London / ST=London / C=UK` (self-signed, issued 2021-09-08) and JA3 `51c64c77e60f3980eea90869b68c58a8`. Connections use no SNI, ruling out legitimate hostname-based services.\n\n## 5. Recommended action\nIsolate 10.9.10.102 immediately, reset credentials for `hobart.gunnarsson` and any accounts used from that host (Qakbot harvests browser/email/AD credentials and enables lateral movement), block the domain and both C2 IPs at the perimeter, and hunt across the environment for the same JA3/certificate pattern and for `rundll32.exe` loading the SHA256 above."
+}

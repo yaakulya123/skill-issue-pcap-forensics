@@ -1,0 +1,93 @@
+{
+  "run_id": "mta-2024-11-26__A__haiku__r1",
+  "case": "mta-2024-11-26",
+  "arm": "A",
+  "arm_label": "vanilla",
+  "model": "haiku",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 31,
+    "tshark_calls": 18,
+    "tshark_cmds": [
+      "\n# Extract ARP and NetBIOS data to identify the victim host details\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"arp.src.proto_ipv4 == 10.11.26.183 or nbns\" -T fields -e eth.src -e arp.src.proto_ipv4 -e nbns.name 2>/dev/null | head -20\n",
+      "\n# Extract HTTP traffic to find any user-agent strings or POST data\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"http\" -T fields -e http.host -e http.request.uri -e http.user_agent -e http.request_line 2>/dev/null | head -30\n",
+      "\n# Extract DNS queries and responses\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"dns.flags.response == 0 or dns.flags.response == 1\" -T fields -e dns.qry.name -e dns.resp.type -e dns.a 2>/dev/null | sort -u | head -30\n",
+      "\n# Look for the malicious domain specifically\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name contains modandcrackedapk or ssl.handshake.extensions_server_name contains modandcrackedapk\" -T fields -e frame.time -e dns.qry.name -e ssl.handshake.extensions_server_name 2>/dev/null\n",
+      "\n# Extract NTLM authentication details to find the username\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"ntlmssp\" -T fields -e frame.time -e ntlmssp.auth.username -e ntlmssp.auth.domain 2>/dev/null | head -20\n",
+      "\n# Try extracting NTLM negotiate and auth messages for username\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"ntlmssp.auth\" -T fields -e ntlmssp.user.domain -e ntlmssp.user.name -e frame.time 2>/dev/null | sort -u\n",
+      "\n# Extract from Kerberos authentication\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"kerberos\" -T fields -e kerberos.cname.string -e kerberos.sname.string -e frame.time 2>/dev/null | head -20\n",
+      "\n# Look for Windows Event Log or Windows process execution data\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -T fields -e frame.protocols 2>/dev/null | sort | uniq -c | sort -rn | head -20\n",
+      "\n# Extract HTTP POST requests and form data\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"http.request.method == POST\" -T fields -e frame.time -e http.request.uri -e http.host -e http.request.line 2>/dev/null | head -20\n",
+      "\n# Extract form data from POST requests to C&C\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"http.request.method == POST and http.host == 194.180.191.64\" -T fields -e http.file_data 2>/dev/null | head -5\n",
+      "\n# Look at all IP conversations with source 10.11.26.183 and their C&C targets\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.11.26.183 and tcp\" -T fields -e ip.dst -e tcp.dstport 2>/dev/null | sort -u\n",
+      "\n# Look for file downloads or data transfers - check for exe, dll, scr files\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"http\" -T fields -e http.request.uri -e http.response.code -e http.response.code_desc 2>/dev/null | sort -u | head -30\n",
+      "\n# Extract all URLs\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"http.request.full_uri\" -T fields -e http.request.full_uri 2>/dev/null | sort -u\n",
+      "\n# Extract SMB2 session information\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"smb2\" -T fields -e smb2.ses.acct_name 2>/dev/null | sort -u\n",
+      "\n# Extract all frame data and search for patterns that look like usernames or computer names\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"frame\" -T fields -e frame.bin_data 2>/dev/null | strings | grep -E \"^[A-Z][A-Za-z0-9._-]+$\" | sort -u | head -30\n",
+      "\n# Extract LDAP and Kerberos user information\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"ldap\" -T fields -e ldap.filter 2>/dev/null | grep -v \"^$\" | sort -u | head -20\n",
+      "\n# Extract all unique destination IPs and ports where 10.11.26.183 initiated connections to suspicious/C&C servers\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.11.26.183 and tcp and (tcp.dstport == 80 or tcp.dstport == 443)\" -T fields -e ip.dst -e tcp.dstport 2>/dev/null | sort -u | head -40\n",
+      "\n# Extract all files from the pcap using tshark's export functionality\n/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap\" --export-files /tmp/pcap_exports 2>&1 | head -20\n"
+    ],
+    "input_tokens": 252,
+    "output_tokens": 10906,
+    "num_turns": 33,
+    "duration_ms": 189749,
+    "cost_usd": 0.2700448,
+    "wall_time_s": 191.2
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 0,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": false
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 11,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "---\n\n## INCIDENT REPORT\n\n**Date:** 2024-11-26  \n**Report ID:** MTA-2024-11-26-001\n\n---\n\n### EXECUTIVE SUMMARY\n\nWindows enterprise workstation **10.11.26.183** (DESKTOP-B8TQK49) is compromised with **NetSupport RAT** malware. The infected host established persistent command-and-control communication with remote infrastructure, exfiltrated system data, and attempted lateral movement within the network.\n\n---\n\n### INFECTED/VICTIM HOST\n\n| Field | Value |\n|-------|-------|\n| **IPv4 Address** | 10.11.26.183 |\n| **MAC Address** | d0:57:7b:ce:fc:8b |\n| **Windows Hostname** | DESKTOP-B8TQK49 |\n| **Logged-In User** | sSEg |\n| **Host Role** | Windows workstation on 10.11.26.0/24 LAN |\n\n---\n\n### MALWARE IDENTIFICATION\n\n| Field | Value |\n|-------|-------|\n| **Malware Family** | NetSupport RAT |\n| **Attribution Type** | Signature-confirmed (Suricata/ET Pro rules) |\n| **Detection Signature** | ETPRO TROJAN NetSupport RAT CnC Activity |\n| **Payload Mechanism** | User-Agent: NetSupport Manager/1.3 (HTTP POST over port 443) |\n\n---\n\n### COMMAND-AND-CONTROL INDICATORS\n\n#### Primary C&C Infrastructure\n| Type | Value | Port | Evidence |\n|------|-------|------|----------|\n| IP Address | 194.180.191.64 | 443 | Suricata alerts Events #4022, #4023, #4025 |\n| C&C URL | http://194.180.191.64/fakeurl.htm | 443 | Repeated HTTP POST beacons, User-Agent: NetSupport Manager/1.3 |\n| Protocol | HTTPS (malware-over-HTTPS) | 443 | Multiple POST requests at 08:50:45 UTC onwards |\n\n#### Geolocation Lookup (NetSupport Infrastructure)\n| Type | Value | Port | Evidence |\n|------|-------|------|----------|\n| URL | http://geo.netsupportsoftware.com/location/loca.asp | 80 | Suricata Alert #4026: NetSupport GeoLocation Lookup Request |\n| IP Destination | 104.26.1.231 | 80 | Resolves to NetSupport geolocation service |\n\n---\n\n### MALICIOUS DOMAINS & ASSOCIATED INFRASTRUCTURE\n\n| Domain | Purpose | IP Resolution | Evidence |\n|--------|---------|---|----------|\n| modandcrackedapk.com | ZPHP malware C&C | 193.42.38.139 | Suricata Alerts #3926 (DNS), #4018 (TLS SNI) |\n\n**ZPHP Malware Indicators:**\n- DNS query for modandcrackedapk.com from victim at 04:50:14 UTC (Alert #3926)\n- TLS Client Hello with SNI=modandcrackedapk.com at 04:50:40 UTC to 193.42.38.139:443 (Alert #4018)\n- Classification: ET CURRENT_EVENTS ZPHP Domain\n\n---\n\n### ANOMALOUS NETWORK ACTIVITY\n\n#### Additional Suspicious Connections\n| Destination | Port | Time | Alert Message |\n|-------------|------|------|---|\n| 104.117.247.184 | 80 | 04:49:38 UTC | ET INFO Terse Request for .txt - Likely Hostile |\n| 4.149.227.78 | 443 | 04:49:41 UTC | ET POLICY TLSv1.0 Used in Session |\n\n#### Internal Reconnaissance Activity\n- **DCE-RPC Protocol Exploitation:** Victim queried Active Directory infrastructure (10.11.26.3) using EfsRpcOpenFileRaw (Encrypting File System Remote Protocol) at port 445 (Alert #3883)\n- **SMBv1 Protocol Usage:** Unsafe SMB protocol engagement with DC at port 139 (Alerts #3914-#3918)\n- **NTMLSSP Overflow Attempt:** GPL NETBIOS SMB Session Setup NTMLSSP unicode ASN.1 overflow detected (Alert #3915)\n- **SMB Share Access:** IPC$ unicode share access to domain controller (Alert #3917)\n\n---\n\n### INDICATORS OF COMPROMISE (IOCs)\n\n**User-Agent Strings:**\n```\nUser-Agent: NetSupport Manager/1.3\n```\n\n**C&C Beacon Payload:**\n- Command structure: `CMD=POLL`, `CMD=ENCD`, `ACK=1`, `INFO=1`\n- Encoding: Hex-encoded form data, encrypted payloads with `ES=1` (encryption status)\n\n**Unique Identifiers:**\n- No SHA256 file hashes recovered (malware resident in memory or remotely hosted)\n- No executable files detected in capture (possible fileless attack or lateral execution)\n\n---\n\n### ATTACK TIMELINE\n\n| Time (UTC) | Event |\n|------------|-------|\n| 04:49:38 | Hostile .txt request to 104.117.247.184:80 |\n| 04:49:41 | TLSv1.0 session to 4.149.227.78:443 |\n| 04:49:55 | DCE-RPC EfsRpcOpenFileRaw to domain controller |\n| 04:50:10 | SMBv1 exploitation attempts (NTMLSSP, IPC$ share access) |\n| 04:50:14 | DNS lookup for modandcrackedapk.com (ZPHP) |\n| 04:50:40 | TLS connection to modandcrackedapk.com (193.42.38.139:443) |\n| 04:50:45 | NetSupport RAT C&C beacons to 194.180.191.64:443 (primary C&C) |\n| 04:50:45 onwards | Continuous HTTP POST beacons at 60-second intervals |\n\n---\n\n### NETWORK CONTEXT\n\n- **Local Broadcast Domain:** 10.11.26.0/24\n- **Domain Controller:** 10.11.26.3 (NEMOTODES-DC.nemotoads.health)\n- **Workgroup:** NEMOTODES\n- **Attack Origin:** Ingress from internet-facing C&C (194.180.191.64, modandcrackedapk.com)\n- **Exfiltration Path:** Outbound HTTPS to 194.180.191.64:443\n\n---\n\n### RECOMMENDATIONS\n\n1. **Immediate:** Isolate 10.11.26.183 from the network; do not power down (preserve memory for forensics)\n2. **Memory Acquisition:** Capture RAM dump for malware analysis and payload recovery\n3. **Domain Compromise Assessment:** Review SMB/DCE-RPC activity logs on 10.11.26.3; assess for lateral movement or credential theft\n4. **Indicator Hunting:** Block all outbound connections to 194.180.191.64, 193.42.38.139, and modandcrackedapk.com at the perimeter\n5. **Credential Reset:** Force password reset for user sSEg and all domain accounts accessed from this workstation\n6. **Threat Intelligence:** Report 194.180.191.64 and modandcrackedapk.com to ISP and threat intelligence platforms\n\n---\n\n**Report Prepared:** Network Forensics Analysis of 2024-11-26-traffic-analysis-exercise.pcap"
+}

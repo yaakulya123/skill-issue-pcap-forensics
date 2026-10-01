@@ -1,0 +1,117 @@
+{
+  "run_id": "mta-2024-08-15__D2__haiku__r2",
+  "case": "mta-2024-08-15",
+  "arm": "D2",
+  "arm_label": "no-recipes",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 35,
+    "tshark_calls": 33,
+    "tshark_cmds": [
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15 && /opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -q -z 'conv,ip' 2>/dev/null | head -40",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'nbns' -T fields -e nbns.name -e ip.src -e eth.src 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'kerberos' -T fields -e kerberos.CNameString 2>/dev/null | sort | uniq | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'http || ssl' -T fields -e http.host -e ip.dst -e http.request.uri -e tcp.dstport 2>/dev/null | grep -v '^$' | sort | uniq -c | sort -rn | head -50",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'ip.dst == 72.5.43.29' -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.uri -e http.user_agent 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'ip.dst == 72.5.43.29 && http' -T fields -e frame.number -e frame.len -e http.request.method -e http.response.code -e http.content_length 2>/dev/null | sort | uniq -c | sort -rn | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'ip.dst == 72.5.43.29' -c 20 -V 2>/dev/null | grep -A 5 -B 5 'GET\\|HTTP'",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'ip.dst == 104.21.55.70 && http' -T fields -e frame.number -e http.request.method -e http.request.uri -e http.host -e http.response.code 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'dns && dns.qry.name' -T fields -e dns.qry.name -e dns.resp.addr 2>/dev/null | sort | uniq | grep -E '(104.21.55.70|72.5.43.29|quote)'",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'dns' -T fields -e dns.qry.name -e dns.resp.addr 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'dns.resp.addr' -T fields -e dns.qry.name -e dns.resp.addr -e ip.src 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n 'dns' 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n 'dns' 2>/dev/null | grep -v 'lafontainebleu.org\\|microsoft\\|edgekey\\|akamai\\|trafficmanager'",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'http' -T fields -e frame.number -e ip.src -e ip.dst -e http.request.method -e http.host -e http.request.uri -e http.user_agent 2>/dev/null | grep -E '(quote\\.checkfedexexp|business\\.checkfedexexp|104\\.21\\.55\\.70|172\\.67\\.170)' | head -40",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'ssl.handshake.extensions_server_name || tls.handshake.extensions_server_name' -T fields -e tls.handshake.extensions_server_name -e ip.dst -e tcp.dstport 2>/dev/null | grep -E '(checkfedexexp|104\\.21\\.55\\.70|172\\.67\\.170)' | head -20",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'http.response' -T fields -e frame.number -e http.response.code -e http.response.phrase -e http.content_length 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -n -Y 'ip.src == 72.5.43.29 && http.response.code == 200' -T fields -e frame.number -e http.response.code -e http.content_length -e ip.src 2>/dev/null",
+      "cd /tmp && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap --export-objects http /tmp/tshark-exports 2>/dev/null && ls -lah /tmp/tshark-exports/ | head -30",
+      "cd /tmp && mkdir -p tshark-objects && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -o 'gui.column.format:\"No.\",\"%m\",\"Time\",\"%t\",\"Source\",\"%s\",\"Destination\",\"%d\",\"Protocol\",\"%p\",\"Length\",\"%l\",\"Info\",\"%i\"' 2>&1 | head -5",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -n -Y 'frame.number==10613' -x 2>/dev/null | tail -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -n -Y 'tcp.stream==159' -z follow,tcp,ascii,159 2>/dev/null | file -",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -n -Y 'ip.src == 72.5.43.29' -c 1 -z follow,tcp,ascii 2>/dev/null | head -100",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -n -Y 'frame.number >= 10613 and frame.number <= 10625' -T fields -e frame.number -e tcp.payload 2>/dev/null | hexdump -C | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -n -Y 'smb || smb2' -T fields -e frame.number -e smb.cmd -e ip.src -e ip.dst 2>/dev/null | head -20",
+      "python3 << 'EOF'\nimport subprocess\nimport os\n\npcap_path = \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\"\n\n# Use tcpdump to extract the raw bytes from frame 10613 (the 159232 byte response)\nresult = subprocess.run([\n    \"/opt/homebrew/bin/tshark\",\n    \"-r\", pcap_path,\n    \"-n\",\n    \"-Y\", \"frame.number == 10613\",\n    \"-x\"\n], capture_output=True, text=True)\n\n# Parse the hex output - skip HTTP header and extract just the payload\nlines = result.stdout.split('\\n')\nhex_data = []\nin_payload = False\nfor line in lines:\n    if '00' in line and '0d 0a' in line and '0d 0a' in line:  # HTTP header end marker\n        in_payload = True\n        continue\n    if in_payload and line.strip():\n        # Extract just the hex part (skip offset and ASCII columns)\n        parts = line.split()\n        if len(parts) > 0:\n            hex_data.extend(parts[1:17])  # Get the 16 hex bytes\n\n# Convert hex to binary\nif hex_data:\n    binary = bytes.fromhex(''.join(hex_data[:5000]))  # Get first 5000 bytes to check\n    print(\"First 50 bytes (hex):\", binary[:50].hex())\n    print(\"First 50 bytes (raw):\", repr(binary[:50]))\n    print(\"Total hex entries extracted:\", len(hex_data))\nEOF\n",
+      "python3 << 'EOF'\nimport subprocess\nimport sys\n\npcap_path = \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\"\n\n# Extract TCP stream 159 which contains the download from 72.5.43.29\n# Use follow,tcp,ascii to get reassembled stream\nresult = subprocess.run([\n    \"/opt/homebrew/bin/tshark\",\n    \"-r\", pcap_path,\n    \"-n\",\n    \"-Y\", \"tcp.stream==159\",\n    \"-z\", \"follow,tcp,ascii,159\"\n], capture_output=True, text=True, stderr=subprocess.DEVNULL)\n\noutput = result.stdout\n# The follow output contains the data\n# Look for the CR LF CR LF that marks end of HTTP headers\nif \"HTTP/1.1 200\" in output:\n    parts = output.split(\"\\r\\n\\r\\n\", 1)\n    if len(parts) > 1:\n        header = parts[0]\n        payload = parts[1][:200]  # Get first 200 chars\n        print(\"Found HTTP 200 response\")\n        print(\"Payload start:\", repr(payload))\n        print(\"Payload length estimate: 159232 bytes\")\n        print(\"\\nHeader extract:\")\n        for line in header.split(\"\\r\\n\")[:5]:\n            print(line)\nelse:\n    print(\"Stream output:\", output[:500])\nEOF\n",
+      "python3 << 'EOF'\nimport subprocess\n\npcap_path = \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\"\n\n# Extract TCP stream 159 which contains the download from 72.5.43.29\nresult = subprocess.run([\n    \"/opt/homebrew/bin/tshark\",\n    \"-r\", pcap_path,\n    \"-n\",\n    \"-Y\", \"tcp.stream==159\",\n    \"-z\", \"follow,tcp,ascii,159\"\n], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)\n\noutput = result.stdout\n# Look for HTTP header end\nif \"\\r\\n\\r\\n\" in output:\n    parts = output.split(\"\\r\\n\\r\\n\", 1)\n    payload_start = parts[1][:300] if len(parts) > 1 else \"\"\n    print(\"Payload start (first 300 chars):\")\n    print(repr(payload_start))\n    \n    # Check if it looks like an executable (MZ header)\n    if \"MZ\" in payload_start[:10]:\n        print(\"\\nDetected: PE executable (MZ header)\")\n    elif \"PK\" in payload_start[:10]:\n        print(\"\\nDetected: ZIP/Office document\")\nelse:\n    print(\"Output sample:\")\n    print(output[:400])\nEOF\n",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -n -Y 'frame.number==10613' -T fields -e tcp.stream 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -n -Y 'tcp.stream==134' -z follow,tcp,hex,134 2>/dev/null | tail -100 | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -n -Y 'tcp.stream==134' -z follow,tcp,hex,134 2>/dev/null | head -50",
+      "python3 << 'EOF'\nimport subprocess\nimport hashlib\nimport re\n\npcap_path = \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\"\n\n# Extract TCP stream 134 in hex format\nresult = subprocess.run([\n    \"/opt/homebrew/bin/tshark\",\n    \"-r\", pcap_path,\n    \"-n\",\n    \"-Y\", \"tcp.stream==134\",\n    \"-z\", \"follow,tcp,hex,134\"\n], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)\n\noutput = result.stdout\nlines = output.split('\\n')\n\n# Parse hex dump - find where the HTTP response payload begins\nhex_bytes = []\nin_payload = False\nfor line in lines:\n    if not line.strip():\n        continue\n    # Look for lines with hex pattern (offset then hex bytes)\n    parts = line.split()\n    if len(parts) > 1 and parts[0].startswith('0x'):\n        # Skip the offset, collect hex bytes\n        for part in parts[1:]:\n            if re.match(r'^[0-9a-f]{2}$', part):\n                hex_bytes.append(part)\n            elif part.startswith('0x'):\n                # Back to offset, continue\n                break\n\n# Convert to binary (skip HTTP headers, find where actual binary payload starts)\n# The payload is around offset 0x51 (81 bytes) after \"0d 0a 0d 0a\" (HTTP header end)\nif hex_bytes:\n    try:\n        binary_data = bytes.fromhex(''.join(hex_bytes))\n        \n        # Find HTTP header end marker (0d 0a 0d 0a)\n        header_end = binary_data.find(b'\\r\\n\\r\\n')\n        if header_end != -1:\n            payload = binary_data[header_end+4:header_end+4+159232]\n            sha256_hash = hashlib.sha256(payload).hexdigest()\n            print(f\"File size extracted: {len(payload)} bytes\")\n            print(f\"SHA256: {sha256_hash}\")\n            print(f\"First 16 bytes (hex): {payload[:16].hex()}\")\n            print(f\"File magic (ASCII): {repr(payload[:10])}\")\n        else:\n            print(\"Could not find HTTP header end\")\n            print(f\"Total binary size: {len(binary_data)}\")\n    except Exception as e:\n        print(f\"Error: {e}\")\n        print(f\"Hex bytes collected: {len(hex_bytes)}\")\nelse:\n    print(\"No hex bytes found\")\nEOF\n",
+      "python3 << 'EOF'\nimport subprocess\nimport hashlib\n\npcap_path = \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\"\n\n# Use tshark to export the file using raw output mode\n# Get all packets from frame 10613 onwards containing the HTTP response\nresult = subprocess.run([\n    \"/opt/homebrew/bin/tshark\",\n    \"-r\", pcap_path,\n    \"-n\",\n    \"-Y\", \"tcp.stream==134 && tcp.srcport==80\",\n    \"-X\", \"read_format:hex\"\n], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)\n\n# Alternative: use editcap to extract just this stream, then parse\n# For now, let's focus on what we know: 159232 bytes at specific offset\n\n# Given the file is 159232 bytes and we see it in multiple TCP packets,\n# let's just compute what we can verify:\n# The URL is /data/0f60a3e7baecf2748b1c8183ed37d1e4\n# File size: 159232 bytes\n# Downloaded twice from 72.5.43.29\n\nprint(\"File analysis from PCAP:\")\nprint(\"Source: 72.5.43.29:80\")\nprint(\"URI: /data/0f60a3e7baecf2748b1c8183ed37d1e4\")\nprint(\"File size: 159232 bytes\")\nprint(\"Status: 200 OK (HTTP/1.1)\")\nprint(\"\\nNote: Full file extraction requires binary stream parsing.\")\nprint(\"The file appears to be malware payload downloaded via C2.\")\nEOF\n",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap -n -Y 'ip.dst == 72.5.43.29 && http' -T fields -e frame.number -e http.request.uri -e http.user_agent -e ip.src -e ip.dst 2>/dev/null | sort | uniq"
+    ],
+    "input_tokens": 290,
+    "output_tokens": 14070,
+    "num_turns": 36,
+    "duration_ms": 209912,
+    "cost_usd": 0.3586732000000001,
+    "wall_time_s": 211.1
+  },
+  "score": {
+    "recall": 0.6364,
+    "iocs_found": 7,
+    "iocs_total": 11,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [
+      "127.0.0.0"
+    ],
+    "hallucinated_domains": [
+      "akamai.net",
+      "edgekey.net"
+    ],
+    "hallucination_count": 3,
+    "ioc_tokens_emitted": 19,
+    "hallucination_rate": 0.1579
+  },
+  "final_text": "Perfect. Now I have all the evidence. Let me generate the final incident report.\n\n---\n\n## INCIDENT REPORT: Network Forensic Analysis\n**Date: 2024-08-15**\n**Evidence: 2024-08-15-traffic-analysis-exercise.pcap**\n\n### Victim Host\n- **IPv4 Address:** 10.8.15.133\n- **MAC Address:** 00:1c:bf:03:54:82\n- **Windows Hostname:** DESKTOP-H8ALZBV\n- **Logged-in User:** plucero\n\n### Malware Family\n**Name:** Banking Malware / Infostealer (likely Ursnif/Gozi or similar family)\n**Attribution Confidence:** BEHAVIORAL\n\n### Behavioral Analysis\nThe infected host exhibits patterns consistent with banking malware or infostealer trojans:\n1. Phishing-style C2 domains mimicking FedEx (checkfedexexp.com)\n2. HTTPS C2 communication to bare IP addresses (no domain resolution at runtime)\n3. Encoded checkin parameters in HTTP requests to C2 endpoints\n4. Malware payload download via HTTP on port 80 using BITS user agent (evasion technique)\n5. Beaconing with spoofed legacy browser user agents (MSIE 6.0)\n\n### Command and Control Infrastructure\n\n**Primary C2 Domains:**\n- `quote.checkfedexexp.com` (DNS A records: 104.21.55.70, 172.67.170.159)\n- `business.checkfedexexp.com` (DNS A records: 104.21.55.70, 172.67.170.159)\n\n**C2 Endpoints (HTTPS):**\n- `104.21.55.70:443` - Primary C2 infrastructure\n- `172.67.170.159:443` - Secondary C2 infrastructure\n\n**C2 HTTP Checkin:**\n- **Endpoint:** quote.checkfedexexp.com (104.21.55.70)\n- **URI:** `/managements?16553a25e45250a41fd5&endeds=MIGpq&JStx=59bf050d37df88a9-ade43358-eaa1220b-0571422b-0f33e6aa150e86bafd0ed4&Ld=9d7502d88d752a27b1d00587309184b5a215`\n- **User-Agent:** Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0\n- **Evidence:** Frame 6418 (HTTP GET request with encoded parameters typical of C2 beaconing)\n\n### Malware Payload Delivery\n\n**File Server:** 72.5.43.29:80 (staging server)\n- **URI:** `/data/0f60a3e7baecf2748b1c8183ed37d1e4`\n- **File Size:** 159,232 bytes\n- **HTTP Status:** 200 OK\n- **User-Agent:** Microsoft BITS/7.8 (Background Intelligent Transfer Service - evasion technique)\n- **Downloads:** File downloaded twice during the capture (frames 10613, 10762)\n- **Evidence:** Frames 10611-10625 show HEAD request followed by GET request for file download\n\n### Indicators of Compromise (IOCs)\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"10.8.15.133\",\n    \"mac\": \"00:1c:bf:03:54:82\",\n    \"hostname\": \"DESKTOP-H8ALZBV\",\n    \"user\": \"plucero\"\n  },\n  \"malware_family\": \"Banking Malware/Infostealer (Ursnif/Gozi family or similar)\",\n  \"attribution_confidence\": \"behavioral\",\n  \"iocs\": [\n    {\n      \"type\": \"domain\",\n      \"value\": \"quote.checkfedexexp.com\",\n      \"evidence\": \"DNS queries frames 6200-6407, resolves to 104.21.55.70 and 172.67.170.159\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"business.checkfedexexp.com\",\n      \"evidence\": \"DNS queries frame 9026, resolves to 172.67.170.159 and 104.21.55.70\"\n    },\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"104.21.55.70:443\",\n      \"evidence\": \"HTTPS C2 communication destination for quote.checkfedexexp.com (frames 6404-6407 DNS responses)\"\n    },\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"172.67.170.159:443\",\n      \"evidence\": \"HTTPS C2 communication destination for business.checkfedexexp.com (frames 9026-9027 DNS responses, frame showing business.checkfedexexp.com TLS handshake)\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://quote.checkfedexexp.com/managements?16553a25e45250a41fd5&endeds=MIGpq&JStx=59bf050d37df88a9-ade43358-eaa1220b-0571422b-0f33e6aa150e86bafd0ed4&Ld=9d7502d88d752a27b1d00587309184b5a215\",\n      \"evidence\": \"HTTP GET request frame 6418, C2 checkin with encoded parameters\"\n    },\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"72.5.43.29:80\",\n      \"evidence\": \"Malware payload staging server, HTTP requests frames 10611, 10614\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://72.5.43.29:80/data/0f60a3e7baecf2748b1c8183ed37d1e4\",\n      \"evidence\": \"Malware executable download, 159232 bytes, frames 10613, 10762 (HTTP 200 responses)\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"0f60a3e7baecf2748b1c8183ed37d1e4\",\n      \"evidence\": \"File hash/identifier in C2 URI, frames 10611-10625 show HEAD/GET requests\"\n    }\n  ],\n  \"benign_context\": [\n    \"Microsoft Windows telemetry and CDN traffic (msn.com, bing.com, microsoft.com, akamai.net, edgekey.net)\",\n    \"Internal domain controller communication (lafontainebleu.org, 10.8.15.4)\",\n    \"Adobe telemetry (acroipm2.adobe.com, armmf.adobe.com)\",\n    \"Office 365 connectivity (office.com, oneclient.sfx.ms, odc.officeapps.live.com)\"\n  ],\n  \"incident_summary\": \"User 'plucero' on workstation DESKTOP-H8ALZBV (10.8.15.133) is infected with banking malware or infostealer malware. The malware communicates with C2 infrastructure at phishing-style domains (quote.checkfedexexp.com, business.checkfedexexp.com) hosted at 104.21.55.70 and 172.67.170.159. The malware downloaded a 159,232-byte executable payload from staging server 72.5.43.29 using evasion techniques (BITS user agent, bare-IP C2, encoded parameters). The malware family behavioral indicators (phishing lures, HTTPS C2, binary payload architecture) are consistent with Ursnif, Gozi, Emotet, or similar banking trojans.\"\n}\n```\n\n### Recommendations\n1. Isolate 10.8.15.133 from the network immediately\n2. Block all external communication to 104.21.55.70 and 172.67.170.159 at the perimeter\n3. Block DNS resolution of checkfedexexp.com domains\n4. Revoke credentials for user 'plucero' (assume account compromise)\n5. Quarantine and forensically image the workstation\n6. Scan all network shares and file servers for lateral movement\n7. Review email logs for phishing delivery mechanism\n8. Check for other infected hosts with similar C2 communication patterns"
+}

@@ -1,0 +1,92 @@
+{
+  "run_id": "mta-2022-01-07__D2__haiku__r3",
+  "case": "mta-2022-01-07",
+  "arm": "D2",
+  "arm_label": "no-recipes",
+  "model": "haiku",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 22,
+    "tshark_calls": 17,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z io,phs 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z conv,ip 2>/dev/null | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z conv,tcp 2>/dev/null | grep -E \"192.168.1.216|===\" | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.addr == 192.168.1.216 && ip.addr == 2.56.57.108\" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.request.uri 2>/dev/null | head -40",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.src -e ip.dst -e tcp.dstport -e http.request.method -e http.request.uri -e http.host 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"dhcp || kerberos.CNameString || smb.nt_status\" -T fields -e frame.number -e ip.src -e dhcp.option.hostname -e kerberos.CNameString -e smb.nt_status 2>/dev/null | head -40",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"arp.src.proto_ipv4 == 192.168.1.216\" -T fields -e arp.src.hw_mac 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"tcp.srcport == 49738\" -T fields -e frame.number -e tcp.len 2>/dev/null | head -60",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src == 192.168.1.216 && tcp.dstport == 80 && http.request\" -x 2>/dev/null | grep -A 30 \"POST\"",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src == 192.168.1.216 && tcp.dstport == 80 && http.request\" -T fields -e frame.time_relative -e http.request.uri 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src == 192.168.1.216 && tcp.dstport == 80\" -T fields -e ip.dst -e tcp.dstport -e http.host 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.dst == 192.168.1.216 && tcp.srcport == 80 && http\" -T fields -e frame.number -e ip.src -e http.response.code -e http.content_length 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"dns\" -T fields -e dns.qry.name -e dns.flags.rcode 2>/dev/null | grep -v \"^$\" | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -T fields -e frame.time_epoch -e frame.number 2>/dev/null | head -1 && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -T fields -e frame.time_epoch -e frame.number 2>/dev/null | tail -1",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap --export-objects http /tmp/http-exports/ 2>/dev/null && ls -lah /tmp/http-exports/ && head -c 500 /tmp/http-exports/*.bin | od -c 2>/dev/null | head -50",
+      "rm -rf /tmp/http-exports && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q --export-objects http,/tmp/http-exports 2>&1",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src == 192.168.1.216 && tcp\" -T fields -e ip.dst -e tcp.dstport 2>/dev/null | sort | uniq -c | sort -rn"
+    ],
+    "input_tokens": 186,
+    "output_tokens": 8702,
+    "num_turns": 23,
+    "duration_ms": 137139,
+    "cost_usd": 0.22825280000000006,
+    "wall_time_s": 138.6
+  },
+  "score": {
+    "recall": 0.8889,
+    "iocs_found": 8,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 2,
+        "total": 2
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 7,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Based on my analysis of the PCAP, I can now provide you with the incident report.\n\n## Incident Analysis Report\n\n**Capture Summary:** The 750-second traffic capture from 2022-01-07 shows a Windows workstation (192.168.1.216) engaged in sustained C2 communication with an external server. The victim's malware is beaconing to the C2 server, receiving PE DLL payloads (modular malware components), and displaying characteristic behavior consistent with a banking trojan.\n\n**Evidence Grounding:**\n\nThe victim host is 192.168.1.216 (MAC 9c:5c:8e:32:58:f9), identified via ARP bindings and confirmed as the primary actor in suspicious traffic. The hostname DESKTOP-GXMYNO2 and user steve.smith were extracted from Kerberos CName and NBNS/Kerberos negotiation frames.\n\nThe main C2 connection (192.168.1.216:49738 to 2.56.57.108:80) carries 3335 frames totaling 3.6 MB. The victim sends HTTP POST requests to URIs like `/osk//1.jpg`, `/osk//2.jpg`, `/osk//main.php`, and `/osk/` with minimal payloads (just multipart form boundaries). The C2 responds with large binary payloads: the extracted HTTP objects show these are PE32 DLL executables (varying console/GUI variants), ranging from 82 KB to 1.2 MB each. The Accept-Language header in all requests is set to \"ru-RU,ru;q=0.9\" (Russian).\n\nThe URI pattern `/osk/` combined with numbered file endpoints, Russian language preference, and modular PE DLL payloads are distinctive signals for Carberp, a Russian banking trojan family. No public signature or IDS alert was provided, so attribution is behavioral rather than signature-confirmed.\n\n---\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"192.168.1.216\",\n    \"mac\": \"9c:5c:8e:32:58:f9\",\n    \"hostname\": \"DESKTOP-GXMYNO2\",\n    \"user\": \"steve.smith\"\n  },\n  \"malware_family\": \"Carberp (or Carberp variant)\",\n  \"attribution_confidence\": \"behavioral\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"2.56.57.108:80\",\n      \"evidence\": \"3335 frames (3.6 MB) of sustained HTTP POST traffic from victim to this IP; multiple POST requests to /osk/ URIs; large binary responses (PE DLLs) ranging from 82-1246 KB. Observed in frames 1498-5807.\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk/\",\n      \"evidence\": \"Repeated POST beacons to /osk/ path (frames 1501, 1641, 2223, etc.). Seen in multiple numbered variants: /osk//1.jpg, /osk//2.jpg, /osk//3.jpg, /osk//4.jpg, /osk//5.jpg, /osk//7.jpg, /osk//main.php, /osk/. Accept-Language consistently set to ru-RU,ru;q=0.9.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:16574f51785b0e2fc29c2c61477eb47bb39f714829999511dc8952b43ab17660\",\n      \"evidence\": \"PE32 DLL executable payload received from C2 server (frame 1639, 144 KB response from 2.56.57.108). Exported from HTTP object '1(1).jpg' in capture.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:a770ecba3b08bbabd0a567fc978e50615f8b346709f8eb3cfacf3faab24090ba\",\n      \"evidence\": \"PE32 DLL executable payload received from C2 server (frame 2223, 645 KB response from 2.56.57.108). Exported from HTTP object '2(1).jpg' in capture.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:3fe6b1c54b8cf28f571e0c5d6636b4069a8ab00b4f11dd842cfec00691d0c9cd\",\n      \"evidence\": \"PE32 DLL executable payload received from C2 server (frame 2539, 334 KB response from 2.56.57.108). Exported from HTTP object '3(1).jpg' in capture.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:334e69ac9367f708ce601a6f490ff227d6c20636da5222f148b25831d22e13d4\",\n      \"evidence\": \"PE32 DLL executable payload received from C2 server (frame 2689, 137 KB response from 2.56.57.108). Exported from HTTP object '4(1).jpg' in capture.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:e2935b5b28550d47dc971f456d6961f20d1633b4892998750140e0eaa9ae9d78\",\n      \"evidence\": \"PE32 DLL executable payload received from C2 server (frame 3052, 440 KB response from 2.56.57.108). Exported from HTTP object '5(1).jpg' in capture.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:43536adef2ddcc811c28d35fa6ce3031029a2424ad393989db36169ff2995083\",\n      \"evidence\": \"PE32 DLL executable payload received from C2 server (frame 4192, 1.2 MB response from 2.56.57.108). Exported from HTTP object '6(1).jpg' in capture.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:c40bb03199a2054dabfc7a8e01d6098e91de7193619effbd0f142a7bf031c14d\",\n      \"evidence\": \"PE32 DLL executable payload received from C2 server (frame 4273, 82 KB response from 2.56.57.108). Exported from HTTP object '7(1).jpg' in capture.\"\n    }\n  ],\n  \"benign_context\": [\n    \"Connection to 23.38.189.225:80 and 23.38.189.201:80 for au.download.windowsupdate.com and download.windowsupdate.com (legitimate Windows Updates); frame 5055 onward showing HTTP 200 responses for .cab and .exe files from Microsoft update servers.\",\n    \"Internal network traffic to 192.168.1.2 (domain controller) on ports 445 (SMB), 389 (LDAP), 88 (Kerberos), 135, 139, and dynamic high ports (RPC). Consistent with Windows enterprise domain activity.\",\n    \"HTTPS traffic to Microsoft cloud services (52.x.x.x, 20.x.x.x, 204.79.x.x, etc.) for Windows telemetry, WNS (Windows Notification Service), and content delivery. Expected for Windows 10+ enterprise workstations.\"\n  ],\n  \"incident_summary\": \"Windows workstation DESKTOP-GXMYNO2 (192.168.1.216, user steve.smith) is infected with Carberp or a closely related banking trojan variant. The malware beacons to C2 server 2.56.57.108:80 via repeated HTTP POST requests to /osk/ URIs, receiving modular PE DLL payloads. The infection was active for at least the 750-second capture window; delivery vector not visible in this traffic (likely from prior compromise or external infection mechanism).\"\n}\n```"
+}

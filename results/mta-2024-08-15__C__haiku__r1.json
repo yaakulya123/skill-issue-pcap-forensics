@@ -1,0 +1,104 @@
+{
+  "run_id": "mta-2024-08-15__C__haiku__r1",
+  "case": "mta-2024-08-15",
+  "arm": "C",
+  "arm_label": "custom",
+  "model": "haiku",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 32,
+    "tshark_calls": 25,
+    "tshark_cmds": [
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15 && /opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -q -z io,phs 2>&1 | head -40",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -q -z conv,ip 2>&1 | head -50",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e nbns.name -e ip.src 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"arp.src.proto_ipv4==10.8.15.133\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.request.method==POST\" -T fields -e ip.dst -e http.host -e http.request.uri -e frame.number 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,9 2>&1 | head -100",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"tcp.stream eq 28\" -q -z follow,tcp,ascii 2>&1 | head -150",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.dst==72.5.43.29 && http.request\" -T fields -e tcp.stream -e frame.number 2>&1 | head -5",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -q -z \"follow,tcp,ascii,142\" 2>&1 | head -200",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.dst==104.21.55.70 && http.request\" -T fields -e tcp.stream -e frame.number -e http.host -e http.request.uri 2>&1 | head -10",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"tcp.stream eq 112\" -q -z \"follow,tcp,ascii\" 2>&1 | head -250",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http && ip.dst==104.21.55.70\" -T fields -e http.request.uri -e http.response.code 2>&1 | head -20",
+      "cd /tmp && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/http_objects\" -q 2>&1 && ls -lah /tmp/http_objects/",
+      "/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.content_length > 100000\" -T fields -e http.host -e http.request.uri -e http.content_length 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.content_length > 100000\" -T fields -e http.host -e http.request.uri -e http.content_length 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request.uri contains 0f60a3e7\" -T fields -e ip.dst -e http.host -e http.request.uri 2>&1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.host contains checkfedex\" -T fields -e frame.time_relative -e http.host -e http.request.uri -e http.content_length 2>&1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http && ip.host==104.21.55.70\" -T fields -e frame.time_relative -e http.request.uri -e http.response.code -e http.content_type 2>&1 | head -5",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name 2>&1 | sort -u | grep -E \"checkfedex|fedex|quote\" | head -10",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.resp.addr==72.5.43.29 OR dns.resp.addr==104.21.55.70\" -T fields -e dns.qry.name 2>&1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.resp.addr==72.5.43.29 || dns.resp.addr==104.21.55.70\" -T fields -e dns.qry.name 2>&1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.a==72.5.43.29 || dns.a==104.21.55.70\" -T fields -e dns.qry.name 2>&1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"tcp.stream eq 142\" -q -z \"follow,tcp,raw\" 2>&1 | tail -40",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request.method==POST && ip.dst==72.5.43.29\" -T fields -e http.file_data 2>&1 | head -5"
+    ],
+    "input_tokens": 266,
+    "output_tokens": 10829,
+    "num_turns": 33,
+    "duration_ms": 194451,
+    "cost_usd": 0.27291000000000004,
+    "wall_time_s": 196.2
+  },
+  "score": {
+    "recall": 0.7273,
+    "iocs_found": 8,
+    "iocs_total": 11,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 6,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "I have everything I need to compile the incident report. Let me create the final analysis.\n\n---\n\n## INCIDENT REPORT: MTA-2024-08-15 Network Forensics\n\n**Incident Date:** August 15, 2024\n**Evidence:** 2024-08-15-traffic-analysis-exercise.pcap (11.6 MB, 18,189 frames)\n\n---\n\n### VICTIM HOST\n\n- **IPv4 Address:** 10.8.15.133\n- **MAC Address:** 00:1c:bf:03:54:82\n- **Windows Hostname:** LAFONTAINEBLEU (also responds to DESKTOP-H8ALZBV)\n- **Logged-in User:** plucero\n\nSource evidence: NBNS name resolution, ARP bindings, Kerberos authentication traffic.\n\n---\n\n### MALWARE FAMILY\n\n**Poison Ivy RAT**\n\nAttribution confidence: **behavioral** (not signature-confirmed; no IDS alerts provided with evidence)\n\n**Behavioral indicators:**\n- Bare-IP HTTP POST to C2 at 72.5.43.29 (no domain, direct IP communication)\n- Base64-encoded cookie containing encrypted command data\n- Fake/spoofed User-Agent: \"Mozilla / 5.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705)\" (Windows XP era, used to evade older detection)\n- Persistent HTTP POST beaconing to C2 on fixed intervals\n- Obfuscated encrypted C2 protocol (hex-encoded binary payload)\n- Multi-stage delivery: phishing \u2192 ZIP dropper \u2192 RAT loader \u2192 C2 communication\n\nThis signature matches Poison Ivy's known C2 communication pattern and delivery methodology.\n\n---\n\n### DELIVERY CHAIN\n\n1. **Initial Compromise:** Victim visited FakeFedEx phishing domain via likely email or web compromise\n2. **Domain:** quote.checkfedexexp.com (resolves to 104.21.55.70)\n3. **Delivery URI:** `/managements?16553a25e45250a41fd5&endeds=MIGpq&JStx=59bf050d37df88a9-ade43358-eaa1220b-0571422b-0f33e6aa150e86bafd0ed4&Ld=9d7502d88d752a27b1d00587309184b5a215`\n4. **Delivered File:** ZIP archive (2.6 MB) containing dropper/loader\n5. **C2 Registration:** Victim connects to 72.5.43.29:80 POST /\n6. **Secondary Payload:** C2 delivers DLL from 72.5.43.29/data/0f60a3e7baecf2748b1c8183ed37d1e4\n\n---\n\n### INDICATORS OF COMPROMISE (IOCs)\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"10.8.15.133\",\n    \"mac\": \"00:1c:bf:03:54:82\",\n    \"hostname\": \"LAFONTAINEBLEAU\",\n    \"user\": \"plucero\"\n  },\n  \"malware_family\": \"Poison Ivy RAT\",\n  \"attribution_confidence\": \"behavioral\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"72.5.43.29:80\",\n      \"evidence\": \"TCP streams 142, 143 show HTTP POST requests from 10.8.15.133 to bare-IP 72.5.43.29 on port 80 with base64-encoded command cookies and obfuscated payloads, consistent with Poison Ivy C2 checkin. Persistent beaconing observed over 1800+ seconds.\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"quote.checkfedexexp.com\",\n      \"evidence\": \"DNS query at relative time 74.73s resolves quote.checkfedexexp.com to 104.21.55.70. HTTP GET to this domain at frame 6418 returns application/octet-stream (binary file). Frame shows delivery of 2.6 MB ZIP dropper.\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"business.checkfedexexp.com\",\n      \"evidence\": \"DNS resolution query for business.checkfedexexp.com also resolves to 104.21.55.70 (same C2 infrastructure). Indicates multiple phishing domain variants.\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://quote.checkfedexexp.com/managements?16553a25e45250a41fd5&endeds=MIGpq&JStx=59bf050d37df88a9-ade43358-eaa1220b-0571422b-0f33e6aa150e86bafd0ed4&Ld=9d7502d88d752a27b1d00587309184b5a215\",\n      \"evidence\": \"HTTP request frame 6418 shows GET to this URL. Server responds 200 OK with Content-Type: application/octet-stream at frame 6459. This URL delivered the ZIP dropper.\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://72.5.43.29/data/0f60a3e7baecf2748b1c8183ed37d1e4\",\n      \"evidence\": \"HTTP GET from 10.8.15.133 to C2 endpoint 72.5.43.29 for malicious DLL. 159 KB executable PE32+ DLL transferred (frames show GET response). Secondary payload download from C2.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:798563fcf7600f7ef1a35996291a9dfb5f9902733404dd499e2e736ea1dc6fc5\",\n      \"evidence\": \"ZIP dropper file extracted from HTTP stream (frame 6418 response). File contains initial malware loader. Exported and hashed via tshark --export-objects.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:b7aec5f73d2a6bbd8cd920edb4760e2edadc98c3a45bf4fa994d47ca9cbd02f6\",\n      \"evidence\": \"PE32+ DLL (159 KB) downloaded from C2 at 72.5.43.29/data/0f60a3e7baecf2748b1c8183ed37d1e4. Identified as x86-64 Windows DLL via file command. Extracted and hashed via tshark.\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"0f60a3e7baecf2748b1c8183ed37d1e4\",\n      \"evidence\": \"Malicious DLL filename as served by C2. Appears in HTTP GET path on C2: GET /data/0f60a3e7baecf2748b1c8183ed37d1e4\"\n    }\n  ],\n  \"benign_context\": [\n    \"10.8.15.4 (local gateway/DC): LDAP, Kerberos, SMB2 for domain authentication; normal enterprise traffic\",\n    \"Multiple CDN/Microsoft IP addresses (23.x, 20.x, 52.x, 13.x, 104.x, 204.x ranges): Windows Update, Office 365, telemetry; consistent with Windows 10+ endpoint\",\n    \"Legitimate software: TeamViewer files in HTTP exports (benign remote support tool, but also can be abused post-compromise)\"\n  ],\n  \"incident_summary\": \"A Windows enterprise workstation (10.8.15.133, user plucero) was compromised on August 15, 2024, via FakeFedEx phishing delivery domain quote.checkfedexexp.com. Victim downloaded a ZIP dropper (SHA256: 798563...) which deployed Poison Ivy RAT loader. The malware established command-and-control with 72.5.43.29:80 via bare-IP HTTP POST beaconing with base64-encoded commands, a known Poison Ivy signature. Secondary DLL payload (SHA256: b7aec5f...) was retrieved from C2. Victim achieved persistent remote access with full system compromise (RAT capabilities).\"\n}\n```\n\n---\n\n### TIMELINE\n\n| Time (rel.) | Event |\n|---|---|\n| 74.7s | Victim resolves quote.checkfedexexp.com \u2192 104.21.55.70 via DNS |\n| ~80s | Victim retrieves ZIP dropper from quote.checkfedexexp.com/managements (2.6 MB, HTTP 200) |\n| ~134s | First Poison Ivy C2 POST beaconing to 72.5.43.29 begins (base64-encoded cookie, MSIE 6.0 spoof) |\n| ~1800s+ | Continuous C2 communication; secondary DLL payload fetched from 72.5.43.29/data/0f60a3e7... |\n\n---\n\n### REMEDIATION RECOMMENDATIONS\n\n1. **Isolate 10.8.15.133 immediately** from network to prevent C2 re-registration and lateral movement\n2. **Block IOCs at perimeter:**\n   - 72.5.43.29 (C2 egress, all ports)\n   - 104.21.55.70 (delivery server)\n   - Domains: quote.checkfedexexp.com, business.checkfedexexp.com\n3. **Hunt for lateral movement:** Search for Poison Ivy beaconing patterns across network (bare-IP HTTP POST, spoofed MSIE user agents)\n4. **File forensics:** Retrieve and detonate the ZIP dropper (SHA256: 798563...) and DLL (SHA256: b7aec5f...) in controlled sandbox for dynamic analysis\n5. **Account compromise:** Reset credentials for user `plucero` and audit account activity on adjacent systems"
+}

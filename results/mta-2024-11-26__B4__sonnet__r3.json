@@ -1,0 +1,81 @@
+{
+  "run_id": "mta-2024-11-26__B4__sonnet__r3",
+  "case": "mta-2024-11-26",
+  "arm": "B4",
+  "arm_label": "community-wireshark2",
+  "model": "sonnet",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 9,
+    "tshark_calls": 6,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=\"2024-11-26-traffic-analysis-exercise.pcap\"\necho \"=== DHCP (hostname, MAC) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dhcp\" -T fields -e frame.time -e eth.src -e ip.src -e bootp.option.hostname -e bootp.option.requested_ip_address 2>/dev/null | sort -u | head -30\necho \"=== NBNS name announcements ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"nbns\" -T fields -e ip.src -e eth.src -e nbns.name 2>/dev/null | sort -u | head -30\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=\"2024-11-26-traffic-analysis-exercise.pcap\"\necho \"=== Kerberos usernames ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u | head -30\necho \"=== SMB2 usernames ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"smb2.session_setup\" -T fields -e ntlmssp.auth.username -e ntlmssp.auth.domain 2>/dev/null | sort -u | head -30\necho \"=== HTTP User-Agent from victim ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.src==10.11.26.183 && http.request\" -T fields -e frame.time -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null | head -50\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=\"2024-11-26-traffic-analysis-exercise.pcap\"\necho \"=== DNS queries from victim (unique) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.src==10.11.26.183 && dns.flags.response==0\" -T fields -e frame.time -e dns.qry.name 2>/dev/null | sort -u -k2 | head -60\necho \"=== TLS SNI from victim ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.src==10.11.26.183 && tls.handshake.extensions_server_name\" -T fields -e frame.time -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u -k3 \n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=\"2024-11-26-traffic-analysis-exercise.pcap\"\necho \"=== all HTTP requests from victim (host+uri) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.src==10.11.26.183 && http.request\" -T fields -e frame.time -e ip.dst -e http.host -e http.request.full_uri 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=\"2024-11-26-traffic-analysis-exercise.pcap\"\nmkdir -p /tmp/http_objs\n/opt/homebrew/bin/tshark -r \"$PCAP\" --export-objects \"http,/tmp/http_objs\" -q 2>/dev/null\nls -la /tmp/http_objs\necho \"=== sha256 of exported objects ===\"\nfor f in /tmp/http_objs/*; do shasum -a 256 \"$f\"; done\n",
+      "echo \"=== index.php ===\"; cat \"/tmp/http_objs/index.php\" 2>/dev/null | xxd | head -20\necho \"=== fakeurl(64).htm (250 bytes, likely a C2 command) ===\"; cat \"/tmp/http_objs/fakeurl(64).htm\" 2>/dev/null | xxd | head -20\necho \"=== which host served index.php? ===\"\ncd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\n/opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -Y \"http.request.uri == \\\"/index.php\\\"\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.method 2>/dev/null | sort -u"
+    ],
+    "input_tokens": 20,
+    "output_tokens": 8072,
+    "num_turns": 10,
+    "duration_ms": 109958,
+    "cost_usd": 0.45539820000000003,
+    "wall_time_s": 111.1
+  },
+  "score": {
+    "recall": 1.0,
+    "iocs_found": 9,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 13,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report \u2014 NetSupport RAT Infection\n\n**Evidence:** `2024-11-26-traffic-analysis-exercise.pcap` + Suricata/ET alert export, MTA exercise dated 2024-11-26\n**Analyst tooling:** tshark 4.x (`/opt/homebrew/bin/tshark`), manual PCAP review\n\n## 1. Victim Host\n\n| Attribute | Value | Source |\n|---|---|---|\n| IPv4 address | **10.11.26.183** | Consistent across DHCP/NBNS/DNS/HTTP traffic |\n| MAC address | **d0:57:7b:ce:fc:8b** | NBNS name-registration frames from 10.11.26.183 |\n| Windows hostname | **DESKTOP-B8TQK49** | NBNS Workstation/Server service registrations (`DESKTOP-B8TQK49<00>`, `<20>`); confirmed by DNS self-registration query for `DESKTOP-B8TQK49` / `DESKTOP-B8TQK49.local` |\n| AD domain | `nemotoads.health` (NetBIOS `NEMOTODES`, DC = `NEMOTODES-DC` / 10.11.26.3) | LDAP SRV queries, NBNS `NEMOTODE-DC<20>` |\n| Logged-in user | **oboomwald** | Kerberos `CNameString` in AS-REQ/TGS-REQ traffic between 10.11.26.183 and the DC (10.11.26.3) |\n\nThe host is a domain-joined Windows 10/11 workstation on the 10.11.26.0/24 LAN.\n\n## 2. Malware Family\n\n**NetSupport RAT** (malicious repurposing of the legitimate NetSupport Manager remote-access client).\n\n**Attribution: signature-confirmed**, not behavioral-only, based on:\n- ETPRO TROJAN \"NetSupport RAT CnC Activity\" and \"Malicious NetSupport Rat CnC Checkin\" alerts firing on 10.11.26.183 \u2192 194.180.191.64:443\n- ET INFO \"NetSupport Remote Admin Checkin\" / \"NetSupport Remote Admin Response\" alert pairs\n- HTTP `User-Agent: NetSupport Manager/1.3` observed on every outbound POST to `194.180.191.64` (`POST http://194.180.191.64/fakeurl.htm`), confirmed directly via tshark\n- Application-layer protocol observed inside the POST bodies matches the documented NetSupport client-server handshake format: `CMD=ENCD`, `ES=1`, `DATA=<encrypted blob>` (verified by inspecting exported HTTP object payloads)\n- Legitimate NetSupport infrastructure abused for geolocation: `geo.netsupportsoftware.com` (104.26.1.231) `GET /location/loca.asp`, an ET POLICY \"NetSupport GeoLocation Lookup Request\" alert this client fires on startup\n\nPost-infection, the client beacons to the C2 roughly every 60 seconds from 04:50:45 UTC through the end of the capture (~09:43 local capture time), consistent with a live remote-access session rather than a one-shot dropper.\n\n## 3. Indicators of Compromise\n\n### Command-and-control\n| Indicator | Detail |\n|---|---|\n| C2 IP:port | **194.180.191.64:443** \u2014 plaintext HTTP (not TLS) tunneled over port 443, POST `/fakeurl.htm`, `Content-Type` NetSupport binary protocol |\n| C2 traffic volume | 65+ repeated POST/response cycles, ~1 per minute, spanning nearly 5 hours of capture |\n\n### Malicious / suspicious domains\n| Domain | Resolved IP | Role |\n|---|---|---|\n| `modandcrackedapk.com` | 193.42.38.139 | ET CURRENT_EVENTS \"ZPHP Domain\" \u2014 DNS lookup and TLS SNI both flagged; cracked-software/APK lure site, the likely initial-access vector (visited seconds before the infection chain begins) |\n| `classicgrand.com` | 213.246.109.5 | Visited via TLS immediately after `modandcrackedapk.com` (08:50:11), part of the redirect/gate chain |\n| `confirmsubscription.com` | 52.8.34.0 | Visited via TLS at 08:50:14, same redirect chain, typical of a fake-CAPTCHA/notification-subscription social-engineering gate |\n\nTimeline: DNS lookup for `modandcrackedapk.com` at 08:50:14 UTC+4 \u2192 TLS session to 193.42.38.139 \u2192 redirect chain through `classicgrand.com`/`confirmsubscription.com` \u2192 first NetSupport RAT C2 POST to 194.180.191.64 at 08:50:45 UTC+4. This ~30-second gap is consistent with a fake-update/ClickFix-style lure delivering the RAT.\n\n### URLs\n- `http://194.180.191.64/fakeurl.htm` \u2014 C2 beacon endpoint (repeated)\n- `http://geo.netsupportsoftware.com/location/loca.asp` \u2014 legitimate NetSupport geolocation lookup performed by the malicious client\n\n### Transferred files / hashes\nNo malware binary or SHA256 could be recovered from the capture. The initial payload delivery (via `modandcrackedapk.com` and its redirect chain) occurred entirely over TLS-encrypted connections, and the observed C2 channel over 194.180.191.64:443 carries only the NetSupport `CMD=ENCD/DATA=` protocol with encrypted `DATA` payloads \u2014 no plaintext executable, script, or archive was transferred in the clear. HTTP object export from the full pcap yielded no `.exe/.dll/.ps1/.hta/.zip` objects; all extracted plaintext HTTP objects are benign OS/browser housekeeping traffic (Microsoft NCSI, OCSP, WU CTL, Adobe ARM check) or the small NetSupport beacon bodies themselves.\n\n### Secondary observations (informational, not separately confirmed as malicious)\n- ET / GPL NETBIOS SMBv1 alerts (Session Setup NTLMSSP overflow signature, IPC$ share access, SMB_COM_TRANSACTION DOS signature) fired on 10.11.26.183 \u2192 10.11.26.3:139/445 at 04:49:55\u201304:50:10 UTC. Given the destination is the host's own domain controller and these are legacy, high-false-positive SMBv1 signatures, this is most consistent with routine (if insecure) SMBv1 domain traffic rather than confirmed lateral-movement exploitation \u2014 flagged for awareness, not asserted as a second compromise vector.\n\n## 4. Summary\n\nWindows workstation **DESKTOP-B8TQK49** (10.11.26.183, MAC d0:57:7b:ce:fc:8b), domain `nemotoads.health`, logged in as **oboomwald**, was compromised with **NetSupport RAT** after visiting the cracked-software/APK lure site `modandcrackedapk.com` and a subsequent redirect chain (`classicgrand.com`, `confirmsubscription.com`). The implant established persistent beaconing to **194.180.191.64:443** (`POST /fakeurl.htm`, `User-Agent: NetSupport Manager/1.3`) using the NetSupport client-server protocol, confirmed by multiple ET/ETPRO signature hits and directly observed protocol markers (`CMD=ENCD`, `DATA=`). No plaintext payload or hash was recoverable due to TLS-encrypted delivery."
+}

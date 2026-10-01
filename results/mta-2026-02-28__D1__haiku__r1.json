@@ -1,0 +1,78 @@
+{
+  "run_id": "mta-2026-02-28__D1__haiku__r1",
+  "case": "mta-2026-02-28",
+  "arm": "D1",
+  "arm_label": "no-workflow",
+  "model": "haiku",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 13,
+    "tshark_calls": 11,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -q -z io,phs",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\necho \"=== DHCP (client hostname and MAC) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.hw.mac_addr -e ip.src | sort -u\n\necho \"\"\necho \"=== NetBIOS names (host announcements) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"nbns\" -T fields -e nbns.name -e ip.src | sort -u\n\necho \"\"\necho \"=== Kerberos client names (logged-in users) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString -e ip.src | sort -u",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\n\necho \"=== DNS queries from victim (10.2.28.88) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && dns.qry.name\" -T fields -e dns.qry.name | sort -u | head -20\n\necho \"\"\necho \"=== HTTP requests from victim to external hosts ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri | sort -u | head -20\n\necho \"\"\necho \"=== TLS handshakes (ClientHello) from victim ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name | sort -u | head -20",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\n\necho \"=== TCP SYN packets from victim to external hosts (by port) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && tcp.flags.syn==1 && tcp.flags.ack==0 && ip.dst!~'10\\\\..*'\" -T fields -e ip.dst -e tcp.dstport | sort | uniq -c | sort -rn | head -30\n\necho \"\"\necho \"=== All TCP streams from victim to external hosts ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && tcp && ip.dst!~'10\\\\..*'\" -T fields -e ip.dst -e tcp.dstport -e tcp.flags | awk '{print $1\":\"$2}' | sort | uniq -c | sort -rn | head -30",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\n\necho \"=== TCP SYN packets from victim to external (non-10.x) hosts ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e ip.dst -e tcp.dstport | grep -v \"^10\\.\" | sort | uniq -c | sort -rn | head -20\n\necho \"\"\necho \"=== HTTP POST requests from victim (possible beaconing) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && http.request.method==POST\" -T fields -e ip.dst -e tcp.dstport -e http.host -e http.request.uri | head -20",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\n\necho \"=== Total POST beacons to 45.131.214.85 ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && http.request.method==POST && ip.dst==45.131.214.85\" -T fields -e frame.number | wc -l\n\necho \"\"\necho \"=== Unique HTTP requests to 45.131.214.85 ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && http && ip.dst==45.131.214.85\" -T fields -e http.request.method -e http.request.uri | sort -u\n\necho \"\"\necho \"=== Follow the 45.131.214.85 TCP stream (first few packets) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && tcp && ip.dst==45.131.214.85\" -t rel -T fields -e frame.time_relative -e tcp.flags -e http.request.method -e http.request.uri -e http.response.code | head -30",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\n\necho \"=== Beacon timing analysis (first 20 POSTs to 45.131.214.85) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && http.request.method==POST && ip.dst==45.131.214.85\" -t r -T fields -e frame.time_relative -e tcp.len | head -20\n\necho \"\"\necho \"=== HTTP response codes from 45.131.214.85 ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.dst==10.2.28.88 && http.response && ip.src==45.131.214.85\" -T fields -e http.response.code | sort | uniq -c\n\necho \"\"\necho \"=== Any GET requests or data transfer from 45.131.214.85 ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.dst==10.2.28.88 && http && ip.src==45.131.214.85\" -T fields -e http.request.method -e http.response.code -e http.content_length | head -20",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\n\nmkdir -p /tmp/exported_objects\n\necho \"=== Exporting HTTP objects ===\"\n/opt/homebrew/bin/tshark -r $pcap --export-objects http,/tmp/exported_objects -q 2>/dev/null\n\necho \"Files extracted:\"\nls -lah /tmp/exported_objects/ | head -20\n\necho \"\"\necho \"=== Hashing extracted files ===\"\nfind /tmp/exported_objects -type f -exec sha256sum {} \\; | head -20",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\n\necho \"=== Any other suspicious external destinations from victim ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && tcp\" -T fields -e ip.dst -e tcp.dstport | grep -v \"^10\\.\" | sort | uniq -c | sort -rn | head -30\n\necho \"\"\necho \"=== Check for any malware file downloads (executables) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.dst==10.2.28.88 && http && http.content_length>1000\" -T fields -e ip.src -e http.host -e http.request.method | head -20\n\necho \"\"\necho \"=== Full content of Poison Ivy command responses ===\"\nfor f in /tmp/exported_objects/fakeurl.htm /tmp/exported_objects/'fakeurl(4).htm' /tmp/exported_objects/'fakeurl(2).htm'; do\n  echo \"--- $(basename $f) ---\"\n  cat $f 2>/dev/null || echo \"(binary data)\"\ndone",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\n\necho \"=== ARP mapping for victim IP ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"arp && arp.proto.ipv4==10.2.28.88\" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 | sort -u\n\necho \"\"\necho \"=== Initial packets in capture (first 2 minutes) to find infection source ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && frame.time_relative<120\" -T fields -e frame.time_relative -e ip.dst -e tcp.dstport -e http.host | head -30\n\necho \"\"\necho \"=== Look for SMB/Lateral movement or file shares from victim ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && (smb || smb2)\" -T fields -e ip.dst -e smb.command -e smb2.command | sort -u | head -20",
+      "pcap=/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap\n\necho \"=== ARP mapping for victim IP ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"arp\" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 -e arp.dst.hw_mac -e arp.dst.proto_ipv4 | grep \"10.2.28.88\" | sort -u\n\necho \"\"\necho \"=== Look for initial external connections (first 30 seconds) ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && frame.time_relative<30 && tcp\" -T fields -e frame.time_relative -e ip.dst -e tcp.dstport | grep -v \"10\\.2\\.28\\.\" | sort -u\n\necho \"\"\necho \"=== Verify Poison Ivy beacon timing pattern ===\"\n/opt/homebrew/bin/tshark -r $pcap -Y \"ip.src==10.2.28.88 && http.request.method==POST && ip.dst==45.131.214.85\" -t r -T fields -e frame.time_relative | tail -10 | paste -sd ',' - && echo \"\""
+    ],
+    "input_tokens": 114,
+    "output_tokens": 7208,
+    "num_turns": 14,
+    "duration_ms": 109585,
+    "cost_usd": 0.1987468,
+    "wall_time_s": 111.2
+  },
+  "score": {
+    "recall": 0.8333,
+    "iocs_found": 5,
+    "iocs_total": 6,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 6,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Perfect. I have all the evidence needed. Let me prepare the final incident report.\n\n---\n\n## INCIDENT REPORT\n\n**Incident Date:** 2026-02-28\n**Investigation Method:** Network packet forensics with tshark\n\n### Victim Host Identification\n- **IPv4 Address:** 10.2.28.88\n- **MAC Address:** 00:19:d1:b2:4d:ad\n- **Windows Hostname:** DESKTOP-TEYQ2NR\n- **Logged-in User:** brolf\n- **Domain:** EASYAS123\n\n### Attack Summary\nA Windows enterprise workstation (10.2.28.88) was compromised with Poison Ivy remote access trojan (RAT). The malware establishes persistent command-and-control communication with an external server at 45.131.214.85, initiating HTTP POST beacons every 60 seconds to receive remote commands. The C2 channel responds with encrypted command payloads using Poison Ivy's native protocol (CMD=POLL for status checks, CMD=ENCD for encrypted commands).\n\n### Evidence Details\n\n**C2 Beaconing Behavior:**\n- 264 HTTP POST requests from victim to 45.131.214.85:443\n- URL: http://45.131.214.85/fakeurl.htm\n- Interval: Regular 60-second pattern (observed at frame times: 15141s, 15201s, 15261s, 15321s, 15381s, 15441s, 15501s...)\n- Server responses: HTTP 200 OK with encrypted command payloads (69-153 bytes)\n- Protocol: Poison Ivy RAT (plaintext command headers: CMD=POLL, CMD=ENCD, ES=1, ACK=1)\n\n**Malware Family:** Poison Ivy RAT\n**Attribution Confidence:** behavioral (protocol signature match + beaconing pattern)\n\n---\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"10.2.28.88\",\n    \"mac\": \"00:19:d1:b2:4d:ad\",\n    \"hostname\": \"DESKTOP-TEYQ2NR\",\n    \"user\": \"brolf\"\n  },\n  \"malware_family\": \"Poison Ivy\",\n  \"attribution_confidence\": \"behavioral\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"45.131.214.85:443\",\n      \"evidence\": \"264 HTTP POST requests from 10.2.28.88 to 45.131.214.85 port 443 containing Poison Ivy protocol (CMD=POLL, CMD=ENCD). Regular ~60-second beaconing interval observed in frame timestamps 15141s, 15201s, 15261s, 15321s, etc. Server responds with HTTP 200 and encrypted command payloads.\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://45.131.214.85/fakeurl.htm\",\n      \"evidence\": \"Beaconing URL extracted from 264 HTTP POST requests. All requests use POST method to this specific URI. C2 responses contain plaintext Poison Ivy commands (CMD=POLL, CMD=ENCD, ES=1, ACK=1, encrypted DATA fields).\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"fakeurl.htm\",\n      \"evidence\": \"Extracted from captured HTTP responses; filename used as C2 beacon endpoint. Multiple copies show consistent Poison Ivy protocol structure across beacons.\"\n    }\n  ],\n  \"benign_context\": [\n    \"Windows Update traffic to ctldl.windowsupdate.com (cert validation, trust lists)\",\n    \"Adobe updates (acroipm2.adobe.com, armmf.adobe.com)\",\n    \"Microsoft edge/CDN traffic (Microsoft services, Skype, Office)\",\n    \"Domain controller LDAP/Kerberos authentication to EASYAS123-DC.easyas123.tech\"\n  ],\n  \"incident_summary\": \"Windows workstation DESKTOP-TEYQ2NR (10.2.28.88) owned by user 'brolf' was infected with Poison Ivy remote access trojan. The malware establishes a persistent C2 channel to 45.131.214.85:443, beaconing every 60 seconds via HTTP POST to retrieve and execute remote commands. The attacker maintains full interactive access to the compromised host.\"\n}\n```"
+}

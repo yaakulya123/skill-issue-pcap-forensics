@@ -1,0 +1,602 @@
+{
+  "_schema": {
+    "note": "Vetted ground truth transcribed verbatim from Malware-Traffic-Analysis.net official answer PDFs. Each scored IOC has a type and canonical value plus accepted aliases. Metrics match agent output against value+aliases (case-insensitive, whitespace-normalized).",
+    "ioc_types": [
+      "victim_ip",
+      "victim_mac",
+      "victim_hostname",
+      "victim_user",
+      "malware_family",
+      "c2_endpoint",
+      "domain",
+      "url",
+      "file_hash",
+      "file_name"
+    ],
+    "source_of_truth": "official MTA answer PDF per case"
+  },
+  "cases": [
+    {
+      "id": "mta-2024-07-30",
+      "date": "2024-07-30",
+      "pcap": "datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap",
+      "answer_pdf": "datasets/mta/20240730/2024-07-30-traffic-analysis-exercise-answers.pdf",
+      "scenario": "Windows host in 172.16.1.0/24 (wiresharkworkshop.online) infected via a malicious Java archive delivered by email.",
+      "malware_family": "STRRAT",
+      "difficulty": "medium",
+      "environment": {
+        "subnet": "172.16.1.0/24",
+        "domain": "wiresharkworkshop.online",
+        "dc": "172.16.1.4"
+      },
+      "iocs": [
+        {
+          "type": "victim_ip",
+          "value": "172.16.1.66"
+        },
+        {
+          "type": "victim_mac",
+          "value": "00:1e:64:ec:f3:08"
+        },
+        {
+          "type": "victim_hostname",
+          "value": "DESKTOP-SKBR25F"
+        },
+        {
+          "type": "victim_user",
+          "value": "ccollier",
+          "aliases": [
+            "Clark Collier"
+          ]
+        },
+        {
+          "type": "malware_family",
+          "value": "STRRAT",
+          "aliases": [
+            "STRAAT"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "141.98.10.79:12132",
+          "aliases": [
+            "141.98.10.79"
+          ],
+          "curation_note": "Source answer PDF prints 141.98.10.69; corrected to 141.98.10.79 after validating against primary evidence: the STRRAT port 12132 session is victim 172.16.1.66 <-> 141.98.10.79, and 141.98.10.69 appears in zero packets."
+        },
+        {
+          "type": "domain",
+          "value": "ip-api.com"
+        },
+        {
+          "type": "file_name",
+          "value": "PL#40704.jar"
+        },
+        {
+          "type": "file_hash",
+          "value": "4c249b325125235b50d9690560c4197a28fd62901b5e02d9eba7436b29447cdd"
+        }
+      ],
+      "benign_context": [
+        "github.com",
+        "objects.githubusercontent.com",
+        "repo1.maven.org"
+      ],
+      "pcap_curation": "datasets/mta/20240730/2024-07-30-traffic-analysis-exercise.pcap",
+      "alerts_provided": false
+    },
+    {
+      "id": "mta-2024-09-04",
+      "date": "2024-09-04",
+      "pcap": "datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap",
+      "answer_pdf": "datasets/mta/20240904/2024-09-04-traffic-analysis-exercise-answers.pdf",
+      "scenario": "Windows host in 172.17.0.0/24 (bepositive.com) infected with an infostealer; Suricata alerts provided.",
+      "malware_family": "Koi Stealer",
+      "difficulty": "medium",
+      "environment": {
+        "subnet": "172.17.0.0/24",
+        "domain": "bepositive.com",
+        "dc": "172.17.0.17"
+      },
+      "iocs": [
+        {
+          "type": "victim_ip",
+          "value": "172.17.0.99"
+        },
+        {
+          "type": "victim_mac",
+          "value": "18:3d:a2:b6:8d:c4"
+        },
+        {
+          "type": "victim_hostname",
+          "value": "DESKTOP-RNVO9AT"
+        },
+        {
+          "type": "victim_user",
+          "value": "afletcher",
+          "aliases": [
+            "Andrew Fletcher"
+          ]
+        },
+        {
+          "type": "malware_family",
+          "value": "Koi Stealer",
+          "aliases": [
+            "Koi"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "79.124.78.197:80",
+          "aliases": [
+            "79.124.78.197"
+          ]
+        },
+        {
+          "type": "url",
+          "value": "/foots.php"
+        },
+        {
+          "type": "url",
+          "value": "/index.php?id&subid=qIOuKk7U"
+        },
+        {
+          "type": "url",
+          "value": "/index.php"
+        }
+      ],
+      "benign_context": [],
+      "pcap_curation": "datasets/mta/20240904/2024-09-04-traffic-analysis-exercise.pcap",
+      "alerts_provided": true
+    },
+    {
+      "id": "mta-2024-11-26",
+      "date": "2024-11-26",
+      "pcap": "datasets/evidence/mta-2024-11-26/2024-11-26-traffic-analysis-exercise.pcap",
+      "answer_pdf": "datasets/mta/20241126/2024-11-26-traffic-analysis-exercise-answers.pdf",
+      "scenario": "Windows host in 10.11.26.0/24 (nemotodes.health) infected with NetSupport RAT via SmartApeSG/FakeUpdates after visiting a compromised site.",
+      "malware_family": "NetSupport RAT",
+      "difficulty": "hard",
+      "environment": {
+        "subnet": "10.11.26.0/24",
+        "domain": "nemotodes.health",
+        "dc": "10.11.26.3"
+      },
+      "iocs": [
+        {
+          "type": "victim_ip",
+          "value": "10.11.26.183"
+        },
+        {
+          "type": "victim_mac",
+          "value": "d0:57:7b:ce:fc:8b"
+        },
+        {
+          "type": "victim_hostname",
+          "value": "DESKTOP-B8TQK49"
+        },
+        {
+          "type": "victim_user",
+          "value": "oboomwald",
+          "aliases": [
+            "Oliver Boomwald"
+          ]
+        },
+        {
+          "type": "malware_family",
+          "value": "NetSupport RAT",
+          "aliases": [
+            "NetSupport"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "194.180.191.64:443",
+          "aliases": [
+            "194.180.191.64"
+          ],
+          "curation_note": "Source answer PDF's IOC line prints 194.180.191.164, but the same PDF's notes and the traffic use 194.180.191.64 (POST /fakeurl.htm on 443); .164 is in zero packets. Corrected to .64."
+        },
+        {
+          "type": "url",
+          "value": "http://194.180.191.64/fakeurl.htm",
+          "aliases": [
+            "/fakeurl.htm"
+          ]
+        },
+        {
+          "type": "domain",
+          "value": "modandcrackedapk.com"
+        },
+        {
+          "type": "domain",
+          "value": "classicgrand.com"
+        }
+      ],
+      "benign_context": [],
+      "pcap_curation": "datasets/mta/20241126/2024-11-26-traffic-analysis-exercise.pcap",
+      "alerts_provided": true
+    },
+    {
+      "id": "mta-2025-01-22",
+      "date": "2025-01-22",
+      "pcap": "datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap",
+      "answer_pdf": "datasets/mta/20250122/2025-01-22-traffic-analysis-exercise-answers.pdf",
+      "scenario": "Windows host in 10.1.17.0/24 (bluemoontuesday.com) infected after downloading a fake Google Authenticator installer from a malicious ad; multiple C2 servers.",
+      "malware_family": "infostealer (fake software / malvertising)",
+      "difficulty": "hard",
+      "environment": {
+        "subnet": "10.1.17.0/24",
+        "domain": "bluemoontuesday.com",
+        "dc": "10.1.17.2"
+      },
+      "iocs": [
+        {
+          "type": "victim_ip",
+          "value": "10.1.17.215"
+        },
+        {
+          "type": "victim_mac",
+          "value": "00:d0:b7:26:4a:74"
+        },
+        {
+          "type": "victim_hostname",
+          "value": "DESKTOP-L8C5GSJ"
+        },
+        {
+          "type": "victim_user",
+          "value": "shutchenson"
+        },
+        {
+          "type": "domain",
+          "value": "authenticatoor.org"
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "5.252.153.241",
+          "aliases": [
+            "5.252.153.241"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "45.125.66.32",
+          "aliases": [
+            "45.125.66.32"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "45.125.66.252",
+          "aliases": [
+            "45.125.66.252"
+          ]
+        }
+      ],
+      "benign_context": [],
+      "pcap_curation": "datasets/mta/20250122/2025-01-22-traffic-analysis-exercise.pcap",
+      "alerts_provided": false
+    },
+    {
+      "id": "mta-2024-08-15",
+      "date": "2024-08-15",
+      "pcap": "datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap",
+      "scenario": "Windows host in 10.8.15.0/24 (lafontainebleu.org) infected with WarmCookie via a fake FedEx-themed download chain.",
+      "malware_family": "WarmCookie",
+      "difficulty": "hard",
+      "environment": {
+        "subnet": "10.8.15.0/24",
+        "domain": "lafontainebleu.org",
+        "dc": "10.8.15.4"
+      },
+      "iocs": [
+        {
+          "type": "victim_ip",
+          "value": "10.8.15.133"
+        },
+        {
+          "type": "victim_mac",
+          "value": "00:1c:bf:03:54:82"
+        },
+        {
+          "type": "victim_hostname",
+          "value": "DESKTOP-H8ALZBV"
+        },
+        {
+          "type": "victim_user",
+          "value": "plucero",
+          "aliases": [
+            "Pierce Lucero"
+          ]
+        },
+        {
+          "type": "malware_family",
+          "value": "WarmCookie",
+          "aliases": [
+            "Warm Cookie"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "72.5.43.29:80",
+          "aliases": [
+            "72.5.43.29"
+          ]
+        },
+        {
+          "type": "domain",
+          "value": "quote.checkfedexexp.com"
+        },
+        {
+          "type": "domain",
+          "value": "business.checkfedexexp.com"
+        },
+        {
+          "type": "file_name",
+          "value": "Invoice 876597035_003.zip"
+        },
+        {
+          "type": "file_hash",
+          "value": "798563fcf7600f7ef1a35996291a9dfb5f9902733404dd499e2e736ea1dc6fc5"
+        },
+        {
+          "type": "file_hash",
+          "value": "dab98819d1d7677a60f5d06be210d45b74ae5fd8cf0c24ec1b3766e25ce6dc2c"
+        }
+      ],
+      "benign_context": [],
+      "alerts_provided": false
+    },
+    {
+      "id": "mta-2022-01-07",
+      "date": "2022-01-07",
+      "pcap": "datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap",
+      "scenario": "Windows host in 192.168.1.0/24 (spoonwatch.net) infected with Oski Stealer exfiltrating over HTTP.",
+      "malware_family": "Oski Stealer",
+      "difficulty": "medium",
+      "environment": {
+        "subnet": "192.168.1.0/24",
+        "domain": "spoonwatch.net",
+        "dc": "192.168.1.2"
+      },
+      "iocs": [
+        {
+          "type": "victim_ip",
+          "value": "192.168.1.216"
+        },
+        {
+          "type": "victim_mac",
+          "value": "9c:5c:8e:32:58:f9",
+          "curation_note": "Answer PDF prints 95:5c:8e:32:58:f9; corrected to 9c:5c:8e:32:58:f9 (the MAC bound to victim 192.168.1.216 in the pcap; 95 has the multicast bit set and is impossible as a host source MAC)."
+        },
+        {
+          "type": "victim_hostname",
+          "value": "DESKTOP-GXMYNO2"
+        },
+        {
+          "type": "victim_user",
+          "value": "steve.smith",
+          "aliases": [
+            "Steve Smith"
+          ]
+        },
+        {
+          "type": "malware_family",
+          "value": "Oski Stealer",
+          "aliases": [
+            "Oski",
+            "OskiStealer"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "2.56.57.108:80",
+          "aliases": [
+            "2.56.57.108"
+          ]
+        },
+        {
+          "type": "url",
+          "value": "/osk//main.php"
+        },
+        {
+          "type": "url",
+          "value": "/osk/"
+        },
+        {
+          "type": "file_hash",
+          "value": "16574f51785b0e2fc29c2c61477eb47bb39f714829999511dc8952b43ab17660"
+        }
+      ],
+      "benign_context": [],
+      "alerts_provided": false
+    },
+    {
+      "id": "mta-2021-09-10",
+      "date": "2021-09-10",
+      "pcap": "datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap",
+      "scenario": "Windows host in 10.9.10.0/24 (angrypoutine.com) infected with BazarLoader delivered through the TA551 campaign.",
+      "malware_family": "BazarLoader",
+      "difficulty": "hard",
+      "environment": {
+        "subnet": "10.9.10.0/24",
+        "domain": "angrypoutine.com",
+        "dc": "10.9.10.9"
+      },
+      "iocs": [
+        {
+          "type": "victim_ip",
+          "value": "10.9.10.102"
+        },
+        {
+          "type": "victim_mac",
+          "value": "00:4f:49:b1:e8:c3"
+        },
+        {
+          "type": "victim_hostname",
+          "value": "DESKTOP-KKITB6Q"
+        },
+        {
+          "type": "victim_user",
+          "value": "hobart.gunnarsson",
+          "aliases": [
+            "Hobart Gunnarsson"
+          ]
+        },
+        {
+          "type": "malware_family",
+          "value": "BazarLoader",
+          "aliases": [
+            "Bazar",
+            "BazaLoader",
+            "TA551"
+          ]
+        },
+        {
+          "type": "domain",
+          "value": "simpsonsavingss.com"
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "194.62.42.206:80",
+          "aliases": [
+            "194.62.42.206"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "167.172.37.9:443",
+          "aliases": [
+            "167.172.37.9"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "94.158.245.52:443",
+          "aliases": [
+            "94.158.245.52"
+          ]
+        },
+        {
+          "type": "file_hash",
+          "value": "eed363fc4af7a9070d69340592dcab7c78db4f90710357de29e3b6"
+        }
+      ],
+      "benign_context": [],
+      "alerts_provided": false
+    },
+    {
+      "id": "mta-2026-01-31",
+      "date": "2026-01-31",
+      "pcap": "datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap",
+      "scenario": "Windows host in 10.1.21.0/24 (win11office.com) infected with Lumma Stealer; multiple stealer C2 domains.",
+      "malware_family": "Lumma Stealer",
+      "difficulty": "hard",
+      "environment": {
+        "subnet": "10.1.21.0/24",
+        "domain": "win11office.com",
+        "dc": "10.1.21.2"
+      },
+      "iocs": [
+        {
+          "type": "victim_ip",
+          "value": "10.1.21.58",
+          "curation_note": "Answer PDF prints 10.1.28.58; corrected to 10.1.21.58. The Lumma C2 153.92.1.49 exchanges 2968 packets with 10.1.21.58 (matching the C2 packet count), same /24 as the DC 10.1.21.2; 10.1.28.58 is in zero packets."
+        },
+        {
+          "type": "victim_mac",
+          "value": "00:21:5d:c8:0e:f2"
+        },
+        {
+          "type": "victim_hostname",
+          "value": "DESKTOP-ES9F3ML"
+        },
+        {
+          "type": "victim_user",
+          "value": "gwyatt",
+          "aliases": [
+            "Gabriel Wyatt"
+          ]
+        },
+        {
+          "type": "malware_family",
+          "value": "Lumma Stealer",
+          "aliases": [
+            "Lumma",
+            "LummaC2"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "153.92.1.49:80",
+          "aliases": [
+            "153.92.1.49"
+          ]
+        },
+        {
+          "type": "domain",
+          "value": "communicationfirewall-security.cc"
+        },
+        {
+          "type": "domain",
+          "value": "holiday-forever.cc"
+        },
+        {
+          "type": "domain",
+          "value": "whitepepper.su"
+        }
+      ],
+      "benign_context": [],
+      "alerts_provided": false
+    },
+    {
+      "id": "mta-2026-02-28",
+      "date": "2026-02-28",
+      "pcap": "datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap",
+      "scenario": "Windows host in 10.2.28.0/24 (easyas123.tech) infected with NetSupport Manager RAT beaconing over TCP 443.",
+      "malware_family": "NetSupport Manager RAT",
+      "difficulty": "medium",
+      "environment": {
+        "subnet": "10.2.28.0/24",
+        "domain": "easyas123.tech",
+        "dc": "10.2.28.2"
+      },
+      "iocs": [
+        {
+          "type": "victim_ip",
+          "value": "10.2.28.88"
+        },
+        {
+          "type": "victim_mac",
+          "value": "00:19:d1:b2:4d:ad"
+        },
+        {
+          "type": "victim_hostname",
+          "value": "DESKTOP-TEYQ2NR"
+        },
+        {
+          "type": "victim_user",
+          "value": "brolf"
+        },
+        {
+          "type": "malware_family",
+          "value": "NetSupport Manager RAT",
+          "aliases": [
+            "NetSupport",
+            "NetSupport RAT",
+            "NetSupport Manager"
+          ]
+        },
+        {
+          "type": "c2_endpoint",
+          "value": "45.131.214.85:443",
+          "aliases": [
+            "45.131.214.85"
+          ]
+        }
+      ],
+      "benign_context": [],
+      "alerts_provided": false
+    }
+  ]
+}

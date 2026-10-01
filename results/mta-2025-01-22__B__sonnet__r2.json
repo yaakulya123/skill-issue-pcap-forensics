@@ -1,0 +1,79 @@
+{
+  "run_id": "mta-2025-01-22__B__sonnet__r2",
+  "case": "mta-2025-01-22",
+  "arm": "B",
+  "arm_label": "community-wireshark",
+  "model": "sonnet",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 31,
+    "tshark_calls": 12,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -q -z io,phs 2>/dev/null | head -60",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\necho \"--- DHCP ---\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e ip.src -e ip.dst -e dhcp.option.hostname -e dhcp.option.requested_ip_address -e eth.src 2>/dev/null\necho \"--- NBNS names ---\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u | head -30\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\necho \"--- Kerberos CNames ---\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u\necho \"--- NTLMSSP user ---\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ntlmssp\" -T fields -e ip.src -e ntlmssp.auth.username -e ntlmssp.auth.domain 2>/dev/null | sort -u | grep -v '^\\s*$' | head -20\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\necho \"--- HTTP requests from victim ---\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request and ip.src==10.1.17.215\" -T fields -e frame.time -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\nmkdir -p /tmp/http_objs\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/http_objs\" -q 2>/dev/null\nls -la /tmp/http_objs",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request and ip.src==10.1.17.215 and (frame.time_relative < 60)\" -T fields -e frame.time_relative -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.referer 2>/dev/null | head -60",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request and ip.src==10.1.17.215\" -T fields -e frame.time_relative -e ip.dst -e http.host -e http.request.method -e http.request.full_uri -e http.referer 2>/dev/null > /tmp/all_http.txt\nwc -l /tmp/all_http.txt\ngrep -iE \"fakeurl|foots|loca\\.asp|index\\.php\" /tmp/all_http.txt | head -20",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>/dev/null | sort -u -k1,1 -k3,3 | awk -F'\\t' '{print $3}' | sort -u",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e tcp.dstport -e http.host -e http.request.uri 2>/dev/null > /tmp/all_http2.txt\ngrep -iE \"fakeurl|foots|loca\\.asp|index\\.php\" /tmp/all_http2.txt",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http\" -T fields -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport 2>/dev/null | awk '{print $3, $4}' | sort -u | head -30\necho \"---content disposition / uris for all http (req+resp)---\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http\" -T fields -e ip.src -e ip.dst -e http.request.uri -e http.content_type -e http.content_disposition -e http.host 2>/dev/null | grep -iE \"fakeurl|foots|loca\\.asp|index\\.php\" | head -20",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\necho \"--- TLS SNI from victim, chronological ---\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"tls.handshake.extensions_server_name and ip.src==10.1.17.215\" -T fields -e frame.time_relative -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -n -k1 | head -40",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"tls.handshake.extensions_server_name and ip.src==10.1.17.215 and frame.time_relative>35 and frame.time_relative<70\" -T fields -e frame.time_relative -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null\necho \"--- when does the malicious GET happen relative? ---\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request.uri contains \\\"264872\\\"\" -T fields -e frame.time_relative -e ip.src -e ip.dst 2>/dev/null"
+    ],
+    "input_tokens": 64,
+    "output_tokens": 20095,
+    "num_turns": 32,
+    "duration_ms": 321307,
+    "cost_usd": 1.3134194000000001,
+    "wall_time_s": 322.6
+  },
+  "score": {
+    "recall": 0.75,
+    "iocs_found": 6,
+    "iocs_total": 8,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": null,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 10,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report: MTA 2025-01-22 Traffic Analysis Exercise\n\n## Evidence Reviewed\nSingle artifact in the evidence folder: `2025-01-22-traffic-analysis-exercise.pcap` (39,427 frames). No separate IDS/Suricata alert export was present, so no signature-based detection data exists for this case. All findings below are derived directly from packet content via `tshark`.\n\n## 1. Victim Host\n\n| Attribute | Value |\n|---|---|\n| IPv4 address | 10.1.17.215 |\n| MAC address | 00:d0:b7:26:4a:74 |\n| Windows hostname | DESKTOP-L8C5GSJ |\n| Domain/workgroup | BLUEMOONTUESDAY |\n| Logged-in Windows user | shutchenson |\n\nHostname and MAC confirmed via DHCP request (`dhcp.option.hostname`). Domain/workgroup confirmed via NBNS name registrations. User confirmed via Kerberos AS-REQ `CNameString` = `shutchenson` from 10.1.17.215.\n\n## 2. Malware Family and Attribution\n\n**Attribution basis: behavioral, not signature-confirmed.** No AV or IDS alert artifact was provided with this evidence, only the raw pcap, so there is no signature hit to cite.\n\nObserved behavior: a **ClickFix-style fake-verification social-engineering chain** delivers a PowerShell backdoor that hijacks a legitimate TeamViewer QuickSupport client for remote-access C2 via TeamViewer's own \"DynGate\" relay protocol. This loader/backdoor pattern (drive-serial-derived bot ID, obfuscated PowerShell beacon loop, followed by silent TeamViewer component deployment) matches the TTPs publicly associated with **DarkGate-style ClickFix loaders**. I am naming it that way as a behavioral characterization, not a confirmed signature match.\n\nInfection sequence reconstructed from the pcap:\n1. `google-authenticator.burleson-appliance.net` (104.21.64.1) \u2014 fake \"Google Authenticator\" verification lure page.\n2. `authenticatoor.org` (82.221.136.26) \u2014 ClickFix-style fake-CAPTCHA/verification page, the typical stage that instructs the victim to paste a command into Win+R or a terminal.\n3. `appointedtimeagriculture.com` (217.70.186.109) \u2014 intermediate redirector in the chain.\n4. Victim host directly issues `GET http://5.252.153.241/api/file/get-file/264872` \u2014 retrieves a Windows Script Component (`<component><script language=\"VBScript\">`) that launches hidden PowerShell.\n5. That PowerShell downloads and executes `29842.ps1`, a Base64-obfuscated dropper. Decoded, it:\n   - Reads the `C:` drive volume serial number, converts it to decimal (e.g. `1517096937`), and uses that as a persistent bot ID.\n   - Loops every 5 seconds: `GET http://5.252.153.241/<botid>` and runs the response via `Invoke-Expression` \u2014 a live PowerShell RAT/backdoor loop.\n6. Beacon traffic includes status callbacks confirming payload execution: `?k=message = startup shortcut created; status = success;` and `?k=script: RunRH, status: OK, message: PS process started`.\n7. The backdoor then pulls a full TeamViewer QuickSupport payload set (`TeamViewer`, `TV`, `Teamviewer_Resource_fr`) from the same C2 server and connects it out to TeamViewer's legitimate `master16.teamviewer.com` (185.188.32.26) using `client=DynGate` routing \u2014 abusing TeamViewer's real infrastructure as a remote-access C2 channel rather than a custom protocol.\n\n## 3. Indicators of Compromise\n\n### Command-and-control endpoints\n- `5.252.153.241:80` \u2014 attacker-controlled panel: payload staging (`/api/file/get-file/...`) and live PowerShell RAT beacon (`/<botid>`)\n- `185.188.32.26:80` (`master16.teamviewer.com`) \u2014 legitimate TeamViewer relay abused for DynGate remote-control session routing to the trojanized TeamViewer client\n\n### Malicious/lure domains\n- `google-authenticator.burleson-appliance.net` \u2014 fake Google Authenticator verification lure\n- `authenticatoor.org` \u2014 ClickFix fake-CAPTCHA/verification page\n- `appointedtimeagriculture.com` \u2014 redirector in the delivery chain\n\n### Malicious URLs\n- `http://5.252.153.241/api/file/get-file/264872` \u2014 initial VBScript/HTA scriptlet dropper\n- `http://5.252.153.241/api/file/get-file/29842.ps1` \u2014 obfuscated PowerShell backdoor\n- `http://5.252.153.241/api/file/get-file/pas.ps1` \u2014 duplicate obfuscated PowerShell backdoor\n- `http://5.252.153.241/api/file/get-file/TeamViewer` \u2014 trojanized deployment of legitimate TeamViewer executable\n- `http://5.252.153.241/api/file/get-file/TV` \u2014 TeamViewer core DLL component\n- `http://5.252.153.241/api/file/get-file/Teamviewer_Resource_fr` \u2014 TeamViewer French resource DLL\n- `http://5.252.153.241/1517096937` (and variants with `?k=...` status parameters) \u2014 live C2 beacon/tasking loop, `1517096937` being the victim's bot ID (decimal C: drive volume serial number)\n\n### Transferred files and SHA256 hashes\n| File | Role | SHA256 |\n|---|---|---|\n| `264872` | Windows Script Component dropper (launches hidden PowerShell) | `c74123dbccded43fda61651e102750b041d4c3af6fda88cd6436f9276653e103` |\n| `29842.ps1` | Obfuscated PowerShell backdoor/RAT loop | `b8ce40900788ea26b9e4c9af7efab533e8d39ed1370da09b93fcf72a16750ded` |\n| `pas.ps1` | Duplicate obfuscated PowerShell backdoor | `a833f27c2bb4cad31344e70386c44b5c221f031d7cd2f2a6b8601919e790161e` |\n| `TeamViewer` | Repurposed legitimate TeamViewer executable | `904280f20d697d876ab90a1b74c0f22a83b859e8b0519cb411fda26f1642f53e` |\n| `TV` | TeamViewer core DLL | `3448da03808f24568e6181011f8521c0713ea6160efd05bff20c43b091ff59f7` |\n| `Teamviewer_Resource_fr` | TeamViewer resource DLL | `9634ecaf469149379bba80a745f53d823948c41ce4e347860701cbdff6935192` |\n\n## Summary\nDESKTOP-L8C5GSJ (10.1.17.215, user shutchenson) was compromised through a ClickFix-style fake verification page, leading to a PowerShell-based backdoor that beacons to 5.252.153.241 using a volume-serial-derived bot ID, then silently installs a hijacked TeamViewer client for persistent remote access via TeamViewer's own DynGate relay infrastructure. This is a behavioral, not signature-confirmed, attribution since no IDS/AV alert artifact accompanied the pcap."
+}

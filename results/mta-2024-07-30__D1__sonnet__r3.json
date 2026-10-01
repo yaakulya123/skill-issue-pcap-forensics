@@ -1,0 +1,87 @@
+{
+  "run_id": "mta-2024-07-30__D1__sonnet__r3",
+  "case": "mta-2024-07-30",
+  "arm": "D1",
+  "arm_label": "no-workflow",
+  "model": "sonnet",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 10,
+    "tshark_calls": 8,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nPCAP=2024-07-30-traffic-analysis-exercise.pcap\necho \"=== protocol hierarchy ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z io,phs 2>/dev/null\necho \"=== top conversations (ip) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z conv,ip 2>/dev/null | head -40",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nPCAP=2024-07-30-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== NBNS names ===\"\n$TS -r \"$PCAP\" -Y \"nbns\" -T fields -e nbns.name -e ip.src 2>/dev/null | sort -u\necho \"=== DHCP hostnames ===\"\n$TS -r \"$PCAP\" -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.hw.mac_addr 2>/dev/null | sort -u\necho \"=== Kerberos usernames ===\"\n$TS -r \"$PCAP\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString 2>/dev/null | sort -u\necho \"=== ARP ip<->mac ===\"\n$TS -r \"$PCAP\" -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>/dev/null | sort -u\necho \"=== eth src for 172.16.1.66 ===\"\n$TS -r \"$PCAP\" -Y \"ip.src==172.16.1.66\" -T fields -e eth.src 2>/dev/null | sort -u | head -5",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nPCAP=2024-07-30-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== DNS queries (unique) ===\"\n$TS -r \"$PCAP\" -Y \"dns.qry.name and dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u\necho \"=== HTTP requests ===\"\n$TS -r \"$PCAP\" -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>/dev/null\necho \"=== TLS SNI list ===\"\n$TS -r \"$PCAP\" -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nPCAP=2024-07-30-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== 141.98.10.79 protocols ===\"\n$TS -r \"$PCAP\" -Y \"ip.addr==141.98.10.79\" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.col.Protocol -e _ws.col.Info 2>/dev/null | head -30\necho \"=== tls SNI for 141.98.10.79 dst ===\"\n$TS -r \"$PCAP\" -Y \"ip.dst==141.98.10.79 && tls.handshake.type==1\" -T fields -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\necho \"=== port stats for 141.98.10.79 ===\"\n$TS -r \"$PCAP\" -Y \"ip.addr==141.98.10.79\" -T fields -e tcp.dstport 2>/dev/null | sort | uniq -c",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nPCAP=2024-07-30-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\nSTREAM=$($TS -r \"$PCAP\" -Y \"ip.addr==141.98.10.79 && frame.number==9066\" -T fields -e tcp.stream 2>/dev/null)\necho \"stream=$STREAM\"\n$TS -r \"$PCAP\" -q -z follow,tcp,ascii,$STREAM 2>/dev/null | head -80\necho \"=== hex of first data packet ===\"\n$TS -r \"$PCAP\" -Y \"frame.number==9117\" -T fields -e data.data 2>/dev/null",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nPCAP=2024-07-30-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\nmkdir -p /tmp/objs\n$TS -r \"$PCAP\" --export-objects \"http,/tmp/objs\" -q 2>/dev/null\nls -la /tmp/objs\necho \"=== full stream list with ports to non-standard destinations ===\"\n$TS -r \"$PCAP\" -Y \"tcp.flags.syn==1 && tcp.flags.ack==0 && ip.src==172.16.1.66\" -T fields -e ip.dst -e tcp.dstport 2>/dev/null | sort | uniq -c | sort -rn | head -20\necho \"=== any ftp/smtp/other protos ===\"\n$TS -r \"$PCAP\" -Y \"ftp or smtp or pop or imap\" -T fields -e frame.number -e _ws.col.Protocol 2>/dev/null | head",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nPCAP=2024-07-30-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== all http.request full uri (not just filtered) ===\"\n$TS -r \"$PCAP\" -Y \"http\" -T fields -e frame.number -e ip.src -e ip.dst -e http.request.method -e http.host -e http.request.uri -e http.response.code -e http.content_type -e http.file_data 2>/dev/null | head -20\necho \"=== search for jar/exe in any URI/host fields across dns+http ===\"\n$TS -r \"$PCAP\" -Y 'http.request.uri contains \"jar\" or http.request.uri contains \".exe\"' -T fields -e http.host -e http.request.uri 2>/dev/null\necho \"=== earliest frames overall (first 20) to see initial activity ===\"\n$TS -r \"$PCAP\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e _ws.col.Protocol -e _ws.col.Info 2>/dev/null | head -20",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nPCAP=2024-07-30-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== capture start/end time ===\"\n$TS -r \"$PCAP\" -T fields -e frame.time 2>/dev/null | head -1\n$TS -r \"$PCAP\" -T fields -e frame.time 2>/dev/null | tail -1\necho \"=== C2 stream 83 first/last packet time relative ===\"\n$TS -r \"$PCAP\" -Y \"tcp.stream==83\" -T fields -e frame.number -e frame.time_relative 2>/dev/null | head -1\n$TS -r \"$PCAP\" -Y \"tcp.stream==83\" -T fields -e frame.number -e frame.time_relative 2>/dev/null | tail -1\necho \"=== any other tcp streams to 141.98.10.79 (multiple sessions?) ===\"\n$TS -r \"$PCAP\" -Y \"ip.addr==141.98.10.79\" -T fields -e tcp.stream 2>/dev/null | sort -u\nrm -rf /tmp/objs"
+    ],
+    "input_tokens": 22,
+    "output_tokens": 7768,
+    "num_turns": 11,
+    "duration_ms": 110913,
+    "cost_usd": 0.5331505,
+    "wall_time_s": 112.1
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 13,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report \u2014 2024-07-30 Traffic Analysis Exercise\n\n## Victim Host\n| Field | Value |\n|---|---|\n| IPv4 address | 172.16.1.66 |\n| MAC address | 00:1e:64:ec:f3:08 |\n| Windows hostname | DESKTOP-SKBR25F (NetBIOS alias WIRESHARKWORKSH) |\n| Logged-in Windows user | ccollier |\n| OS (from malware beacon) | Microsoft Windows 11 Pro, 64-bit |\n| Domain | wiresharkworkshop.online (AD domain controller WIRESHARK-WS-DC, 172.16.1.4) |\n\nIdentity grounded in NBNS name registrations from 172.16.1.66 (`DESKTOP-SKBR25F`, `WIRESHARKWORKSH`), Kerberos `CNameString` fields (`ccollier`, `DESKTOP-SKBR25F$`), and ARP (172.16.1.66 \u2194 00:1e:64:ec:f3:08).\n\n## Malware Family\n**STRRAT** \u2014 a Java-based remote access trojan.\n\n**Attribution confidence: signature-confirmed.** The malware's own C2 protocol identifies itself by name in plaintext on the wire. TCP stream 83 (172.16.1.66:49754 \u2192 141.98.10.79:12132) contains repeating pipe-delimited beacons of the form:\n\n```\nping|STRRAT|1BE8292C|DESKTOP-SKBR25F|ccollier|Microsoft Windows 11 Pro|64-bit|Windows Defender||1.6|US:United States|Not Installed|<uptime>\n```\n\nThis is STRRAT's documented \"ping\" heartbeat format (version tag `1.6`), sent every ~5 seconds, unencrypted, on a non-standard port with no TLS handshake \u2014 consistent with STRRAT's known cleartext socket C2. The capture does not contain the initial infection/delivery artifact (dropper, jar, or email), so only the active-infection/C2 phase is confirmed; the delivery vector is outside the scope of this pcap.\n\n## Indicators of Compromise\n\n**C2 endpoint**\n- `141.98.10.79:12132` \u2014 TCP, cleartext STRRAT beacon protocol. Evidence: tcp.stream 83, first SYN at frame 9066 (t=76.99s), beaconing continuously through the end of the capture (last frame 11562, t=585.66s). No corresponding DNS lookup for this IP was observed \u2014 it was contacted directly by hardcoded IP.\n\n**Bot/campaign identifier**\n- `1BE8292C` \u2014 STRRAT bot ID embedded in every beacon (evidence: tcp.stream 83 payload).\n\n**Supporting/attacker-facing lookup**\n- `ip-api.com` (208.95.112.1) \u2014 HTTP GET `/json/` from 172.16.1.66 at frame 9111, response includes geolocation (`\"countryCode\":\"US\",\"region\":\"TX\",\"city\":\"Austin\"`). This immediately precedes the STRRAT beacon reporting `US:United States`, indicating the malware queried ip-api.com to populate its own geolocation field before/during C2 beaconing. Not malicious infrastructure by itself, but functionally tied to the STRRAT beacon content \u2014 flagged as a supporting IOC rather than a C2 endpoint.\n\n**Malicious domains/URLs**\n- None observed. The C2 channel used a bare IP:port (141.98.10.79:12132) with no DNS resolution and no HTTP/TLS SNI, so there is no domain or URL to report for the C2 channel itself.\n\n**Transferred files / hashes**\n- None observed. No executable, JAR, or other payload transfer appears in this capture (`--export-objects http` yielded only benign Microsoft/Windows telemetry, `connecttest.txt`, and the `ip-api.com` JSON response \u2014 no jar/exe/PE content). The malware was already resident and beaconing when the capture begins; delivery is not captured.\n\n## Benign Context (ruled out, not IOCs)\nThe remaining high-volume traffic is legitimate Windows/Microsoft ecosystem and domain-joined activity: Kerberos/LDAP/CLDAP/DRSUAPI/SMB to the domain controller 172.16.1.4; TLS to Microsoft telemetry, MSN, Bing, Skype, Office, WNS, and Windows Update endpoints (13.107.x, 20.189.x, 23.x Akamai, 40.126.x, 52.109.x, 204.79.197.203); GitHub (140.82.113.3, `objects.githubusercontent.com` 185.199.110.133); Maven Central (`repo1.maven.org`, 199.232.196.209 \u2014 largest single conversation by byte volume, 8.9 MB, consistent with a legitimate Java/Maven build or dependency fetch on this workstation, plausibly related to the host having a Java runtime present that STRRAT itself abuses); Oracle Java update check (`javadl-esd-secure.oracle.com`); and SSDP/mDNS/NBNS/LLMNR local-segment discovery noise.\n\n## Incident Summary\nThe Windows 11 workstation DESKTOP-SKBR25F (172.16.1.66, MAC 00:1e:64:ec:f3:08), logged in as domain user `ccollier` on the `wiresharkworkshop.online` domain, is compromised with the **STRRAT** Java-based RAT (bot ID `1BE8292C`). Starting at t=76.99s in the capture, the infected host establishes a persistent, unencrypted TCP session to **141.98.10.79:12132** and sends heartbeat \"ping\" messages roughly every 5 seconds for the remainder of the capture, self-identifying as STRRAT and reporting host/user/OS details plus a geolocation string sourced from a preceding `ip-api.com` lookup. No payload delivery or additional attacker-issued commands were captured in this window; only the standing C2 heartbeat is present."
+}

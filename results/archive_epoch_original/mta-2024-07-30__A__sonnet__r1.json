@@ -1,0 +1,91 @@
+{
+  "run_id": "mta-2024-07-30__A__sonnet__r1",
+  "case": "mta-2024-07-30",
+  "arm": "A",
+  "arm_label": "vanilla",
+  "model": "sonnet",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 11,
+    "tshark_calls": 10,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\" && /opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z io,stat,0 2>&1 | head -20\necho \"---capinfos---\"\n/opt/homebrew/bin/capinfos 2024-07-30-traffic-analysis-exercise.pcap 2>&1 || /opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z io,phs 2>&1 | head -40",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== Protocol Hierarchy ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z io,phs 2>&1\necho \"=== Conversations IP ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z conv,ip 2>&1 | head -30",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== ARP (MAC mapping) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac -e arp.dst.proto_ipv4 2>&1 | sort -u\necho \"=== eth addr for 172.16.1.66 ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.addr==172.16.1.66\" -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst 2>&1 | head -20\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== NBNS names ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>&1 | sort -u\necho \"=== Kerberos CNames (usernames) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e ip.src -e ip.dst -e kerberos.CNameString 2>&1 | sort -u\necho \"=== Kerberos realm ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"kerberos.realm\" -T fields -e kerberos.realm 2>&1 | sort -u\necho \"=== SMB/NTLM session usernames ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ntlmssp\" -T fields -e ntlmssp.auth.username -e ntlmssp.auth.domain -e ntlmssp.auth.hostname 2>&1 | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== DNS queries (unique) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"dns.flags.response==0\" -T fields -e dns.qry.name 2>&1 | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== HTTP requests full ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"http\" -T fields -e frame.number -e ip.src -e ip.dst -e http.request.method -e http.host -e http.request.uri -e http.request.full_uri -e http.response.code -e http.file_data 2>&1\necho \"=== TLS SNI list with dest IP, first seen order ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"tls.handshake.type==1\" -T fields -e frame.number -e frame.time_relative -e ip.dst -e tls.handshake.extensions_server_name 2>&1 | sort -u -k4\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== TCP conversations detail with ports for 172.16.1.66 (non-Microsoft-looking IPs) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z conv,tcp 2>&1 | grep -E \"141.98.10.79|23.52.9.222|repo1|199.232|185.199\"\necho \"=== all ports touching 141.98.10.79 ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.addr==141.98.10.79\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e tcp.flags -e _ws.col.Protocol -e _ws.col.Info 2>&1 | head -30\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== First C2 payload bytes (frame 9117, 9119) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"frame.number==9117 or frame.number==9119 or frame.number==9120\" -T fields -e frame.number -e data.data 2>&1\necho \"--- follow tcp stream for this conversation ---\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z \"follow,tcp,ascii,172.16.1.66:49754,141.98.10.79:12132\" 2>&1 | head -60\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== server->client payload lengths on C2 channel (looking for commands, not just ACKs) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==141.98.10.79 && tcp.len>0\" -T fields -e frame.number -e frame.time_relative -e tcp.len -e data.data 2>&1\necho \"=== full unique client->server beacon messages (dedup) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.dst==141.98.10.79 && tcp.len>10\" -T fields -e data.data 2>&1 | while read h; do echo \"$h\" | xxd -r -p; echo; done | sort -u | head -5\necho \"=== last beacon (to see max uptime / total duration) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.dst==141.98.10.79 && tcp.len>10\" -T fields -e frame.time_relative -e data.data 2>&1 | tail -3\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== all unique remote ports used by 172.16.1.66 as destination (non-standard check) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66 && tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e ip.dst -e tcp.dstport 2>&1 | sort -u -k2 -n\necho \"=== github.com connection size/port ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.addr==140.82.113.3\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e tcp.len 2>&1 | head -20\necho \"=== decode base64 window title sample ===\"\necho \"RmFuYWQgSGVhZCBMaWdodGhvdXNlIC0gUGFpbnQ=\" | base64 -d; echo\n"
+    ],
+    "input_tokens": 24,
+    "output_tokens": 16932,
+    "num_turns": 12,
+    "duration_ms": 235996,
+    "cost_usd": 0.7013157999999999,
+    "wall_time_s": 237.2
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [
+      "136.49.34.127"
+    ],
+    "hallucinated_domains": [],
+    "hallucination_count": 1,
+    "ioc_tokens_emitted": 16,
+    "hallucination_rate": 0.0625
+  },
+  "final_text": "# Incident Report \u2014 Malware-Traffic-Analysis Exercise 2024-07-30\n\n**Evidence source:** `2024-07-30-traffic-analysis-exercise.pcap` (11,562 packets, 585.7 sec, capture window 2024-07-30 06:38:48 UTC \u2013 06:48:34 UTC). No separate IDS/alert export was present in the evidence folder; findings below are derived directly from packet analysis with `tshark`.\n\n## 1. Infected Host\n\n| Attribute | Value | Evidence |\n|---|---|---|\n| IPv4 address | **172.16.1.66** | Consistent source IP across all traffic below |\n| MAC address | **00:1e:64:ec:f3:08** | ARP replies and Ethernet frames to/from 172.16.1.66 |\n| Windows hostname | **DESKTOP-SKBR25F** (AD domain `wiresharkworkshop.online`, DC = WIRESHARK-WS-DC / 172.16.1.4) | NBNS name registration for 172.16.1.66; Kerberos `CNameString` = `DESKTOP-SKBR25F$`; also self-identified in the malware C2 beacon (see below) |\n| Logged-in Windows user | **ccollier** | Kerberos AS-REQ/TGS-REQ `CNameString` = `ccollier` between 172.16.1.66 \u2194 172.16.1.4; also self-reported in every C2 beacon |\n| OS (as reported by host) | Microsoft Windows 11 Pro, 64-bit | Verbatim field in the malware's own C2 beacon string |\n\n## 2. Malware Family\n\n**STRRAT** \u2014 a Java-based remote access trojan.\n\n**Attribution: signature-confirmed, not behavioral.** The malware's own command-and-control protocol is unencrypted, pipe-delimited plaintext and literally names itself in every beacon (TCP stream 172.16.1.66:49754 \u2192 141.98.10.79:12132, first seen at capture time +76.99s, frame 9117 onward):\n\n```\nping|STRRAT|1BE8292C|DESKTOP-SKBR25F|ccollier|Microsoft Windows 11 Pro|64-bit|Windows Defender||1.6|US:United States|Not Installed|1 Sec\n```\n\nField breakdown: `ping` (beacon type) | `STRRAT` (family name) | `1BE8292C` (campaign/build ID \u2014 not a file hash, only 8 hex chars) | hostname | logged-in user | OS | architecture | installed AV (Windows Defender) | client version `1.6` | victim country | installer-lock status | uptime counter.\n\nThis beacon repeats at a steady **~5-second interval** for the remainder of the capture (last beacon observed at +585.66s, reporting \"5 min 10 sec\" uptime), confirming a live, persistent C2 channel rather than a one-off connection. Several beacons carry a 9th field that is base64-encoded and decodes to the victim's **active foreground window title** (e.g. `RG9jdW1lbnRz`\u2192\"Documents\", `SG9tZQ==`\u2192\"Home\", `UGljdHVyZXM=`\u2192\"Pictures\", `UHJvZ3JhbSBNYW5hZ2Vy`\u2192\"Program Manager\", `RmFuYWQgSGVhZCBMaWdodGhvdXNlIC0gUGFpbnQ=`\u2192\"Fanad Head Lighthouse - Paint\"), confirming active screen/window-activity surveillance capability consistent with STRRAT.\n\nNo response payload larger than a TCP ACK was ever sent by the C2 server in this capture \u2014 only the client-side heartbeat/telemetry was observed; no interactive command traffic captured.\n\n## 3. Indicators of Compromise\n\n### Command-and-control\n- **141.98.10.79:12132** \u2014 raw TCP (no TLS), cleartext STRRAT beacon protocol as shown above. This is the confirmed C2 endpoint.\n\n### Malicious/abused domains and URLs (delivery chain, immediately preceding first C2 beacon)\n- `github.com` (140.82.113.3) \u2014 TLS connection at capture time +64.05s (small, ~5 KB, page/redirect-sized)\n- `objects.githubusercontent.com` (185.199.110.133) \u2014 TLS connection at +64.83s, 833 KB transferred; GitHub's raw-content CDN, consistent with hosting the actual payload/dropper file (contents not recoverable \u2014 HTTPS)\n- `repo1.maven.org` (199.232.196.209) \u2014 three parallel TLS sessions starting at +68.00s, totaling **~13.9 MB** downloaded (4.51 MB + 2.80 MB + 1.58 MB). This volume/pattern is consistent with a Java RAT pulling its runtime dependency JARs from Maven Central after initial execution.\n- `http://ip-api.com/json/` (208.95.112.1) \u2014 plaintext HTTP GET at +567.86s (relative offset within capture; frame 9111). Response confirms the malware performed victim geolocation/IP fingerprinting: public IP `136.49.34.127`, geolocated to Austin, Texas, US. `ip-api.com` is a legitimate service being abused here as a recon step by the malware, not itself malicious infrastructure.\n- `javadl-esd-secure.oracle.com` (23.194.164.136) \u2014 legitimate Oracle Java auto-update check; its presence confirms a Java Runtime Environment is installed/active on the host, which STRRAT (a JAR-based RAT) requires to execute.\n\n**Timeline:** github.com browse (+64.05s) \u2192 objects.githubusercontent.com payload fetch (+64.83s) \u2192 repo1.maven.org dependency downloads (+68.00s to ~+73.8s) \u2192 first STRRAT C2 beacon to 141.98.10.79:12132 (+76.99s). This sequence is the observed infection chain.\n\n### Transferred files / hashes\nNo cleartext file transfer of the actual malware binary/JAR was observed \u2014 the GitHub and Maven downloads occurred entirely over HTTPS/TLS, so no filename or SHA256 hash of the payload can be extracted from this packet capture. The only cleartext HTTP file objects in the capture are benign: `http://www.msftconnecttest.com/connecttest.txt` (Microsoft connectivity test, plain text \"Microsoft Connect Test\") and the `ip-api.com` JSON geolocation response. The only file-like identifier recoverable from the traffic is the STRRAT **campaign/build ID `1BE8292C`**, which is a malware-internal tag, not a cryptographic hash.\n\n### Non-indicators (ruled out)\nAll other traffic (LDAP/CLDAP/Kerberos/DRSUAPI/SMB2/RPC to 172.16.1.4, and TLS sessions to Microsoft/MSN/Bing/Skype/Office/Windows telemetry endpoints) is standard Active Directory domain-member and Windows/Office background traffic, and does not indicate lateral movement or a secondary C2 channel \u2014 only one non-standard destination port (141.98.10.79:12132) exists in the entire capture.\n\n## Summary\nHost **DESKTOP-SKBR25F (172.16.1.66, MAC 00:1e:64:ec:f3:08)**, logged in as domain user **ccollier**, is infected with **STRRAT** (Java RAT), signature-confirmed via its self-identifying plaintext C2 protocol. The malware beacons every ~5 seconds to **141.98.10.79:12132**, exfiltrates host fingerprint and active-window titles, and its delivery chain traces through **github.com / objects.githubusercontent.com** (payload) and **repo1.maven.org** (Java dependency retrieval) immediately before C2 activation. Recommend isolating the host, blocking 141.98.10.79/32 at the perimeter, and resetting the ccollier account credentials."
+}

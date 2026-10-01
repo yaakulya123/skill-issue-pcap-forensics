@@ -1,0 +1,90 @@
+{
+  "run_id": "mta-2024-07-30__B2__sonnet__r1",
+  "case": "mta-2024-07-30",
+  "arm": "B2",
+  "arm_label": "community-malware",
+  "model": "sonnet",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 12,
+    "tshark_calls": 11,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== capinfos ===\"\n/opt/homebrew/bin/capinfos 2024-07-30-traffic-analysis-exercise.pcap 2>/dev/null || /opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z io,phs 2>&1 | head -50",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\necho \"=== protocol hierarchy ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -q -z io,phs 2>&1\necho \"=== conv ip ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -q -z endpoints,ip 2>&1 | head -30",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\necho \"=== DNS queries (unique) ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e dns.qry.name -Y \"dns.flags.response==0\" 2>/dev/null | sort -u\necho \"=== DNS resolved A records ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e dns.qry.name -e dns.a -Y \"dns.flags.response==1 and dns.a\" 2>/dev/null | sort -u",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\necho \"=== HTTP requests ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.number -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.user_agent -Y \"http.request\" 2>/dev/null\necho \"=== HTTP responses ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.number -e ip.src -e ip.dst -e http.response.code -e http.content_type -e http.file_data -Y \"http.response\" 2>/dev/null\necho \"=== all TCP ports to 199.232.196.209 ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.addr==199.232.196.209\" -T fields -e tcp.srcport -e tcp.dstport 2>/dev/null | sort -u | head -20",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\necho \"=== TLS SNI list with dest ip ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e ip.dst -e tls.handshake.extensions_server_name -Y \"tls.handshake.type==1\" 2>/dev/null | sort -u\necho \"=== conv to 141.98.10.79 ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.addr==141.98.10.79\" -T fields -e frame.number -e tcp.srcport -e tcp.dstport -e tls.handshake.extensions_server_name 2>/dev/null | head -20",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\necho \"=== stream index for 141.98.10.79 ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.addr==141.98.10.79\" -T fields -e tcp.stream 2>/dev/null | sort -u\necho \"=== first stream follow (ascii) ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,0 2>/dev/null | head -100",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,83 2>/dev/null | head -150",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\necho \"=== MAC of victim ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e eth.src -e ip.src -Y \"ip.src==172.16.1.66\" 2>/dev/null | sort -u | head -3\necho \"=== first STRRAT ping frame time ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"tcp.stream==83\" -T fields -e frame.number -e frame.time_relative -e ip.dst -e tcp.dstport 2>/dev/null | head -3\necho \"=== timing of github/maven/oracle conns relative ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e frame.time_relative -e ip.dst -e tls.handshake.extensions_server_name -Y \"tls.handshake.type==1 and (ip.dst==140.82.113.3 or ip.dst==185.199.110.133 or ip.dst==199.232.196.209 or ip.dst==23.194.164.136)\" 2>/dev/null",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\necho \"=== kerberos usernames ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e kerberos.CNameString -Y \"kerberos.CNameString\" 2>/dev/null | sort -u\necho \"=== bytes on github/maven streams ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -q -z conv,tcp,\"ip.addr==140.82.113.3 or ip.addr==185.199.110.133 or ip.addr==199.232.196.209\" 2>/dev/null\necho \"=== all dst ports used by victim (non-standard, possible other C2) ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e tcp.dstport -Y \"ip.src==172.16.1.66 and tcp.flags.syn==1 and tcp.flags.ack==0\" 2>/dev/null | sort -n | uniq -c",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,83 2>/dev/null | tail -60\necho \"=== any other streams to port 12132 or other unusual C2 ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -T fields -e tcp.stream -Y \"tcp.port==12132\" 2>/dev/null | sort -u",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nT=/opt/homebrew/bin/tshark\necho \"=== duration/packet count of C2 stream ===\"\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"tcp.stream==83\" -T fields -e frame.time_relative 2>/dev/null | tail -1\n$T -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"tcp.stream==83\" -T fields -e frame.number 2>/dev/null | wc -l"
+    ],
+    "input_tokens": 26,
+    "output_tokens": 8236,
+    "num_turns": 13,
+    "duration_ms": 133743,
+    "cost_usd": 0.6401387,
+    "wall_time_s": 135.0
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 13,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "## Incident Report \u2014 STRRAT RAT Infection\n\n**Case:** mta-2024-07-30 | **Capture window:** 2024-07-30 06:38:48 \u2013 06:48:34 UTC (585.7 s) | **File:** `2024-07-30-traffic-analysis-exercise.pcap` (SHA256 `c48854c24223cf7b4e9880ea72a21a877e4138e4ce36df7b7656e5c6c4043f68`)\n\n### Victim host\n| Field | Value |\n|---|---|\n| IPv4 | 172.16.1.66 |\n| MAC | 00:1e:64:ec:f3:08 |\n| Windows hostname | DESKTOP-SKBR25F |\n| Logged-in domain user | ccollier (domain: WIRESHARKWORKSHOP.ONLINE, confirmed via Kerberos AS-REQ CNameString and via the C2 beacon field) |\n| Domain controller (for reference) | WIRESHARK-WS-DC.wiresharkworkshop.online \u2014 172.16.1.4 |\n\n### Malware family\n**STRRAT** (Java-based RAT/\"fauxware\" RAT). **Signature-confirmed**, not behavioral: the C2 protocol carries the literal, unencrypted field `STRRAT` as the second pipe-delimited token in every beacon, which is STRRAT's known plaintext check-in format:\n\n```\nping|STRRAT|<botID>|<hostname>|<user>|<OS>|<arch>|<AV product>|<base64 active-window title>|<version>|<country>|<installed?>|<idle time>\n```\n\nObserved literal sample (frame 9067, tcp.stream 83):\n`ping|STRRAT|1BE8292C|DESKTOP-SKBR25F|ccollier|Microsoft Windows 11 Pro|64-bit|Windows Defender||1.6|US:United States|Not Installed|1 Sec`\n\nBot ID: `1BE8292C`. STRRAT version string: `1.6`. AV reported by the malware itself: Windows Defender.\n\n### Indicators of Compromise\n\n**C2 endpoint**\n- `141.98.10.79:12132` (TCP) \u2014 plaintext STRRAT beacon protocol, single persistent stream (tcp.stream 83), 411 packets over the full capture, beaconing every ~5 seconds from T+77s onward. No domain/SNI associated (raw IP:port, no TLS).\n\n**Supporting/staging infrastructure (delivery chain, in time order)**\n- `github.com` \u2192 140.82.113.3:443 (TLS, T+64.2s) \u2014 9.9 KB\n- `objects.githubusercontent.com` \u2192 185.199.110.133:443 (TLS, T+64.9s) \u2014 833 KB downloaded to host (consistent with a GitHub-hosted release/raw payload fetch \u2014 encrypted, filename/hash not recoverable from this capture)\n- `repo1.maven.org` \u2192 199.232.196.209:443 (TLS, 3 parallel streams, T+68.0s) \u2014 8.9 MB downloaded to host (Java/Maven dependency resolution, consistent with the STRRAT jar bootstrapping its runtime libraries)\n- STRRAT C2 beaconing to 141.98.10.79:12132 begins at T+77s, ~9 seconds after the Maven downloads complete \u2014 this is the infection/execution chain: GitHub payload fetch \u2192 Maven dependency pull \u2192 STRRAT jar execution \u2192 C2 beacon start.\n\n**Behavioral IOC (not malware-specific but corroborating a loader/infostealer pattern)**\n- `ip-api.com` (208.95.112.1) \u2014 `GET /json/` with a spoofed Chrome User-Agent (`Mozilla/5.0 ... Chrome/73.0.3683.86`) from a Windows host issuing raw HTTP rather than a browser \u2014 public-IP/geolocation self-check, a common pre-C2 recon step for loaders and RATs. Response confirmed geolocation lookup returned (Austin, TX, US).\n\n**No transferred files were recoverable in cleartext.** All payload-bearing transfers (GitHub, Maven, Oracle Java update) rode over TLS; the capture contains no decryption keys and no plaintext file bodies, so no filenames or SHA256 hashes for the dropped jar/binary can be grounded in this traffic. The only cleartext-observed application data is the STRRAT C2 protocol strings themselves and the two benign HTTP exchanges (`www.msftconnecttest.com/connecttest.txt`, `ip-api.com/json/`).\n\n### Summary\nDESKTOP-SKBR25F (172.16.1.66, user ccollier) fetched a payload from GitHub, pulled Java dependencies from Maven Central, executed a Java-based STRRAT RAT (bot ID 1BE8292C, reported version 1.6), performed an IP-geolocation self-check via ip-api.com, and began continuous C2 beaconing in the clear to **141.98.10.79:12132**, active for the remainder of the capture with no observed operator commands beyond keep-alive pings."
+}

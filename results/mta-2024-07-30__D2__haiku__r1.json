@@ -1,0 +1,97 @@
+{
+  "run_id": "mta-2024-07-30__D2__haiku__r1",
+  "case": "mta-2024-07-30",
+  "arm": "D2",
+  "arm_label": "no-recipes",
+  "model": "haiku",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 21,
+    "tshark_calls": 18,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -q -z io,phs 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -q -z conv,ip 2>/dev/null | head -40",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66 or ip.dst==172.16.1.66\" -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst -e ip.proto 2>/dev/null | sort | uniq -c | sort -rn | head -10",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"nbns.name\" -T fields -e nbns.name 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66 and smb\" -T fields -e smb.native_os -e smb.native_lanman -e ntlmssp.user_name 2>/dev/null | sort | uniq -c",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"kerberos\" -T fields -e kerberos.CNameString 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66\" -T fields -e ip.dst -e tcp.dstport -e http.host -e dns.qry.name 2>/dev/null | grep -v \"^\\s*$\" | sort | uniq -c | sort -rn | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.dst==141.98.10.79 and tcp.dstport==12132\" -T fields -e frame.number -e ip.src -e tcp.srcport -e tcp.dstport -e tcp.flags -e frame.len 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66 and ip.dst==141.98.10.79 and tcp.dstport==12132 and tcp.payload\" -T fields -e frame.number -e data.data 2>/dev/null | head -15",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"http.request and ip.src==172.16.1.66\" -T fields -e frame.number -e http.request.method -e http.host -e http.request.uri 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"dns.resp.type==1 and dns.a\" -T fields -e dns.qry.name -e dns.a 2>/dev/null | sort | uniq -c | sort -rn | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -q -z http,tree 2>/dev/null | head -40",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap --export-objects http,/tmp/exported_http/ 2>/dev/null; ls -la /tmp/exported_http/ 2>/dev/null || echo \"No HTTP objects exported\"",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66 and ip.dst==141.98.10.79 and tcp.dstport==12132\" -T text 2>/dev/null | grep -A 5 \"TCP segment data\" | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66 and ip.dst==141.98.10.79 and tcp.dstport==12132 and tcp.payload\" -T fields -e data.data 2>/dev/null | while read line; do if [ ! -z \"$line\" ]; then echo \"$line\" | xxd -r -p; echo \"---\"; fi; done",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66 and tcp.dstport==443\" -T fields -e frame.number -e ip.dst -e ssl.handshake.type 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"tcp.dstport==139 or tcp.dstport==445\" -T fields -e frame.number -e ip.src -e ip.dst -e smb.com -e smb.cmd 2>/dev/null | grep \"172.16.1.66\" | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30/2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66 and tcp.dstport!=443 and tcp.dstport!=80 and tcp.dstport!=445 and tcp.dstport!=389 and tcp.dstport!=88 and tcp.dstport!=135 and tcp.dstport!=139 and tcp.dstport!=49667\" -T fields -e ip.dst -e tcp.dstport -e tcp.flags 2>/dev/null | sort | uniq"
+    ],
+    "input_tokens": 178,
+    "output_tokens": 7635,
+    "num_turns": 22,
+    "duration_ms": 114564,
+    "cost_usd": 0.21420080000000002,
+    "wall_time_s": 116.5
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 5,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Analysis complete. Here is the incident report:\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"172.16.1.66\",\n    \"mac\": \"00:1e:64:ec:f3:08\",\n    \"hostname\": \"DESKTOP-SKBR25F\",\n    \"user\": \"ccollier\"\n  },\n  \"malware_family\": \"STRRAT (Strain Remote Access Trojan)\",\n  \"attribution_confidence\": \"signature-confirmed\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"141.98.10.79:12132\",\n      \"evidence\": \"Active C2 beaconing observed in TCP stream: 206+ frames of ping|STRRAT protocol with system exfiltration data. Pattern: small command frames (61 bytes) followed by victim responses (190+ bytes) containing system metadata and file listings.\"\n    },\n    {\n      \"type\": \"malware_signature\",\n      \"value\": \"STRRAT v1.6 sample ID: 1BE8292C\",\n      \"evidence\": \"Pipe-delimited C2 protocol signature 'ping|STRRAT|1BE8292C|...' observed in frames 9117-9119 onwards. STRRAT identifier is the malware family marker hardcoded in the RAT.\"\n    },\n    {\n      \"type\": \"c2_protocol_indicator\",\n      \"value\": \"Pipe-delimited beaconing with base64-encoded exfiltration\",\n      \"evidence\": \"Consistent protocol format: command|STRRAT|sample_id|hostname|user|os|arch|av_status|data|version|location|install_status|uptime. Observed exfiltration of: Home, Documents, Pictures, Program Manager, paint files with base64 encoding.\"\n    }\n  ],\n  \"benign_context\": [\n    \"Microsoft CDN/cloud traffic (443): Office, Teams, Windows telemetry, Windows Defender definitions\",\n    \"Bing and MSN searches via HTTPS (443)\",\n    \"Local Active Directory LDAP queries to 172.16.1.4 (ports 389, 3268, 135, 139, 445, 88 - Kerberos/LDAP)\",\n    \"Windows connectivity checks to msftconnecttest.com\",\n    \"GeoIP lookups to ip-api.com (common to both benign and malware)\",\n    \"UPnP discovery on local network\"\n  ],\n  \"incident_summary\": \"Windows workstation DESKTOP-SKBR25F (172.16.1.66) is actively infected with STRRAT v1.6, a remote access trojan maintained by user ccollier. The malware communicates with C2 server 141.98.10.79:12132 every 5 seconds, exfiltrating system information, file listings, and potentially sensitive documents from the victim's home and document directories. Windows Defender antivirus is either disabled or bypassed. No evidence of the initial delivery vector (malware installation) appears in this capture; only the active C2 control phase is visible.\"\n}\n```"
+}

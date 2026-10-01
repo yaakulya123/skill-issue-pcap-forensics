@@ -1,0 +1,83 @@
+{
+  "run_id": "mta-2024-11-26__D1__sonnet__r1",
+  "case": "mta-2024-11-26",
+  "arm": "D1",
+  "arm_label": "no-workflow",
+  "model": "sonnet",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 11,
+    "tshark_calls": 8,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\" && /opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -q -z io,phs 2>&1 | head -60",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\" && /opt/homebrew/bin/tshark -r 2024-11-26-traffic-analysis-exercise.pcap -q -z conv,ip 2>&1 | head -40",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== ARP: victim IP<->MAC ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"arp.src.proto_ipv4==10.11.26.183\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac | sort -u\necho \"=== DHCP hostname ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.hw.mac_addr -e ip.src | sort -u\necho \"=== NBNS name ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"nbns\" -T fields -e nbns.name -e ip.src | sort -u\necho \"=== Kerberos CNameString (username) ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== DNS queries from victim (unique) ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.src==10.11.26.183 && dns.qry.name\" -T fields -e dns.qry.name | sort -u | head -80\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== HTTP requests ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"http.request\" -T fields -e frame.time -e ip.dst -e http.host -e http.request.method -e http.request.uri | sort -u\necho \"=== TLS SNI to suspicious IPs ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"tls.handshake.type==1 && (ip.dst==193.42.38.139 || ip.dst==194.180.191.64 || ip.dst==213.246.109.5 || ip.dst==173.222.49.101)\" -T fields -e ip.dst -e tls.handshake.extensions_server_name | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\nmkdir -p /tmp/objs\n/opt/homebrew/bin/tshark -r $PCAP --export-objects \"http,/tmp/objs\" -q\nls -la /tmp/objs\nfind /tmp/objs -type f -exec shasum -a 256 {} \\;\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\necho \"=== timeline of DNS queries (with time) for key domains ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.src==10.11.26.183 && dns.flags.response==0\" -T fields -e frame.time_relative -e dns.qry.name | sort -n | head -60\necho \"=== TCP conv start times for key C2/delivery IPs ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==193.42.38.139 || ip.addr==213.246.109.5 || ip.addr==194.180.191.64 || ip.addr==173.222.49.101\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.col.Protocol | head -20\necho \"=== content of fakeurl(2).htm (POST body sample) ===\"\ncat \"/tmp/objs/fakeurl(2).htm\"\necho; echo \"=== connecttest.txt ===\"\ncat /tmp/objs/connecttest.txt\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-11-26\"\nPCAP=2024-11-26-traffic-analysis-exercise.pcap\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dns.qry.name==\\\"modandcrackedapk.com\\\" && dns.flags.response==1\" -T fields -e dns.qry.name -e dns.a\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dns.qry.name==\\\"classicgrand.com\\\" && dns.flags.response==1\" -T fields -e dns.qry.name -e dns.a\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dns.qry.name==\\\"confirmsubscription.com\\\" && dns.flags.response==1\" -T fields -e dns.qry.name -e dns.a\necho \"=== count of NetSupport POST beacon C2 requests ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"http.request.method==POST && ip.dst==194.180.191.64\" -T fields -e frame.time | wc -l\n"
+    ],
+    "input_tokens": 16,
+    "output_tokens": 7008,
+    "num_turns": 12,
+    "duration_ms": 98153,
+    "cost_usd": 0.5145412,
+    "wall_time_s": 99.4
+  },
+  "score": {
+    "recall": 1.0,
+    "iocs_found": 9,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 17,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report \u2014 2024-11-26 Traffic Analysis Exercise\n\n## Victim Host\n| Field | Value |\n|---|---|\n| IPv4 | **10.11.26.183** |\n| MAC address | **d0:57:7b:ce:fc:8b** (from ARP) |\n| Windows hostname | **DESKTOP-B8TQK49** (NBNS/mDNS), NetBIOS name **NEMOTODES**, domain **nemotoads.health** |\n| Logged-in user | **oboomwald** (Kerberos AS-REQ CNameString, seen against DC 10.11.26.3) |\n\n## Malware Family\n**NetSupport RAT** (malicious repurposing of the legitimate NetSupport Manager remote-access client).\n\n**Attribution: signature-confirmed.** Suricata/ET alerts fired directly on the traffic:\n- `ETPRO TROJAN NetSupport RAT CnC Activity`\n- `ETPRO TROJAN Malicious NetSupport Rat CnC Checkin`\n- `ET INFO NetSupport Remote Admin Checkin`\n- `ET INFO NetSupport Remote Admin Response`\n- `ET POLICY NetSupport GeoLocation Lookup Request`\n\nThis is corroborated behaviorally: exported HTTP POST bodies to the C2 begin with `CMD=ENCD` / `ES=1` / `DATA=<encrypted blob>`, which is NetSupport Manager's client-server wire protocol, and the client performed a geolocation lookup at `geo.netsupportsoftware.com` (vendor's own infrastructure), consistent with NetSupport client initialization.\n\n## Infection Chain (from DNS/TLS timeline, relative to capture start)\n1. t=32.8s \u2014 DNS query for **classicgrand.com** \u2192 213.246.109.5, immediately followed by a TLS session to that IP.\n2. t=35.7s \u2014 DNS query for **modandcrackedapk.com** \u2192 193.42.38.139 (flagged by Suricata as `ET CURRENT_EVENTS ZPHP Domain in DNS Lookup`).\n3. t=40.8s \u2014 TLS ClientHello SNI = `modandcrackedapk.com` to 193.42.38.139 (`ET CURRENT_EVENTS ZPHP Domain in TLS SNI`), consistent with a fake-crack/mod-APK lure page.\n4. t=45.4s \u2014 GET `geo.netsupportsoftware.com/location/loca.asp` \u2014 NetSupport client geolocation check-in immediately after the lure site visit.\n5. t=45.7s onward \u2014 Repeated HTTP POST beacons to `http://194.180.191.64/fakeurl.htm` on **TCP/443** (HTTP, not TLS, on the HTTPS port \u2014 flagged `ET POLICY HTTP traffic on port 443 (POST)` and `ET POLICY HTTP Request on Unusual Port Possibly Hostile`), continuing roughly once per minute for the remainder of the ~55-minute capture (58 POSTs observed).\n\nThis is the classic pattern for this family: a fake cracked-software/mod-APK download site delivers a NetSupport RAT installer, which then geolocates itself and beacons to its C2 over disguised HTTP on port 443.\n\n## Indicators of Compromise\n\n**C2 endpoints (IP:port)**\n- `194.180.191.64:443` \u2014 primary NetSupport RAT C2 (HTTP POST to `/fakeurl.htm`, `CMD=ENCD` protocol)\n\n**Malicious / lure domains**\n- `modandcrackedapk.com` (resolves to 193.42.38.139) \u2014 fake cracked-software/mod-APK lure, flagged by ET as a \"ZPHP\" domain\n- `classicgrand.com` (resolves to 213.246.109.5) \u2014 visited immediately before the lure domain, part of the same redirect/delivery chain\n- `confirmsubscription.com` (resolves to 52.8.34.0 / 13.56.30.207) \u2014 queried alongside the lure domain, likely part of the same ad/redirect chain (unconfirmed role)\n\n**URLs**\n- `http://194.180.191.64/fakeurl.htm` \u2014 NetSupport RAT C2 check-in endpoint (58 POSTs observed)\n- `https://modandcrackedapk.com/` (SNI only, TLS content not decrypted)\n- `http://geo.netsupportsoftware.com/location/loca.asp` \u2014 legitimate NetSupport vendor geolocation service used by the RAT client at startup\n\n**Files / hashes**\nNo malicious binary was recovered as an HTTP object in this capture \u2014 the initial payload delivery is presumed to have occurred over the TLS session to `modandcrackedapk.com` (193.42.38.139), which is encrypted and not decodable from the PCAP alone. The only exported HTTP objects are the C2 beacon bodies themselves (`fakeurl.htm`, containing `CMD=ENCD` encrypted payloads \u2014 not files, not hashed as artifacts) and benign OS/browser traffic (Windows connectivity test, Adobe update check, CRL/OCSP fetches). No dropped executable or document was observed in cleartext HTTP.\n\n## Benign/Noise Context (not IOCs)\nStandard Windows/AD/Office 365 telemetry: `*.msn.com`, `*.microsoft.com`, `windowsupdate.com`, `login.live.com`, LDAP/Kerberos/DCE-RPC to the domain controller (10.11.26.3, NEMOTODES-DC), NBNS/mDNS/LLMNR/SSDP broadcast chatter, Google/Bing/font CDN traffic, Adobe ARM update check (`acroipm2.adobe.com`), OCSP/CRL checks."
+}

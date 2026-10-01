@@ -1,0 +1,103 @@
+{
+  "run_id": "mta-2024-08-15__D3__haiku__r3",
+  "case": "mta-2024-08-15",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 36,
+    "tshark_calls": 24,
+    "tshark_cmds": [
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -q -z io,phs 2>/dev/null | head -30",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -q -z conv,ip 2>/dev/null",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"nbns\" -T fields -e nbns.name -e ip.src 2>/dev/null | sort -u",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>/dev/null | sort -u",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString 2>/dev/null | sort -u",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>/dev/null | head -50",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request.method==POST\" -T fields -e ip.dst -e http.host -e http.request.uri 2>/dev/null | sort -u",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name -e ip.src 2>/dev/null | grep -i fedex | sort -u",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.resp.name\" -T fields -e dns.qry.name -e dns.resp.name -e dns.a 2>/dev/null | grep -i fedex | sort -u",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.8.15.133 && tcp.dstport\" -T fields -e ip.dst -e tcp.dstport 2>/dev/null | sort | uniq -c | sort -rn | head -20",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.8.15.133 && ip.dst==72.5.43.29\" -q -z follow,tcp,ascii,0 2>/dev/null | head -100",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.dst==72.5.43.29 && http\" -T fields -e tcp.stream -e http.request.method -e http.request.uri 2>/dev/null | head -50",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"tcp.stream==142\" -q -z follow,tcp,ascii 2>/dev/null",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.dst==72.5.43.29 && http\" -T fields -e http.request -e http.response 2>/dev/null | head -20",
+      "mkdir -p /tmp/pcap_objects && tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" --export-objects \"http,/tmp/pcap_objects\" -q 2>/dev/null && ls -lah /tmp/pcap_objects",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request.uri contains managements\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.uri 2>/dev/null",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.8.15.133 && ip.dst==72.5.43.29 && http.request\" -T fields -e frame.time_epoch -e http.request.method | head -30",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request && ip.dst==104.21.55.70\" -T fields -e frame.time_epoch -e http.host -e http.request.uri 2>/dev/null | head -10",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name 2>/dev/null | sort -u | grep -v \"\\.arpa$\" | head -30",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name 2>/dev/null | sort -u | grep -i \"checkfedex\\|quote\\|business\"",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.8.15.133 && ip.dst==72.5.43.29 && http\" -T fields -e http.response.code 2>/dev/null | sort -u",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.src==72.5.43.29 && ip.dst==10.8.15.133 && http\" -T fields -e http.response.code 2>/dev/null | head -20",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request.uri contains data\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.uri 2>/dev/null",
+      "tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request.uri\" -T fields -e http.request.uri 2>/dev/null | grep \"data\" | head -5"
+    ],
+    "input_tokens": 298,
+    "output_tokens": 9604,
+    "num_turns": 37,
+    "duration_ms": 182521,
+    "cost_usd": 0.2925537999999999,
+    "wall_time_s": 183.8
+  },
+  "score": {
+    "recall": 0.8182,
+    "iocs_found": 9,
+    "iocs_total": 11,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 2,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 7,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Now I'll compile the incident report with all findings grounded in the network traffic.\n\n---\n\n## INCIDENT REPORT: MTA-2024-08-15 Traffic Analysis Exercise\n\n### Victim Host\n\n| Attribute | Value |\n|---|---|\n| IPv4 Address | 10.8.15.133 |\n| MAC Address | 00:1c:bf:03:54:82 |\n| Windows Hostname | DESKTOP-H8ALZBV |\n| Domain | lafontainebleu.org |\n| Logged-in User | plucero |\n\n### Malware Attribution\n\n**Family:** Adwind RAT (Remote Access Trojan)\n\n**Attribution Basis:** Behavioral signature match\n- C2 beaconing pattern to bare-IP HTTP endpoint with `/foots.php` URI pattern (known Adwind C2 endpoint identifier)\n- Multi-stage delivery chain: PowerShell > ZIP > JavaScript > DLL payload\n- DLL file type and repeated GET/POST beaconing to single external C2 every 5-7 seconds\n- Fake FedEx domain lure in delivery stage\n\n### Indicators of Compromise\n\n#### Command & Control Endpoints\n\n| Type | Value | Port | Protocol | Confidence |\n|---|---|---|---|---|\n| IPv4 (C2 Server) | 72.5.43.29 | 80 | HTTP | Confirmed |\n\n**C2 Behavior:** 1,844 packets sent to this endpoint; repetitive GET/POST requests to `/` and `/foots.php` beginning at packet timestamp 1723680719 (08:51:59 UTC); responses initially 200 OK then 400 Bad Request (no new commands issued).\n\n#### Malicious Domains\n\n| Domain | Resolution IP(s) | Purpose | Confidence |\n|---|---|---|---|---|\n| quote.checkfedexexp.com | 104.21.55.70, 172.67.170.159 | Payload delivery (ZIP download) | Confirmed |\n| business.checkfedexexp.com | 172.67.170.159, 104.21.55.70 | Typosquatting FedEx (command domain) | Confirmed |\n\n**Note:** Both domains typosquat legitimate FedEx infrastructure; used together in delivery chain.\n\n#### Malicious URLs\n\n| URL | Delivered Payload | File Hash (SHA256) |\n|---|---|---|\n| `http://quote.checkfedexexp.com/managements?16553a25e45250a41fd5&endeds=MIGpq&JStx=59bf050d37df88a9-ade43358-eaa1220b-0571422b-0f33e6aa150e86bafd0ed4&Ld=9d7502d88d752a27b1d00587309184b5a215` | ZIP archive containing JavaScript | 798563fcf7600f7ef1a35996291a9dfb5f9902733404dd499e2e736ea1dc6fc5 |\n| `http://72.5.43.29/data/0f60a3e7baecf2748b1c8183ed37d1e4` | PE32+ DLL (x86-64, GUI Windows) | b7aec5f73d2a6bbd8cd920edb4760e2edadc98c3a45bf4fa994d47ca9cbd02f6 |\n\n#### Transferred Files & Hashes\n\n| Filename | File Type | Size | SHA256 |\n|---|---|---|---|\n| pas.ps1 | PowerShell script (obfuscated Base64) | 1513 bytes | a833f27c2bb4cad31344e70386c44b5c221f031d7cd2f2a6b8601919e790161e |\n| Invoice-876597035-003-8331775-8334138.js | JavaScript (embedded in ZIP) | 6,990,020 bytes | dab98819d1d7677a60f5d06be210d45b74ae5fd8cf0c24ec1b3766e25ce6dc2c |\n| 0f60a3e7baecf2748b1c8183ed37d1e4 | PE32+ DLL (GUI, x86-64) | 159,232 bytes | b7aec5f73d2a6bbd8cd920edb4760e2edadc98c3a45bf4fa994d47ca9cbd02f6 |\n| osk | Binary data (likely registry hive or system artifact) | ? bytes | 1ecee6ff37e03c1160b8bf66d5ca8dc784e0b35fb9fd105f0964b314d310c07f |\n\n### Delivery Chain & Timeline\n\n1. **Stage 1 (Delivery):** `pas.ps1` PowerShell script downloaded (obfuscated, uses base64 string encoding with octal/hex substitution). Delivers Base64-encoded command for stage 2.\n\n2. **Stage 2 (Dropper):** PowerShell executes, downloads ZIP from `quote.checkfedexexp.com` (104.21.55.70) at timestamp 1723680658.536866. ZIP contains `Invoice-876597035-003-8331775-8334138.js` disguised as invoice PDF.\n\n3. **Stage 3 (Payload):** JavaScript extracts and executes DLL payload from `72.5.43.29/data/0f60a3e7baecf2748b1c8183ed37d1e4` at timestamp 1723680719.744428.\n\n4. **Stage 4 (C2 Beaconing):** DLL establishes persistent C2 connection to `72.5.43.29:80`, initiating beaconing to `/foots.php` and `/` endpoints at irregular 5-7 second intervals. Server responds with 200 OK initially, then 400 Bad Request (no active commands). Beaconing observed for entire capture duration (~1827 seconds).\n\n### Summary\n\nVictim workstation compromised by multi-stage Adwind RAT delivered via FedEx-impersonating domain. Malware maintains persistent C2 presence to bare-IP server; no command activity observed during capture window, but beacon interval and response pattern consistent with active C2 infrastructure awaiting operator input."
+}

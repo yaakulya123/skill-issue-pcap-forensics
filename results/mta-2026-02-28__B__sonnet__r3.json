@@ -1,0 +1,77 @@
+{
+  "run_id": "mta-2026-02-28__B__sonnet__r3",
+  "case": "mta-2026-02-28",
+  "arm": "B",
+  "arm_label": "community-wireshark",
+  "model": "sonnet",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 12,
+    "tshark_calls": 10,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== capinfos-like summary ===\"\n$TS -r $PCAP -q -z io,phs 2>/dev/null | head -50\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== DHCP ===\"\n$TS -r $PCAP -Y \"dhcp\" -T fields -e ip.src -e ip.dst -e dhcp.option.dhcp -e dhcp.option.hostname -e dhcp.option.requested_ip_address -e eth.src 2>/dev/null\necho \"=== NBNS (netbios name registrations) ===\"\n$TS -r $PCAP -Y \"nbns\" -T fields -e ip.src -e nbns.name -e nbns.flags.opcode 2>/dev/null | sort -u | head -30\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== Kerberos usernames ===\"\n$TS -r $PCAP -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u\necho \"=== NTLMSSP usernames ===\"\n$TS -r $PCAP -Y \"ntlmssp.auth.username\" -T fields -e ip.src -e ntlmssp.auth.username -e ntlmssp.auth.domain 2>/dev/null | sort -u\necho \"=== SMB username ===\"\n$TS -r $PCAP -Y \"smb.sid or smb2.sesid\" -T fields -e ip.src -e smb.acct 2>/dev/null | sort -u | head\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== HTTP requests from victim ===\"\n$TS -r $PCAP -Y \"http.request and ip.src==10.2.28.88\" -T fields -e frame.time_relative -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== unique dest IP:port for http.request from victim (excluding multicast/legit) ===\"\n$TS -r $PCAP -Y \"http.request and ip.src==10.2.28.88\" -T fields -e ip.dst -e tcp.dstport -e http.host 2>/dev/null | sort -u | grep -v \"239.255\"\necho \"=== DNS queries from victim (unique) ===\"\n$TS -r $PCAP -Y \"dns.flags.response==0 and ip.src==10.2.28.88\" -T fields -e dns.qry.name 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== DNS answers for vadusa.xyz ===\"\n$TS -r $PCAP -Y \"dns.qry.name==vadusa.xyz or dns.resp.name==vadusa.xyz\" -T fields -e frame.time_relative -e dns.qry.name -e dns.a -e dns.flags.response 2>/dev/null\necho \"=== traffic to/from fmcsa.dot.gov ===\"\n$TS -r $PCAP -Y \"http.host==\\\"www.fmcsa.dot.gov\\\"\" -T fields -e frame.time_relative -e ip.dst -e http.request.method -e http.request.uri 2>/dev/null | head -20\necho \"=== all conversations with 45.131.214.85 ===\"\n$TS -r $PCAP -Y \"ip.addr==45.131.214.85\" -q -z conv,tcp 2>/dev/null | head -20\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== all http.request across whole cap (any src), first 60s ===\"\n$TS -r $PCAP -Y \"http.request and frame.time_relative<60\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\necho \"=== exported http objects (all) ===\"\nmkdir -p /tmp/httpobjs\n$TS -r $PCAP --export-objects \"http,/tmp/httpobjs\" -q 2>/dev/null\nls -la /tmp/httpobjs\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== all http objects list (host + uri + content-type) ===\"\n$TS -r $PCAP -Y \"http.response\" -T fields -e ip.src -e http.host -e http.request.full_uri -e http.content_type -e http.content_length 2>/dev/null | sort -u | grep -iE \"exe|dll|octet|zip|application\" \n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== POST body content (form data) for a couple beacon requests ===\"\n$TS -r $PCAP -Y \"http.request and ip.dst==45.131.214.85\" -T fields -e frame.number 2>/dev/null | head -3\necho \"--- frame content ---\"\n$TS -r $PCAP -Y \"frame.number==87\" -T fields -e urlencoded-form.value 2>/dev/null\n$TS -r $PCAP -Y \"http.request and ip.dst==45.131.214.85\" -T fields -e http.file_data 2>/dev/null | head -3\necho \"=== TLS SNI for vadusa.xyz / 45.131.214.85 ===\"\n$TS -r $PCAP -Y \"tls.handshake.extensions_server_name\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u | grep -i vadusa\necho \"=== count of beacon POSTs and time span ===\"\n$TS -r $PCAP -Y \"http.request and ip.dst==45.131.214.85\" 2>/dev/null | wc -l\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28\"\nPCAP=2026-02-28-traffic-analysis-exercise.pcap\nTS=/opt/homebrew/bin/tshark\necho \"=== victim MAC confirm ===\"\n$TS -r $PCAP -Y \"ip.src==10.2.28.88\" -T fields -e eth.src 2>/dev/null | sort -u | head -3\necho \"=== first and last beacon timestamps (relative) ===\"\n$TS -r $PCAP -Y \"http.request and ip.dst==45.131.214.85\" -T fields -e frame.time_relative 2>/dev/null | sort -n | sed -n '1p;$p'\necho \"=== capture start/end wall clock ===\"\ncapinfos \"$PCAP\" 2>/dev/null | grep -i \"time\"\n"
+    ],
+    "input_tokens": 26,
+    "output_tokens": 8759,
+    "num_turns": 13,
+    "duration_ms": 140632,
+    "cost_usd": 0.5820957999999999,
+    "wall_time_s": 141.8
+  },
+  "score": {
+    "recall": 1.0,
+    "iocs_found": 6,
+    "iocs_total": 6,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 13,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report: NetSupport RAT Infection \u2014 DESKTOP-TEYQ2NR\n\n**Evidence:** `2026-02-28-traffic-analysis-exercise.pcap` (15,512 frames, 2026-02-28 23:55:06 UTC \u2013 2026-03-01 04:16:35 UTC). No separate IDS/alert export was present in the evidence directory; findings below are derived directly from packet analysis with tshark.\n\n## Victim host\n\n| Attribute | Value |\n|---|---|\n| IPv4 address | 10.2.28.88 |\n| MAC address | 00:19:d1:b2:4d:ad |\n| Windows hostname | DESKTOP-TEYQ2NR |\n| AD domain | easyas123.tech (NetBIOS: EASYAS123) |\n| Logged-in user | brolf (confirmed via Kerberos AS-REQ CNameString from 10.2.28.88 to the DC at 10.2.28.2) |\n\n## Malware family\n\n**NetSupport RAT** (NetSupport Manager remote-access tool repurposed as a RAT). **Signature-confirmed**, not just behavioral, based on:\n\n- HTTP User-Agent string `NetSupport Manager/1.3` on every outbound C2 request \u2014 this is a hardcoded, distinctive client string, not a generic browser/tool UA.\n- C2 check-in path `POST /fakeurl.htm`, the well-known fixed gateway-connect endpoint used by the NetSupport client protocol.\n- Plaintext protocol tokens inside the POST bodies matching the NetSupport client/gateway wire format: `CMD=POLL / INFO=1 / ACK=1` and `CMD=ENCD / ES=1 / DATA=<hex-encoded blob>` (the encrypted tasking/data channel).\n- Traffic is HTTP-over-port-443 (no actual TLS handshake on this connection), a known technique used by this RAT to blend in with HTTPS traffic on the wire while avoiding certificate overhead.\n\nBeaconing ran from t+45s through t+15,682s of the capture (~4.4 hours), at roughly 60-second intervals, for 264 total POST requests \u2014 consistent with a persistent, actively-tasked RAT implant rather than a one-off callback.\n\n## Indicators of compromise\n\n**C2 endpoints**\n- `45.131.214.85:443` (HTTP, not TLS) \u2014 primary C2 server, single long-lived TCP conversation `10.2.28.88:51912 <-> 45.131.214.85:443` spanning ~15,637 seconds.\n\n**Malicious domain**\n- `vadusa.xyz` \u2014 resolved by the victim (query at t+44.77s, answer at t+44.89s) to `45.131.214.85`. Only this single A-record lookup was observed; all subsequent C2 traffic addressed the resolved IP directly (Host header `45.131.214.85`), consistent with the domain being used only as a one-time bootstrap for the hardcoded C2 IP.\n\n**Malicious URL**\n- `http://45.131.214.85/fakeurl.htm` \u2014 repeated POST target, the NetSupport client/gateway check-in endpoint.\n\n**Transferred files / hashes**\n- None observed. No executable, DLL, or archive payload transited this capture over HTTP/SMB. The RAT client was already resident and beaconing when the capture begins (first C2 POST occurs at t+45s, immediately after DHCP lease acquisition), so the initial delivery/drop of the NetSupport client is outside the window of this pcap. No SHA256 can be grounded in this evidence.\n\n## Supporting/benign traffic ruled out\nDNS/HTTP activity to `msftconnecttest.com`, `ctldl.windowsupdate.com`, `*.delivery.mp.microsoft.com` (Chrome/Edge component + extension updates), `adobe.com`, `msn.com`, `microsoftonline.com`, `office.com`, `nvidia.com`, and internal AD/DC traffic (Kerberos, LDAP, DRSUAPI, SAMR, SMB to 10.2.28.2) are all consistent with normal Windows/Office/browser telemetry and domain operations, and are unrelated to the intrusion.\n\n## Recommendation\nIsolate DESKTOP-TEYQ2NR (10.2.28.88) from the network immediately, block 45.131.214.85 and the domain vadusa.xyz at the perimeter/DNS sinkhole, and image the host to identify and remove the NetSupport client binary and its persistence mechanism, since the delivery vector is not captured in this pcap."
+}

@@ -1,0 +1,90 @@
+{
+  "run_id": "mta-2025-01-22__B3__haiku__r3",
+  "case": "mta-2025-01-22",
+  "arm": "B3",
+  "arm_label": "community-pcap",
+  "model": "haiku",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 29,
+    "tshark_calls": 23,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -z io,phs -q 2>/dev/null | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -z conv,ip -q 2>/dev/null | grep -v \"^$\"",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.1.17.215\" -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"dns.flags.response == 0\" -T fields -e dns.qry.name 2>/dev/null | sort -u | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"dns.flags.response == 0\" -T fields -e dns.qry.name 2>/dev/null | sort -u | wc -l",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http.request\" -T fields -e http.host -e http.request.method -e http.request.uri 2>/dev/null | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.dst == 5.252.153.241 and http.request\" -T fields -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.dst == 45.125.66.32 and tcp.dstport == 443\" -T fields -e tls.handshake.extensions_server_name 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"tls.handshake.type == 1 and ip.src == 10.1.17.215\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | grep -E \"45\\.125|5\\.252\" | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"cldap\" -T fields -e cldap.domain -e cldap.user 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" --export-objects http,/tmp/exported_http 2>/dev/null && ls -la /tmp/exported_http/ | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"smb2.action == 1\" -T fields -e smb2.acct 2>/dev/null | grep -v \"^$\" | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"kerberos\" -T fields -e kerberos.auth_type 2>/dev/null | head -10",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"dns\" -T fields -e dns.qry.name 2>/dev/null | grep -E \"^[a-zA-Z].*\\.\" | sort -u | head -40",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.dst == 5.252.153.241\" -T fields -e http.request.uri 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.dst == 45.125.66.32 and tcp.dstport == 443\" -T fields -e tls.handshake.cert.subject 2>/dev/null | sort -u | head -5",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.1.17.215 and ip.dst == 45.125.66.32\" -T fields -e tcp.dstport 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.1.17.215 and ip.dst == 45.125.66.32 and tcp.dstport == 2917\" -T fields -e data.data 2>/dev/null | head -5",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"dns.flags.response == 1\" -T fields -e dns.qry.name -e dns.a 2>/dev/null | grep -E \"authenticatoor|appointedtime|bttrack\" | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.dst == 82.221.136.26\" -T fields -e tcp.dstport 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.dst == 82.221.136.26 and tls.handshake.type == 1\" -T fields -e tls.handshake.extensions_server_name -e tls.handshake.cert.subject 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"nbss\" -T fields -e smb2.acct -e smb2.user 2>/dev/null | grep -v \"^$\" | head -10",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.1.17.215 and ip.dst == 45.125.66.32 and tcp.dstport == 2917\" -c 5"
+    ],
+    "input_tokens": 242,
+    "output_tokens": 10139,
+    "num_turns": 30,
+    "duration_ms": 154779,
+    "cost_usd": 0.27997159999999993,
+    "wall_time_s": 156.5
+  },
+  "score": {
+    "recall": 0.875,
+    "iocs_found": 7,
+    "iocs_total": 8,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 0,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 3,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": false
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": null,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 9,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "---\n\n## INCIDENT REPORT: Network Forensic Analysis\n\n**Analysis Date:** 25 July 2026  \n**Evidence File:** 2025-01-22-traffic-analysis-exercise.pcap  \n**Analyst Confidence Level:** High (behavioral + signature evidence)\n\n---\n\n### VICTIM HOST IDENTIFICATION\n\n**IPv4 Address:** 10.1.17.215  \n**MAC Address:** 00:d0:b7:26:4a:74  \n**Windows Hostname:** DESKTOP-L8C5GSJ  \n**Domain:** bluemoontuesday.com  \n**Windows User Account:** Not visible in captured network traffic\n\n---\n\n### MALWARE IDENTIFICATION\n\n**Family Name:** TeamViewer Stealware / Remote Access Trojan (RAT)  \n**Attribution Type:** Behavioral (signature confirmation unavailable from network evidence alone)\n\n**Malware Behavior:**\n- Multi-stage infection: PowerShell loader downloads TeamViewer components\n- Establishes persistence via startup shortcuts\n- Executes obfuscated PowerShell scripts with Base64 encoding\n- Maintains active C&C communication with status reporting\n- Attempts to install/run TeamViewer for remote access and data theft\n\n---\n\n### INDICATORS OF COMPROMISE (IOCs)\n\n**Command & Control Servers (Primary):**\n- **5.252.153.241** (port 80, HTTP)\n  - C&C API endpoint: `http://5.252.153.241/1517096937`\n  - File download endpoint: `http://5.252.153.241/api/file/get-file/[filename]`\n\n**Command & Control Servers (Secondary):**\n- **45.125.66.32** (port 443, HTTPS; port 2917, raw TCP)\n- **45.125.66.252** (port 443, HTTPS)\n\n**Malicious Domains:**\n- **authenticatoor.org** \u2192 82.221.136.26 (port 443, HTTPS)\n- **appointedtimeagriculture.com** \u2192 217.70.186.109\n\n**Downloaded Malicious Files:**\n- **29842.ps1** (PowerShell loader script)\n  - SHA256: `b8ce40900788ea26b9e4c9af7efab533e8d39ed1370da09b93fcf72a16750ded`\n  - Size: 1512 bytes\n  - Encoding: Obfuscated with Base64 + character replacement\n  - Execution method: IEX (Invoke-Expression)\n\n- **pas.ps1** (PowerShell auxiliary script)\n  - Downloaded from C&C, content unknown (not extracted intact)\n\n- **File ID 264872** (Binary payload)\n  - SHA256: `c74123dbccded43fda61651e102750b041d4c3af6fda88cd6436f9276653e103`\n  - Size: 417 bytes\n\n- **TeamViewer Components** (files: TV, TeamViewer, Teamviewer_Resource_fr)\n  - Downloaded from C&C for remote access capability\n\n**C&C Communication Patterns:**\n- Status report: `GET /1517096937?k=message%20=%20startup%20shortcut%20created;%20status%20=%20success;`\n- Script execution report: `GET /1517096937?k=script:%20RunRH,%20status:%20OK,%20message:%20PS%20process%20started`\n- Persistent beaconing observed throughout capture duration (89 seconds to 3199 seconds)\n\n**URLs:**\n- `http://5.252.153.241/api/file/get-file/264872`\n- `http://5.252.153.241/api/file/get-file/29842.ps1`\n- `http://5.252.153.241/api/file/get-file/pas.ps1`\n- `http://5.252.153.241/api/file/get-file/TeamViewer`\n- `http://5.252.153.241/api/file/get-file/TV`\n- `http://5.252.153.241/api/file/get-file/Teamviewer_Resource_fr`\n\n---\n\n### INFECTION TIMELINE\n\n1. **Initial Execution:** Victim downloads obfuscated PowerShell loader (29842.ps1)\n2. **Persistence Establishment:** Creates startup shortcut for reboot persistence\n3. **Payload Delivery:** Stage 1 script downloads TeamViewer executable and supporting files\n4. **Remote Access:** TeamViewer installation enables attacker remote access\n5. **C&C Beaconing:** Continuous status reports sent to C&C at 5.252.153.241\n\n---\n\n### SEVERITY ASSESSMENT\n\n**Critical** - This is an active remote access trojan with:\n- C&C command authority established\n- Attacker remote access capability (TeamViewer)\n- Persistence mechanisms in place\n- Data theft risk (stealware component)\n- Potential for lateral movement within network"
+}

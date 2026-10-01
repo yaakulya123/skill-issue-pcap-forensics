@@ -1,0 +1,104 @@
+{
+  "run_id": "mta-2026-02-28__B__haiku__r2",
+  "case": "mta-2026-02-28",
+  "arm": "B",
+  "arm_label": "official",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 42,
+    "tshark_calls": 37,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -q -z io,phs",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -q -z endpoints,ip | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"dns.qry.type == 1\" -T fields -e dns.qry.name | sort | uniq -c | sort -rn | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri | head -40",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and http.request.method == POST\" -T fields -e http.request.full_uri -e http.user_agent 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"arp.src.proto_ipv4 == 10.2.28.88\" -T fields -e arp.src.hw_mac | head -1",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e nbns.name | sort | uniq -c | sort -rn | head -10",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"kerberos\" -T fields -e kerberos.cname 2>/dev/null | sort | uniq -c",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"smb2.ses.user\" -T fields -e smb2.ses.user 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and http.request.method == POST and ip.dst == 45.131.214.85\" -x | head -100",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ldap.search.filter\" -T fields -e ldap.search.filter 2>/dev/null | head -10",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and http\" -T fields -e http.host -e http.request.uri | grep -v \"^239\\|^$\" | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and ip.dst != 10.2.28.0/24 and tcp.flags.syn == 1\" -T fields -e ip.dst -e tcp.dstport | sort | uniq -c | sort -rn",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and http.request\" -T fields -e http.request_full_uri | grep -v \"^microsoft\\|^edge\\|^windows\\|^adobe\\|^msft\\|^bing\\|^msn\" | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"tls.handshake.type == 11\" -T fields -e x509sat.commonName -e x509sat.organizationName 2>/dev/null | sort | uniq | head -10",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and ip.dst == 45.131.214.85\" -A 2>/dev/null | grep -E \"CMD=|INFO=|DATA=|USER|DOMAIN\" | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and ip.dst == 45.131.214.85 and tcp.dstport == 1\" -q -z follow,tcp,ascii,0 2>/dev/null | strings | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -q -z hosts,ip | grep \"10.2.28.88\"",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"wpad\" -T fields -e dns.qry.name 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and dns.qry.name == \\\"EASYAS123-DC.easyas123.tech\\\"\" -T fields -e frame.time -e dns.qry.name",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and ip.dst == 45.131.214.85\" -x 2>/dev/null | strings 2>/dev/null | grep -E \"USER|USER NAME|DOMAIN|ADMIN|DESKTOP\" | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"smb2.filename\" -T fields -e smb2.filename | sort | uniq | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ldap\" -T fields -e ldap.baseObject | sort | uniq | head -10",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.dst == 45.131.214.85\" -B ascii 2>/dev/null | head -200",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -q -z io,stat,1 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"smb2\" -T fields -e smb2.filename | grep -i \"users\\|user\\|documents\\|desktop\\|profile\" | head -10",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and ip.dst == 10.2.28.2 and smb2\" | head -5",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"frame.number == 70\" -T fields -e ntlmssp.auth.username",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ntlmssp\" -T fields -e ntlmssp.auth.username -e ntlmssp.auth.domainname 2>/dev/null | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"gss-api\" -T fields -e gss-api 2>/dev/null | head -10",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and http.request.method == POST\" -T fields -e ip.src -e ip.dst -e tcp.dstport -e http.request.uri | sort | uniq -c",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.dst == 10.2.28.88 and http.response.code\" -T fields -e http.response.code -e http.response_in | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and ip.dst == 45.131.214.85\" -T fields -e tcp.srcport -e tcp.dstport | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"dns.qry.name contains \\\"vadusa\\\"\" -T fields -e dns.qry.name",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ip.src == 10.2.28.88 and tls.server_name == \\\"vadusa.xyz\\\"\" -T fields -e ip.dst -e tcp.dstport | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"ssl.handshake.server_name == \\\"vadusa.xyz\\\"\" -T fields -e ip.dst -e tcp.dstport | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-02-28/2026-02-28-traffic-analysis-exercise.pcap -Y \"http.host == \\\"vadusa.xyz\\\"\" -T fields -e http.host -e http.request.uri"
+    ],
+    "input_tokens": 346,
+    "output_tokens": 12097,
+    "num_turns": 43,
+    "duration_ms": 187442,
+    "cost_usd": 0.3723535,
+    "wall_time_s": 188.7
+  },
+  "score": {
+    "recall": 0.8333,
+    "iocs_found": 5,
+    "iocs_total": 6,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 0,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": false
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 5,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "I now have all the necessary information for the incident report. Let me compile the findings:\n\n---\n\n## INCIDENT REPORT: NetSupport Manager Malware Infection\n\n**Case ID:** MTA-2026-02-28  \n**Report Date:** 2026-02-28  \n**Analysis Platform:** tshark (Wireshark CLI)\n\n---\n\n### VICTIM HOST IDENTIFICATION\n\n**IPv4 Address:** 10.2.28.88  \n**MAC Address:** 00:19:d1:b2:4d:ad  \n**Windows Hostname:** DESKTOP-TEYQ2NR  \n**Logged-in User Account:** tech  \n**Domain Membership:** easyas123.tech  \n\n---\n\n### MALWARE IDENTIFICATION\n\n**Malware Family:** NetSupport Manager  \n**Attribution Confidence:** Signature-Confirmed  \n**Evidence:** Malware transmits \"User-Agent: NetSupport Manager/1.3\" in HTTP POST requests to C&C server. 264 POST beacons captured to the C&C endpoint during the capture window.\n\n---\n\n### INDICATORS OF COMPROMISE\n\n#### Primary Command-and-Control Endpoint\n- **C&C Server IP:** 45.131.214.85\n- **C&C Port:** 443 (HTTPS)\n- **C&C URL:** http://45.131.214.85/fakeurl.htm\n- **Beacon Frequency:** 264 POST requests captured over analysis period\n- **Protocol:** HTTP/1.1 over TLS with encrypted payloads (CMD=POLL polling, CMD=ENCD encrypted data transfers)\n\n#### Malicious Domain\n- **Domain:** easyas123.tech\n- **Role:** Attacker-controlled domain; victim's workstation is a member of this domain (Windows domain join)\n- **Domain Controller:** EASYAS123-DC.easyas123.tech\n- **Activity:** 12 DNS queries to the domain controller; SMB2 Group Policy downloads from domain controller\n\n#### Secondary Domain (DNS-only, no active connection)\n- **Domain:** vadusa.xyz\n- **Activity:** 3 DNS A-record queries; no TCP/IP connections observed to this domain\n\n#### Transferred Files & Payloads\n- No unencrypted files transferred over HTTP. C&C data is encrypted (DATA=<binary_blob>). File names and SHA256 hashes not recoverable from encrypted payloads.\n\n---\n\n### ATTACK TIMELINE & BEHAVIOR\n\n1. **Domain Integration:** Victim workstation is a member of attacker-controlled domain easyas123.tech\n2. **C&C Beaconing:** Repeated POST beacons to 45.131.214.85 with NetSupport Manager user agent\n3. **Beacon Protocol:**\n   - Polling phase: CMD=POLL, INFO=1, ACK=1 (22-byte payloads)\n   - Execution phase: CMD=ENCD, ES=1, DATA=<encrypted_binary> (244-byte+ payloads)\n4. **DNS Reconnaissance:** Queries to both malicious domain controllers (easyas123-dc.easyas123.tech) and secondary domains (vadusa.xyz)\n\n---\n\n### NETWORK FORENSICS SUMMARY\n\n- **Total Packets Captured:** 15,512\n- **Capture Duration:** ~4.3 hours\n- **Malicious Traffic Packets:** 264 POST requests + DNS queries + SMB domain controller traffic\n- **Protocol Evidence:** NetSupport Manager beacon protocol, domain-joined system authentication, Group Policy traffic over SMB2\n\n---"
+}

@@ -1,0 +1,85 @@
+{
+  "run_id": "mta-2021-09-10__C__sonnet__r3",
+  "case": "mta-2021-09-10",
+  "arm": "C",
+  "arm_label": "custom",
+  "model": "sonnet",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 13,
+    "tshark_calls": 10,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== proto hierarchy ===\"\n/opt/homebrew/bin/tshark -r $PCAP -q -z io,phs 2>/dev/null\necho \"=== top conversations by bytes ===\"\n/opt/homebrew/bin/tshark -r $PCAP -q -z conv,ip 2>/dev/null | head -40\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== DHCP ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dhcp\" -T fields -e ip.src -e dhcp.option.hostname -e dhcp.option.requested_ip_address -e eth.src 2>/dev/null\necho \"=== NBNS names ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u\necho \"=== ARP for 10.9.10.102 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"arp.src.proto_ipv4==10.9.10.102\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>/dev/null | sort -u | head -5\necho \"=== Kerberos CNames ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u\necho \"=== LDAP givenName/sAMAccountName style ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ldap\" -T fields -e ldap.baseObject 2>/dev/null | sort -u | head -20\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== HTTP requests (dst ip, host, method, uri) ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"http.request\" -T fields -e frame.number -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== DNS queries (unique) ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u\necho \"=== TLS SNI list ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== DNS answer for simpsonsavingss.com ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"dns.qry.name==\\\"simpsonsavingss.com\\\"\" -T fields -e frame.number -e dns.flags.response -e dns.qry.name -e dns.a 2>/dev/null\necho \"=== all traffic to/from 167.172.37.9 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==167.172.37.9\" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.col.Protocol -e _ws.col.Info 2>/dev/null | head -20\necho \"=== all traffic to/from 94.158.245.52 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==94.158.245.52\" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.col.Protocol -e _ws.col.Info 2>/dev/null | head -20\necho \"=== all traffic to/from 194.62.42.206 (protocols) ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==194.62.42.206\" -T fields -e frame.number -e _ws.col.Protocol 2>/dev/null | awk '{print $2}' | sort | uniq -c\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== cert CN for 167.172.37.9 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==167.172.37.9 && tls.handshake.type==11\" -T fields -e x509sat.uTF8String -e x509sat.printableString 2>/dev/null | sort -u\necho \"=== cert CN for 94.158.245.52 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==94.158.245.52 && tls.handshake.type==11\" -T fields -e x509sat.uTF8String -e x509sat.printableString 2>/dev/null | sort -u\necho \"=== client hello ext SNI raw for these two, check presence ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==167.172.37.9 && tls.handshake.type==1\" -T fields -e tls.handshake.extensions_server_name -e frame.number 2>/dev/null\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==94.158.245.52 && tls.handshake.type==1\" -T fields -e tls.handshake.extensions_server_name -e frame.number 2>/dev/null\necho \"=== http.request to those two ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==167.172.37.9 || ip.addr==94.158.245.52\" -Y \"http\" -T fields -e ip.dst -e http.host -e http.request.uri 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== stream index for frame 1189 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"frame.number==1189\" -T fields -e tcp.stream 2>/dev/null\necho \"=== follow that stream ===\"\nSTREAM=$(/opt/homebrew/bin/tshark -r $PCAP -Y \"frame.number==1189\" -T fields -e tcp.stream 2>/dev/null)\n/opt/homebrew/bin/tshark -r $PCAP -q -z follow,tcp,ascii,$STREAM 2>/dev/null | head -100\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\nmkdir -p /tmp/objs\n/opt/homebrew/bin/tshark -r $PCAP --export-objects \"http,/tmp/objs\" -q 2>/dev/null\nls -la /tmp/objs\necho \"=== sha256 ===\"\nshasum -a 256 /tmp/objs/* 2>/dev/null\necho \"=== file type ===\"\nfile /tmp/objs/* 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== all TLS client hellos with empty/no SNI, dest ip+port ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"tls.handshake.type==1 && ip.src==10.9.10.102\" -T fields -e ip.dst -e tcp.dstport -e tls.handshake.extensions_server_name 2>/dev/null | awk -F'\\t' '$3==\"\"' | sort -u\necho \"=== cert subject for each unique dest with no SNI ===\"\nfor ip in 167.172.37.9 94.158.245.52; do\n  echo \"--- $ip ---\"\n  /opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==$ip && tls.handshake.type==11\" -T fields -e x509sat.uTF8String 2>/dev/null | head -1\ndone\necho \"=== ports used to these C2 ips ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==167.172.37.9 || ip.addr==94.158.245.52\" -T fields -e tcp.dstport 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10\"\nPCAP=2021-09-10-traffic-analysis-exercise.pcap\necho \"=== frame time for DLL download (1189) ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"frame.number==1189\" -T fields -e frame.time 2>/dev/null\necho \"=== frame time for first C2 SYN to 167.172.37.9 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"frame.number==1479\" -T fields -e frame.time 2>/dev/null\necho \"=== frame time for first C2 SYN to 94.158.245.52 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"frame.number==1842\" -T fields -e frame.time 2>/dev/null\necho \"=== count of distinct TCP streams to each C2 ===\"\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==167.172.37.9\" -T fields -e tcp.stream 2>/dev/null | sort -u | wc -l\n/opt/homebrew/bin/tshark -r $PCAP -Y \"ip.addr==94.158.245.52\" -T fields -e tcp.stream 2>/dev/null | sort -u | wc -l\n"
+    ],
+    "input_tokens": 28,
+    "output_tokens": 10590,
+    "num_turns": 14,
+    "duration_ms": 149753,
+    "cost_usd": 0.799945,
+    "wall_time_s": 151.1
+  },
+  "score": {
+    "recall": 0.9,
+    "iocs_found": 9,
+    "iocs_total": 10,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 3,
+        "total": 3
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 20,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "## Incident Report \u2014 MTA 2021-09-10 PCAP Analysis\n\n### Victim Host\n| Field | Value |\n|---|---|\n| IPv4 | **10.9.10.102** |\n| MAC | **00:4f:49:b1:e8:c3** |\n| Windows hostname | **DESKTOP-KKITB6Q** (NetBIOS/DHCP confirmed) |\n| AD domain | angrypoutine.com (DC: ANGRYPOUTINE-DC, 10.9.10.9) |\n| Logged-in user | **hobart.gunnarsson** (Kerberos AS-REQ CNameString, both to DC and locally) |\n\nDHCP (frames with option 12) ties hostname `DESKTOP-KKITB6Q` and requested IP `10.9.10.102` to Ethernet source `00:4f:49:b1:e8:c3`; NBNS confirms the same IP answering as `DESKTOP-KKITB6Q<00>`/`<20>` and workgroup `ANGRYPOUTINE`.\n\n### Malware Family\n**Attribution: behavioral (no IDS/Suricata alerts were provided in this evidence set \u2014 no signature confirmation available).**\n\nThe traffic shape strongly matches **Qakbot (Qbot)**-style loader/backdoor behavior:\n1. A single HTTP GET to a bare, randomly-pathed URI on a throwaway domain, using a deliberately spoofed/outdated User-Agent (`MSIE 7.0` claiming to run on Windows NT 10.0 \u2014 inconsistent with the genuine Edge/Chrome UA seen elsewhere from the same host), returns a PE32+ DLL.\n2. Within 4\u20139 seconds of that download, the host opens repeated TLS 1.2 sessions with **no SNI extension** to two unrelated external IPs, both presenting the identical self-signed certificate (`CN=londonareloeli.uk, O=UK System, OU=LL EST, L=London, C=London`) \u2014 a hallmark of Qakbot's rotating raw-IP C2 infrastructure. One of the two IPs was re-contacted **33 separate times** across the capture (persistent beaconing).\n\nI have not verified this against threat-intel sources (no internet access used, per instructions); treat the family name as a behavioral hypothesis, not a confirmed identification.\n\n### Indicators of Compromise (all grounded in this capture)\n\n**C2 endpoints (TLS, no-SNI, shared self-signed cert `londonareloeli.uk`):**\n- `167.172.37.9:443` \u2014 1 session, first contact 2021-09-11 03:17:31 UTC+4 (frame 1479)\n- `94.158.245.52:443` \u2014 33 sessions, first contact 2021-09-11 03:17:36 UTC+4 (frame 1842), repeated beaconing throughout capture\n\n**Malicious domain / delivery host:**\n- `simpsonsavingss.com` \u2192 resolved to `194.62.42.206` (DNS A record, frame 1182)\n\n**Malicious URL (payload delivery):**\n- `http://simpsonsavingss.com/bmdff/BhoHsCtZ/MLdmpfjaX/5uFG3Dz7yt/date1?BNLv65=pAAS` (GET, frame 1189, dest 194.62.42.206:80, spoofed MSIE 7.0 User-Agent)\n\n**Transferred file:**\n- Server-declared filename: `date6` (`Content-Disposition: attachment; filename=\"date6\"`)\n- Type: PE32+ DLL (x86-64, GUI subsystem), 284,816 bytes\n- **SHA256:** `eed363fc4af7a9070d69340592dcab7c78db4f90710357de29e3b624aa957cf8`\n- Extracted via `tshark --export-objects http` and hashed directly from the capture.\n\n### Benign Context (not indicators)\n- `download.windowsupdate.com`, `au.download.windowsupdate.com`, `ctldl.windowsupdate.com` (23.1.237.x) \u2014 legitimate Windows Update / Defender definition traffic (`Windows-Update-Agent`, `Microsoft-Delivery-Optimization` UAs).\n- `store-images.s-microsoft.com`, `www.msftncsi.com`, `login.live.com`, `*.msedge.net`, `nexus.officeapps.live.com`, `settings-win.data.microsoft.com`, `v10.events.data.microsoft.com`, `bing.com`, `update.googleapis.com`, `myexternalip.com` \u2014 standard OS/Office/Edge telemetry, connectivity checks, and update traffic from a normally-functioning Windows 10 enterprise workstation.\n- LDAP/Kerberos/SMB2/DCERPC/CLDAP traffic to `10.9.10.9` \u2014 normal AD domain-join/logon activity for `angrypoutine.com`.\n\n### Incident Summary\nThe Windows 10 workstation **DESKTOP-KKITB6Q** (10.9.10.102, MAC 00:4f:49:b1:e8:c3), logged in as **hobart.gunnarsson** on domain angrypoutine.com, retrieved a 284 KB PE32+ DLL (SHA256 `eed363fc...957cf8`) via an HTTP GET disguised behind a random URI path (`/bmdff/BhoHsCtZ/.../date1`) from `simpsonsavingss.com` (194.62.42.206), using a spoofed legacy Internet Explorer User-Agent inconsistent with the host's real browser fingerprint. Seconds later the host began repeated no-SNI TLS 1.2 beaconing on port 443 to `167.172.37.9` and `94.158.245.52`, both fronted by an identical self-signed certificate (`londonareloeli.uk`), with 33 connections to the latter over the capture window \u2014 consistent with Qakbot-style loader/C2 behavior. Attribution is behavioral only; no IDS alert artifacts were present in the evidence set to provide signature confirmation."
+}

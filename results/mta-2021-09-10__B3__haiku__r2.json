@@ -1,0 +1,103 @@
+{
+  "run_id": "mta-2021-09-10__B3__haiku__r2",
+  "case": "mta-2021-09-10",
+  "arm": "B3",
+  "arm_label": "community-pcap",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 32,
+    "tshark_calls": 28,
+    "tshark_cmds": [
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10 && /opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -z io,phs -q 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst 2>/dev/null | sort -u | head -40",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dns.flags.response == 0\" -T fields -e dns.qry.name 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.uri -e http.request.method 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"tcp.flags.syn==1 and tcp.flags.ack==0\" -T fields -e ip.src -e ip.dst -e tcp.dport 2>/dev/null | sort -u | grep \"10.9.10.102\"",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -z conv,tcp -q 2>/dev/null | head -60",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.src == 10.9.10.102 and ip.dst == 194.62.42.206\" -T fields -e frame.number -e frame.time -e ip.len 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e nbns.name -e nbns.name_type -e ip.src 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"smb2 or smb\" -T fields -e ip.src -e ip.dst -e tcp.dport -e frame.len 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ldap\" -T fields -e ldap.simple_bind_dn 2>/dev/null | sort -u | grep -v \"^$\"",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e http.user_agent 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.src == 10.9.10.102 and ip.dst == 194.62.42.206 and http\" -T fields -e frame.number -e http.request.method -e http.request.uri -e http.response.code 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.src == 194.62.42.206 and ip.dst == 10.9.10.102\" -T fields -e frame.time -e ip.len -e tcp.dport 2>/dev/null | tail -20",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dns and dns.qry.name contains 'footprint'\" -T fields -e dns.qry.name -e dns.resp.addr 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dns.flags.response == 1\" -T fields -e dns.qry.name -e dns.resp.addr 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dns\" -T fields -e dns.qry.name -e dns.a -e dns.aaaa 2>/dev/null | grep -E \"footprint|simpson\" | sort -u",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap --export-objects http,/tmp/http_exports 2>/dev/null && ls -lah /tmp/http_exports/ 2>/dev/null | head -50",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.src == 194.62.42.206 and ip.dst == 10.9.10.102\" -w /tmp/c2_response.pcap 2>/dev/null && /opt/homebrew/bin/tshark -r /tmp/c2_response.pcap -T fields -e frame.len | head -5",
+      "/opt/homebrew/bin/tshark -r /tmp/c2_response.pcap -Y \"http\" -T fields -e http.response.code -e http.content_length 2>/dev/null",
+      "tshark -r /tmp/c2_response.pcap -Y \"http.response\" -x 2>/dev/null | head -100",
+      "/opt/homebrew/bin/tshark -r /tmp/c2_response.pcap -Y \"http.response.body\" -T fields -e http.file_data | xxd -r -p > /tmp/date6.bin 2>/dev/null && ls -lh /tmp/date6.bin && file /tmp/date6.bin",
+      "/opt/homebrew/bin/tshark -r /tmp/c2_response.pcap -Y \"http\" -z follow,tcp,ascii,10.9.10.102:58131-194.62.42.206:80 2>/dev/null | tail -200 | head -100",
+      "tshark -r /tmp/c2_response.pcap -O http 2>/dev/null | grep -A 5 \"filename\" | head -20",
+      "tshark -r /tmp/c2_response.pcap -Y \"http\" --export-objects http,/tmp/c2_export 2>/dev/null && ls -lh /tmp/c2_export/",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ip.dst == 10.9.10.9 and tcp.port == 445\" -T fields -e ip.src -e tcp.dport 2>/dev/null | sort -u | head -10",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"frame.len < 150\" -T fields -e frame.time -e frame.len 2>/dev/null | grep \"^2021-09-11T00\" | head -50",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"ldap\" -T fields -e ldap.ldapdn -e ldap.bind_dn 2>/dev/null | grep -v \"^$\" | head -20",
+      "/opt/homebrew/bin/tshark -r 2021-09-10-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e dhcp.option.hostname 2>/dev/null | sort -u | grep -v \"^$\""
+    ],
+    "input_tokens": 266,
+    "output_tokens": 8175,
+    "num_turns": 33,
+    "duration_ms": 142508,
+    "cost_usd": 0.269843,
+    "wall_time_s": 143.6
+  },
+  "score": {
+    "recall": 0.6,
+    "iocs_found": 6,
+    "iocs_total": 10,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 0,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 3
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": false
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 10,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "I'll now compile the incident report based on my analysis.\n\n## Incident Response Report\n\n### Victim Host Identification\n\n**IPv4 Address:** 10.9.10.102\n**MAC Address:** 00:4f:49:b1:e8:c3\n**Windows Hostname:** DESKTOP-KKITB6Q\n**Active Directory Domain:** angrypoutine.com\n**Logged-in User Account:** Not directly identifiable from network traffic\n\n### Malware Family\n\n**Emotet (also known as Heodo)**\n\n**Attribution Type:** Behavioral (operational profile analysis)\n\nThe evidence strongly indicates Emotet based on:\n1. Use of Footprint DNS for C2 infrastructure discovery and evasion\n2. HTTP-based C2 command channel with obfuscated path patterns\n3. Secondary DLL payload delivery mechanism\n4. Integration with Active Directory LDAP queries targeting domain controller\n5. Legitimate Windows Update traffic used to blend C2 communications\n6. Communication pattern consistent with Emotet's banking trojan and botnet operations\n\n### Indicators of Compromise\n\n**C2 Command and Control Endpoints:**\n- Domain: simpsonsavingss.com, IP: 194.62.42.206, Port: 80\n- Footprint DNS IP: 23.100.36.182 (resolves 68091d435f184f9c8d6273bdb538ff4b.clo.footprintdns.com)\n- Footprint DNS IP: 51.137.102.183 (resolves f005cab8a8840abf6ab35152a071b205.clo.footprintdns.com)\n\n**C2 URLs:**\n- simpsonsavingss.com/bmdff/BhoHsCtZ/MLdmpfjaX/5uFG3Dz7yt/date1?BNLv65=pAAS\n\n**Malicious Domains:**\n- simpsonsavingss.com\n- 68091d435f184f9c8d6273bdb538ff4b.clo.footprintdns.com\n- f005cab8a8840abf6ab35152a071b205.clo.footprintdns.com\n- moiafdazure.clo.footprintdns.com\n\n**Transferred Files:**\n- Filename: date6 (PE32+ x86-64 DLL, GUI executable)\n- SHA256: eed363fc4af7a9070d69340592dcab7c78db4f90710357de29e3b624aa957cf8\n- MD5: 57e32ee603bf5f7fbf4e4befaac52258\n- Size: 284,816 bytes (278 KB)\n- Response Code: HTTP 200 OK\n- Content-Type: application/octet-stream\n- Delivery Time: 2021-09-11 at 03:17:27 UTC+4\n\n**Network Behavior:**\n- C2 beaconing via HTTP GET requests with randomized URI parameters\n- Active Directory reconnaissance via LDAP queries to domain controller 10.9.10.9\n- SMB traffic to DC on port 445 (lateral movement/reconnaissance)\n- DNS queries to Footprint DNS infrastructure for C2 server discovery and evasion\n- 78 HTTP requests to simpsonsavingss.com over 2.78 seconds establishing persistence"
+}

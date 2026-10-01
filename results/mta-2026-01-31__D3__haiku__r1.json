@@ -1,0 +1,86 @@
+{
+  "run_id": "mta-2026-01-31__D3__haiku__r1",
+  "case": "mta-2026-01-31",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 21,
+    "tshark_calls": 15,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -q -z io,phs 2>&1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -q -z endpoints,ip 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"nbns\" -T fields -e nbns.name -e ip.src 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString 2>&1 | sort -u | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"arp.src.proto_ipv4==10.1.21.58\" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"http.request\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name -e ip.src 2>&1 | grep \"10.1.21.58\" | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"http\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>&1 | grep -E \"filemegahab|holiday|whooptm|hiyter|communicationfirewall\"",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -q -z conv,tcp 2>&1 | head -40",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" --export-objects http /tmp/exported_http 2>&1 && ls -lah /tmp/exported_http/",
+      "mkdir -p /tmp/exported_http && /opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" --export-objects \"http,/tmp/exported_http\" -q 2>&1 && ls -lah /tmp/exported_http/",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"ip.dst==153.92.1.49 && (http || tcp.port==80)\" -T fields -e tcp.dstport -e http.host -e http.request.method -e http.request.uri 2>&1 | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"http.host==whitepepper.su\" -T fields -e frame.time_relative -e http.request.method -e http.request.uri 2>&1 | sort",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"smb2.cmd==1\" -T fields -e ip.src -e ip.dst -e smb2.filename 2>&1 | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap\" -Y \"tls.handshake.extensions_server_name\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>&1 | sort | uniq -c | sort -rn | head -30"
+    ],
+    "input_tokens": 178,
+    "output_tokens": 9435,
+    "num_turns": 22,
+    "duration_ms": 160517,
+    "cost_usd": 0.21265200000000004,
+    "wall_time_s": 162.2
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 0,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 3,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": false,
+      "victim_user": true
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 6,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "---\n\n## INCIDENT REPORT: NETWORK FORENSIC ANALYSIS\n\n**Report Date:** 2026-07-21  \n**Evidence:** 2026-01-31-traffic-analysis-exercise.pcap\n\n### Victim Host\n- **IPv4:** 10.1.21.58\n- **MAC:** 00:21:5d:c8:0e:f2\n- **Hostname:** WIN11OFFICE\n- **User:** gwyatt\n\n### Malware Family\n**Koi Stealer** (behavioral attribution, high confidence)\n\nAttribution based on distinctive behavioral signals: URI pattern `/api/set_agent` with unique agent ID and token, browser enumeration (Chrome/Edge), JavaScript-based system info collection, and logging via `&act=log` POST parameter.\n\n### Indicators of Compromise\n\n**Command & Control:**\n- IP: 153.92.1.49:80\n- Domain: whitepepper.su\n- Agent ID: 3BF67EC05320C5729578BE4C0ADF174C\n- Token: 842e2802df0f0a06b4ed51f12f4387e761523b\n\n**C2 Endpoints:**\n- `GET /api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Chrome`\n- `POST /api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Chrome&act=log`\n- `GET /api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Edge`\n- `POST /api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Edge&act=log`\n\n**Malicious Domains:**\n- whitepepper.su (primary C2)\n- communicationfirewall-security.cc\n- holiday-forever.cc\n- whooptm.cyou\n- arch.filemegahab4.sbs\n- hiyter.com\n- media.megafilehub4.lat\n\n**File Hashes (SHA256):**\n- ed0855c1637e5f93be7d54acb2cb8872683a0e5eb670258abb1ebc41bfbf4591 (binary payload, index.php)\n- a1ee2e3055dc4ce0d60eb6c2c8a655e705b3607bd33d65794e67adf22a2a0124 (C2 agent code, set_agent response)\n\n### Attack Summary\nWIN11OFFICE is actively communicating with a Koi Stealer C2 server. The malware enumerates installed browsers, collects system information via JavaScript injection, and exfiltrates logs via token-authenticated HTTP POST requests. Secondary reconnaissance domains suggest staging or infrastructure reuse."
+}

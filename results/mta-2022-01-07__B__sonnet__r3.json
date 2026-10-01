@@ -1,0 +1,83 @@
+{
+  "run_id": "mta-2022-01-07__B__sonnet__r3",
+  "case": "mta-2022-01-07",
+  "arm": "B",
+  "arm_label": "community-wireshark",
+  "model": "sonnet",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 16,
+    "tshark_calls": 8,
+    "tshark_cmds": [
+      "PCAP=\"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z io,phs 2>/dev/null | head -50",
+      "PCAP=\"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\"\necho \"=== DHCP ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dhcp\" -T fields -e ip.src -e ip.dst -e dhcp.option.hostname -e dhcp.option.dhcp -e eth.src 2>/dev/null\necho \"=== NBNS ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u | head -30\necho \"=== Kerberos CNames ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u\n",
+      "PCAP=\"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\"\necho \"=== HTTP requests ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.request\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\necho \"=== DNS queries (unique) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u\n",
+      "PCAP=\"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==2.56.57.108 && tcp.port==80\" -T fields -e tcp.stream 2>/dev/null | sort -un | uniq\n",
+      "PCAP=\"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z follow,tcp,ascii,65 2>/dev/null | head -200",
+      "PCAP=\"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z follow,tcp,ascii,65 2>/dev/null > /tmp/stream65.txt\ngrep -n \"^POST\\|^GET\\|^HTTP\\|Content-Disposition\\|filename=\\|name=\" /tmp/stream65.txt",
+      "PCAP=\"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\"\necho \"=== all TCP SYNs to external hosts (non-RFC1918) before t=203 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"tcp.flags.syn==1 && tcp.flags.ack==0 && frame.time_relative<203\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e tcp.dstport 2>/dev/null\necho \"=== TLS SNI before t=203 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"tls.handshake.type==1 && frame.time_relative<210\" -T fields -e frame.time_relative -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null\necho \"=== first frame time and overall duration ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -T fields -e frame.time_relative 2>/dev/null | tail -1",
+      "PCAP=\"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\"\necho \"=== all external dest IPs (non 192.168/224/239) with port ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.dst!=192.168.1.0/24 && !(ip.dst>=224.0.0.0 && ip.dst<=239.255.255.255)\" -T fields -e ip.dst -e tcp.dstport 2>/dev/null | sort -u\necho \"=== stream 65 full duration/bytes ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"tcp.stream==65\" -T fields -e frame.time_relative -e frame.len 2>/dev/null | tail -5\necho \"=== check for any other jpg-like posts / other streams to 2.56.57.108 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==2.56.57.108\" -T fields -e frame.time_relative -e tcp.srcport -e tcp.dstport 2>/dev/null | sort -u | head"
+    ],
+    "input_tokens": 34,
+    "output_tokens": 10119,
+    "num_turns": 17,
+    "duration_ms": 153937,
+    "cost_usd": 0.6365229,
+    "wall_time_s": 155.5
+  },
+  "score": {
+    "recall": 0.8889,
+    "iocs_found": 8,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 2,
+        "total": 2
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 16,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "This confirms the exfil archive contents (autofill, cc, cookies, passwords, outlook, screenshot, system info) \u2014 the classic Vidar Stealer log bundle. I have everything needed.\n\n---\n\n# Incident Report \u2014 Vidar Stealer Infection\n**Evidence source:** `2022-01-07-traffic-analysis-exercise.pcap` (5,880 packets, 750.8 sec capture) + exported HTTP objects\n**Analyst:** Network forensics review, tshark-based\n\n## Victim host\n\n| Attribute | Value |\n|---|---|\n| IPv4 address | **192.168.1.216** |\n| MAC address | **9c:5c:8e:32:58:f9** |\n| Windows hostname | **DESKTOP-GXMYNO2** (confirmed via DHCP option 12, NBNS, and Kerberos machine account `DESKTOP-GXMYNO2$`) |\n| Logged-in domain user | **steve.smith** (confirmed via Kerberos AS-REQ/TGS-REQ CNameString `steve.smith`) |\n| Domain / DC | `spoonwatch.net`, DC = SPOONWATCH-DC (192.168.1.2) |\n\n## Malware family\n\n**Vidar Stealer** \u2014 attribution is **signature-confirmed**, not just behavioral, based on the exact C2 protocol structure observed on the wire:\n\n1. HTTP checkin over TCP stream 65 to `2.56.57.108:80` (no DNS lookup preceded it \u2014 hardcoded IP C2), using the well-known Vidar/Arkei-family WinHTTP fingerprint:\n   `Accept: text/html, application/xml;q=0.9, ... image/jpeg ... image/x-xbitmap, */*;q=0.1` / `Accept-Language: ru-RU,ru;q=0.9,en;q=0.8` / `Accept-Charset: iso-8859-1, utf-8, utf-16, *;q=0.1`\n2. Sequential `POST /osk//1.jpg` through `/osk//7.jpg` \u2014 server responds with `Content-Type: image/jpeg` but the payloads are actually **PE DLLs disguised as .jpg**. Extracted strings confirm legitimate NSS/CRT support DLLs Vidar downloads to parse Firefox/Chromium credential stores: `freebl3.dll`, `VCRUNTIME140.dll`, `CONCRT140.dll`, plus SQLite/NSS library strings (`nssckbi.dll`, `NSS 3.36.4`, `secmod.db`) inside the payloads.\n3. `POST /osk//main.php` \u2014 final C2 checkin/config confirmation (empty body response, HTTP 200).\n4. `POST /osk/` \u2014 exfiltration upload, multipart form field `name=\"file\"; filename=\"_5861695120.zip\"` (379,629 bytes), matching Vidar's characteristic `_<digits>.zip` naming convention.\n\nThe exfil archive (`osk`, SHA256 below) unzips to the canonical Vidar log-folder layout, which removes any ambiguity:\n```\nautofill/Google Chrome_Default.txt\nautofill/Microsoft Edge_Default.txt\ncc/Google Chrome_Default.txt          (credit card grabber)\ncc/Microsoft Edge_Default.txt\ncookies/Google Chrome_Network.txt\ncookies/Microsoft Edge_Default.txt\noutlook.txt\npasswords.txt\nscreenshot.jpg\nsystem.txt\n```\nThis layout (autofill/cc/cookies/passwords/system/screenshot buckets, uploaded as a single zip after downloading browser-decryption DLLs) is Vidar Stealer's signature exfiltration behavior, not shared by other stealer families' folder conventions (RedLine, Raccoon, Mars use different naming).\n\n## Indicators of Compromise\n\n**C2 endpoint**\n- `2.56.57.108:80` (TCP, HTTP, no DNS resolution used \u2014 hardcoded IP)\n\n**Malicious URLs (all on the single C2 session, tcp.stream 65, starting at t=202.87s)**\n- `hxxp://2.56.57.108/osk//6.jpg`\n- `hxxp://2.56.57.108/osk//1.jpg`\n- `hxxp://2.56.57.108/osk//2.jpg`\n- `hxxp://2.56.57.108/osk//3.jpg`\n- `hxxp://2.56.57.108/osk//4.jpg`\n- `hxxp://2.56.57.108/osk//5.jpg`\n- `hxxp://2.56.57.108/osk//7.jpg`\n- `hxxp://2.56.57.108/osk//main.php`\n- `hxxp://2.56.57.108/osk/` (exfil upload)\n\n**Malicious domains:** none \u2014 the C2 was contacted by raw IP with no A/AAAA lookup in the DNS traffic, consistent with Vidar's hardcoded-IP configuration.\n\n**Transferred files and hashes**\n\n| File | Role | SHA256 |\n|---|---|---|\n| `1.jpg` | Vidar helper DLL (disguised) | `16574f51785b0e2fc29c2c61477eb47bb39f714829999511dc8952b43ab17660` |\n| `2.jpg` | Vidar helper DLL \u2014 contains `freebl3.dll` strings | `a770ecba3b08bbabd0a567fc978e50615f8b346709f8eb3cfacf3faab24090ba` |\n| `3.jpg` | Vidar helper DLL | `3fe6b1c54b8cf28f571e0c5d6636b4069a8ab00b4f11dd842cfec00691d0c9cd` |\n| `4.jpg` | Vidar helper DLL \u2014 contains `CONCRT140.dll` strings | `334e69ac9367f708ce601a6f490ff227d6c20636da5222f148b25831d22e13d4` |\n| `5.jpg` | Vidar helper DLL | `e2935b5b28550d47dc971f456d6961f20d1633b4892998750140e0eaa9ae9d78` |\n| `6.jpg` | Vidar helper DLL \u2014 contains `freebl3.dll` strings | `43536adef2ddcc811c28d35fa6ce3031029a2424ad393989db36169ff2995083` |\n| `7.jpg` | Vidar helper DLL \u2014 contains `VCRUNTIME140.dll` strings | `c40bb03199a2054dabfc7a8e01d6098e91de7193619effbd0f142a7bf031c14d` |\n| `main.php` (response body) | C2 checkin ack | `7b8ab07521c24e8ec610611e7e15d2fd39336166db6509885b8500d2a2bbfb14` |\n| `_5861695120.zip` (exported as `osk`) | **Stolen-data exfiltration archive** \u2014 passwords, autofill, credit cards, cookies, Outlook data, screenshot, system info | `1ecee6ff37e03c1160b8bf66d5ca8dc784e0b35fb9fd105f0964b314d310c07f` |\n\n## Notes\n\n- No email, exploit-kit, or drive-by delivery vector is present in this capture \u2014 the trace begins with normal AD/Kerberos logon and Windows/Microsoft telemetry traffic; Vidar is already resident and beacons to C2 starting at t=202.87s, so the initial infection vector predates this capture.\n- The `am_delta_patch_*.exe` and Windows Update `.cab` files pulled from `download.windowsupdate.com` / `au.download.windowsupdate.com` (23.38.189.201/225) and `ctldl.windowsupdate.com` (8.253.189.126) are legitimate Microsoft Defender definition updates \u2014 not part of the malware chain \u2014 confirmed by hostname, user-agent (`Windows-Update-Agent`, `Microsoft-Delivery-Optimization`), and Microsoft-owned IP ranges.\n- All other external TLS destinations (52.168.112.67, 20.50.80.210, 204.79.197.200/203, 52.183.220.149, 20.189.173.1, 40.83.240.146, 104.212.67.47) resolve via SNI to legitimate Microsoft/Bing telemetry and update services and are not implicated."
+}

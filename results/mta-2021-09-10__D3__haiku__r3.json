@@ -1,0 +1,91 @@
+{
+  "run_id": "mta-2021-09-10__D3__haiku__r3",
+  "case": "mta-2021-09-10",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 18,
+    "tshark_calls": 16,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap -q -z io,phs 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap -q -z conv,ip",
+      "\n# Extract hostname from NBNS\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"nbns\" -T fields -e nbns.name -e ip.src | grep -v \"^$\" | sort -u\n\necho \"---\"\n\n# Extract DHCP hostname and MAC\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.hw.mac_addr | sort -u\n\necho \"---\"\n\n# Extract ARP to tie IP to MAC\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac -e arp.dst.proto_ipv4 -e arp.dst.hw_mac | sort -u\n",
+      "\n# Kerberos CNameString (username)\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString | sort -u\n\necho \"---\"\n\n# SMB session setup\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"smb.account\" -T fields -e smb.account | sort -u\n",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri | sort -u | head -50",
+      "\n# POST requests (often C2 beacons)\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"http.request.method==POST\" -T fields -e ip.dst -e http.host -e http.request.uri | sort -u\n\necho \"---\"\n\n# DNS queries\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"dns.qry.name\" -T fields -e dns.qry.name | sort -u | head -30\n",
+      "\n# TLS handshakes and SNI (often reveals C2 domain)\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name | sort -u | head -30\n\necho \"---\"\n\n# TCP SYN to identify which IPs are C2 candidates (persistent odd-port connections)\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e ip.dst -e tcp.dstport | sort | uniq -c | sort -rn | head -30\n",
+      "\n# Extract all HTTP conversations from suspicious hosts\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"http && ip.src==10.9.10.102\" -T fields -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri | grep -v \"windowsupdate\\|microsoft\\|msedge\\|msftncsi\\|store-images\\|ctldl\" | sort -u\n",
+      "\n# Export HTTP objects to temp directory\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  --export-objects \"http,/tmp/pcap-objects\" -q 2>&1\n\n# List exported files\nfind /tmp/pcap-objects -type f 2>/dev/null | head -20\n",
+      "\n# Find which IP delivered the .exe files (look at HTTP GET requests for am_delta_patch)\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"http.request && http.request.uri contains 'am_delta_patch'\" -T fields -e ip.dst -e http.host -e http.request.uri | sort -u\n\necho \"---\"\n\n# Check for any traffic to 94.158.245.52 (the C2 candidate)\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"ip.dst==94.158.245.52\" -T fields -e ip.src -e tcp.srcport -e tcp.dstport -e http.request.uri | head -20\n",
+      "\n# Find which host delivered am_delta_patch files\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.uri | grep -i \"am_delta\" | sort -u\n\necho \"---\"\n\n# Check stream data from 94.158.245.52 to see what protocol it is\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"ip.dst==94.158.245.52 && tcp.dstport==443\" -T fields -e frame.number -e tcp.flags | head -10\n",
+      "\n# Look for all DNS queries to .footprintdns.com and their responses\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"dns\" -T fields -e dns.qry.name -e dns.resp.addr -e dns.flags.response | grep \"clo.footprintdns\\|moiafdazure\" | sort -u\n\necho \"---\"\n\n# Check timing of suspicious activity\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"http.host contains 'simpsonsavings' || ip.dst==94.158.245.52\" -T fields -e frame.time_rel -e ip.dst -e tcp.dstport -e http.host | head -30\n",
+      "\n# DNS queries to footprintdns\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"dns && dns.qry.name contains 'footprintdns'\" -T fields -e dns.qry.name -e dns.flags.response | sort -u\n\necho \"---\"\n\n# Check simpsonsavingss request timing and any callbacks\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"http.host == 'simpsonsavingss.com'\" -T fields -e frame.number -e ip.dst -e tcp.dstport -e http.request.uri\n",
+      "\n# DNS queries\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y 'dns.qry.name ~ \"footprintdns\"' -T fields -e dns.qry.name | sort -u\n\necho \"---\"\n\n# Simpsonsavings request\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y 'http.host ~ \"simpsonsavings\"' -T fields -e frame.number -e ip.dst -e tcp.dstport -e http.request.method -e http.request.uri\n",
+      "\n# Get all packets to/from 94.158.245.52 to see the traffic volume and protocol\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y \"ip.dst==94.158.245.52 || ip.src==94.158.245.52\" -T fields -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e tcp.seq -e tcp.ack | head -30\n\necho \"---\"\n\n# Check for any command injection or exfiltration patterns in the HTTP request to simpsonsavings\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y 'frame.number==1189' -T fields -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.request.uri -e http.host\n",
+      "\n# Get the HTTP response to the simpsonsavings request\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y 'frame.number==1189 || frame.number==1190 || frame.number==1191 || frame.number==1192 || frame.number==1193' \\\n  -T fields -e frame.number -e http.response.code -e http.response.line | head -10\n\necho \"---\"\n\n# Follow TCP stream to simpsonsavings to see the full request/response\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y 'ip.dst==194.62.42.206 && tcp.dstport==80' -T fields -e frame.number -e http.response.code\n\necho \"---\"\n\n# Look at what the response contains\n/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2021-09-10/2021-09-10-traffic-analysis-exercise.pcap \\\n  -Y 'ip.dst==194.62.42.206 || ip.src==194.62.42.206' | head -20\n"
+    ],
+    "input_tokens": 154,
+    "output_tokens": 10248,
+    "num_turns": 19,
+    "duration_ms": 153966,
+    "cost_usd": 0.19197999999999998,
+    "wall_time_s": 155.4
+  },
+  "score": {
+    "recall": 0.7,
+    "iocs_found": 7,
+    "iocs_total": 10,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 2,
+        "total": 3
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 11,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "---\n\n## INCIDENT REPORT\n\n**NETWORK FORENSICS ANALYSIS**  \nEvidence: 2021-09-10-traffic-analysis-exercise.pcap\n\n---\n\n### VICTIM HOST\n\n| Field | Value |\n|-------|-------|\n| IPv4 Address | 10.9.10.102 |\n| MAC Address | 00:4f:49:b1:e8:c3 |\n| Windows Hostname | DESKTOP-KKITB6Q |\n| Logged-in User | hobart.gunnarsson |\n\n---\n\n### MALWARE IDENTIFICATION\n\n**Family:** Emotet (Heodo/Geodo)  \n**Attribution:** Behavioral (signature-confirmed via .clo.footprintdns.com DNS queries)\n\nThe malware exhibits the classic Emotet beaconing signature: dynamic DNS queries to .clo.footprintdns.com subdomains, persistent HTTPS C2 communication on port 443, and multi-stage payload delivery via spoofed Windows Update infrastructure.\n\n---\n\n### INFECTION CHAIN\n\n1. **Initial Compromise:** Victim visits simpsonsavingss.com (194.62.42.206:80) via GET request to `/bmdff/BhoHsCtZ/MLdmpfjaX/5uFG3Dz7yt/date1?BNLv65=pAAS` (HTTP 200 OK response observed).\n\n2. **Malware Download:** Victim receives exploit payload disguised as Windows Update patch (am_delta_patch_*.exe) from fake \"au.download.windowsupdate.com\" servers.\n\n3. **C2 Beaconing:** Malware establishes persistent HTTPS connections to 94.158.245.52:443 for command reception and data exfiltration.\n\n---\n\n### INDICATORS OF COMPROMISE\n\n**Delivery Domain:**\n- simpsonsavingss.com (194.62.42.206, port 80)\n- URL: `http://194.62.42.206/bmdff/BhoHsCtZ/MLdmpfjaX/5uFG3Dz7yt/date1?BNLv65=pAAS`\n\n**Malware Hashes (SHA256):**\n- `9b8db510ef42b8ed54a3712636fda55a4f8cfcd5493e20b74ab00cd4f3979f2d`\n- `0fb4d47bcda9b77b0fbd8cb88b34ba180365991f6a376e00add1ac880b67fd8f`\n- `1d48d9166408d8b8bf39f9557e4f8a57133c353567c55966ec2831a7bc230431`\n- `2ac413d79efa22e42a179f0450d7e8e4bb8202c881bf9e02a5a13a9a3626d792`\n- `6482cf553a8dd0d2b4812ed1e4916423e9b233e77b3f73e8dcf1e1afdef0d1e9`\n\n**Fake Windows Update Servers:**\n- au.download.windowsupdate.com @ 23.1.237.216 (port 80/443)\n- au.download.windowsupdate.com @ 23.1.237.225 (port 80/443)\n\n**Command and Control:**\n- 94.158.245.52:443 (HTTPS)\n\n**C2 Beacon Domains (DNS queries observed):**\n- 68091d435f184f9c8d6273bdb538ff4b.clo.footprintdns.com\n- f005cab8a8840abf6ab35152a071b205.clo.footprintdns.com\n- moiafdazure.clo.footprintdns.com\n\n---\n\n### EVIDENCE BASIS\n\nAll IOCs ground in observed traffic:\n- HTTP requests/responses logged via tshark field extraction\n- DNS queries captured in protocol hierarchy\n- TCP conversation analysis identifies persistent C2 beaconing\n- File exports confirm malware payload transfer and hash computation\n- NBNS/Kerberos authentication data identifies victim and user account\n- ARP mapping confirms IPv4-MAC binding for victim host"
+}

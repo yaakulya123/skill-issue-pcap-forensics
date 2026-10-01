@@ -1,0 +1,93 @@
+{
+  "run_id": "mta-2025-01-22__D3__haiku__r2",
+  "case": "mta-2025-01-22",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 31,
+    "tshark_calls": 23,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -q -z io,phs",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -q -z conv,ip | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"nbns\" -T fields -e nbns.name -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http.request && ip.dst==45.125.66.32\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.1.17.215 && ip.dst==45.125.66.32\" -T fields -e tcp.dstport -e udp.dstport | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.1.17.215 && ip.dst==5.252.153.241\" -T fields -e tcp.dstport -e udp.dstport | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http.request && ip.dst==5.252.153.241\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http.request.method==POST && ip.dst==5.252.153.241\" -T fields -e http.host -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.1.17.215 && tcp.dstport==2917\" -T fields -e ip.dst -e tcp.dstport -e tcp.seq | head -10",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http.request && ip.dst==5.252.153.241\" -T fields -e frame.time_relative -e http.request.uri | head -30",
+      "mkdir -p /tmp/extracted && /opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" --export-objects \"http,/tmp/extracted\" -q 2>&1 | grep -v \"^$\" | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http.request\" -T fields -e http.host -e http.request.uri | grep -v \"microsoft\\|msn\\|google\\|bing\\|facebook\\|akamai\\|cloudflare\\|azure\\|windows\\|edge\\|linkedin\\|twitter\\|double\" | sort -u | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http && ip.src==10.1.17.215\" -T fields -e http.request.method -e http.host -e http.request.uri | grep -v \"microsoft\\|msn\\|google\\|bing\\|facebook\\|windows\\|azure\\|edge\" | sort -u | head -15",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name==\\\"authenticatoor.org\\\"\" -T fields -e frame.time_relative -e dns.qry.name",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http.host==\\\"authenticatoor.org\\\"\" -T fields -e http.request.method -e http.host -e http.request.uri",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.1.17.215 && http\" -T fields -e frame.time_relative -e http.request.method -e http.host -e http.request.uri | head -15",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e frame.time_relative -e dns.qry.name | grep -v \"microsoft\\|msn\\|google\\|bing\\|windows\\|edge\\|cloudflare\\|akamai\\|cache\\|facebook\\|nvidia\\|yahoo\\|linkedin\\|apple\\|time\\|ntp\\|nist\\|berkeley\\|pool\" | grep -v \"bluemoontuesday\" | sort -u | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.1.17.215 && tcp.dstport==2917\" -T fields -e frame.time_relative -e tcp.flags | head -5",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"tcp.dstport==2917 && ip.src==10.1.17.215\" -q -z follow,tcp,ascii,10 2>&1 | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"tcp.dstport==2917 && ip.src==10.1.17.215\" | head -30"
+    ],
+    "input_tokens": 258,
+    "output_tokens": 9380,
+    "num_turns": 32,
+    "duration_ms": 183847,
+    "cost_usd": 0.2546688,
+    "wall_time_s": 186.0
+  },
+  "score": {
+    "recall": 0.875,
+    "iocs_found": 7,
+    "iocs_total": 8,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 2,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": null,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [
+      "authenticator.org",
+      "teams.microsoft.com"
+    ],
+    "hallucination_count": 2,
+    "ioc_tokens_emitted": 11,
+    "hallucination_rate": 0.1818
+  },
+  "final_text": "Now I'll compile the final incident report based on my comprehensive analysis:\n\n---\n\n# INCIDENT REPORT\n## Network Forensics Analysis: 2025-01-22 Traffic Capture\n\n### VICTIM HOST\n| Field | Value |\n|-------|-------|\n| IPv4 Address | 10.1.17.215 |\n| MAC Address | 00:d0:b7:26:4a:74 |\n| Windows Hostname | DESKTOP-L8C5GSJ |\n| Logged-In User | shutchenson |\n| Local Subnet | 10.1.17.0/24 (Gateway: 10.1.17.2) |\n\n### MALWARE FAMILY\n**Commodity RAT (Remote Access Trojan) - Behavioral Classification**\n\nAttribution is behavioral, not signature-confirmed. The infection exhibits a modular trojan pattern consistent with commodity RAT-as-a-service platforms. Key behavioral indicators:\n- Initial stage loader (obfuscated VBScript HTML wrapper) with decoy URLs\n- Multi-stage PowerShell payload delivery\n- Beaconing to bare-IP HTTP C2 every 5 seconds\n- Persistent TLS-encrypted secondary C2 on non-standard port 2917\n- Automated TeamViewer remote-access installation\n- Staged file downloads via `/api/file/get-file/` API pattern\n\n### COMMAND-AND-CONTROL ENDPOINTS\n| Endpoint | Port | Protocol | Purpose |\n|----------|------|----------|---------|\n| 5.252.153.241 | 80 | HTTP (bare-IP) | Primary C2 beacon & file staging |\n| 45.125.66.32 | 2917 | TLS 1.2 (encrypted) | Secondary encrypted C2 channel |\n\n### MALICIOUS URLS & API ENDPOINTS\n- `http://5.252.153.241/1517096937` - Main C2 beacon with status reporting (interval: ~5 sec)\n- `http://5.252.153.241/api/file/get-file/[ID]` - Staged payload delivery API\n\n### INDICATORS OF COMPROMISE\n\n**Downloaded Files (Transferred via C2):**\n\n| Filename | Type | SHA256 Hash | Purpose |\n|----------|------|-------------|---------|\n| 264872 | HTML/VBScript Loader | `c74123dbccded43fda61651e102750b041d4c3af6fda88cd6436f9276653e103` | Initial loader. Executes hidden PowerShell; opens decoy tabs to azure.microsoft.com and teams.microsoft.com |\n| 29842.ps1 | PowerShell (Obfuscated) | `b8ce40900788ea26b9e4c9af7efab533e8d39ed1370da09b93fcf72a16750ded` | Stage 2 payload. Base64-encoded, character-stripped obfuscation |\n| pas.ps1 | PowerShell | `a833f27c2bb4cad31344e70386c44b5c221f031d7cd2f2a6b8601919e790161e` | Stage 2 payload variant |\n| TeamViewer | Binary Installer | `904280f20d697d876ab90a1b74c0f22a83b859e8b0519cb411fda26f1642f53e` | Remote access tool (4.2 MB) |\n| Teamviewer_Resource_fr | Resource DLL | `9634ecaf469149379bba80a745f53d823948c41ce4e347860701cbdff6935192` | TeamViewer localization resource |\n\n**Suspicious Domains (Typosquatting):**\n- `authenticatoor.org` (3 o's) - Impersonates \"authenticator.org\" - DNS queries detected (no HTTP traffic observed)\n\n**Legitimate Services Abused:**\n- `master16.teamviewer.com` - TeamViewer master relay for C2 via DynGate\n- `ping3.dyngate.com` - TeamViewer DynGate dynamic DNS service\n\n### ATTACK TIMELINE\n- **T+0s** to **T+60s**: System boot, benign OS telemetry\n- **T+38s**: DNS query to typosquatting domain authenticatoor.org\n- **T+60s**: First malicious HTTP request; loader downloads initial payloads (264872, 29842.ps1)\n- **T+62s**: PowerShell script downloaded and executed\n- **T+62s+**: Beaconing to C2 begins at 5-second intervals\n- **T+125s**: Malware reports \"startup shortcut created; status = success\"\n- **T+889s**: Secondary encrypted C2 connection established to 45.125.66.32:2917\n- **T+890s+**: Large TLS-encrypted payload transfer (10 MB observed)\n\n### SEVERITY\n**CRITICAL** - Confirmed remote-access trojan with established C2 communication, file staging capability, and legitimate-tool abuse (TeamViewer) for persistent remote access.\n\n---"
+}

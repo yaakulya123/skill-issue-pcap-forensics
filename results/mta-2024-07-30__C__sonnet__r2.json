@@ -1,0 +1,85 @@
+{
+  "run_id": "mta-2024-07-30__C__sonnet__r2",
+  "case": "mta-2024-07-30",
+  "arm": "C",
+  "arm_label": "custom",
+  "model": "sonnet",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 7,
+    "tshark_calls": 6,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== PROTOCOL HIERARCHY ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z io,phs 2>/dev/null\necho \"=== TOP CONVERSATIONS ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z conv,ip 2>/dev/null | head -40\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== DNS QUERIES ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"dns.flags.response==0\" -T fields -e frame.time_relative -e ip.dst -e dns.qry.name 2>/dev/null | sort -u -k3\necho \"=== TLS SNI per external IP ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== 141.98.10.79 conv detail (ports/proto) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.addr==141.98.10.79\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e _ws.col.Protocol -e _ws.col.Info 2>/dev/null | head -30\necho \"=== all HTTP requests ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>/dev/null\necho \"=== ip-api.com context ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"dns.qry.name==\\\"ip-api.com\\\" or http.host==\\\"ip-api.com\\\"\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e http.request.full_uri -e http.response.code 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\nSTREAM=$(/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.addr==141.98.10.79 && tcp\" -T fields -e tcp.stream 2>/dev/null | sort -u | head -1)\necho \"stream=$STREAM\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,$STREAM 2>/dev/null | head -100\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== ARP MAC for victim ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"arp.src.proto_ipv4==172.16.1.66\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>/dev/null | sort -u\necho \"=== eth src for 172.16.1.66 (confirm) ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.src==172.16.1.66\" -T fields -e eth.src 2>/dev/null | sort -u | head -3\necho \"=== timeline around 60-80s: DNS + TCP SYNs to github/maven ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"(dns or (tcp.flags.syn==1 && tcp.flags.ack==0)) && frame.time_relative>55 && frame.time_relative<80\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e dns.qry.name -e tcp.dstport 2>/dev/null\necho \"=== NBNS / hostname confirm ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-07-30\"\necho \"=== all tcp streams involving 141.98.10.79 ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"ip.addr==141.98.10.79\" -T fields -e tcp.stream 2>/dev/null | sort -u -n\necho \"=== last lines of C2 stream to see any command traffic beyond ping ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,83 2>/dev/null | tail -60\necho \"=== duration/last packet of stream 83 ===\"\n/opt/homebrew/bin/tshark -r 2024-07-30-traffic-analysis-exercise.pcap -Y \"tcp.stream==83\" -T fields -e frame.time_relative 2>/dev/null | tail -3\n"
+    ],
+    "input_tokens": 16,
+    "output_tokens": 7964,
+    "num_turns": 8,
+    "duration_ms": 106131,
+    "cost_usd": 0.49005869999999996,
+    "wall_time_s": 107.5
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 20,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "## Incident Report \u2014 MTA 2024-07-30 Traffic Analysis Exercise\n\n### Victim Host\n\n| Field | Value | Evidence |\n|---|---|---|\n| IPv4 | 172.16.1.66 | Consistent source IP across all suspicious flows |\n| MAC | 00:1e:64:ec:f3:08 | ARP (`arp.src.proto_ipv4==172.16.1.66`) and Ethernet source on all frames from 172.16.1.66 |\n| Windows hostname | DESKTOP-SKBR25F | NBNS Workstation/Server service records from 172.16.1.66; also embedded in the malware beacon itself |\n| Logged-in user | ccollier | Embedded in malware beacon field 5 (see below); domain is `wiresharkworkshop.online` (AD domain, confirmed via LDAP/Kerberos/CLDAP traffic to DC 172.16.1.4, hostname WIRESHARK-WS-DC) |\n| OS | Microsoft Windows 11 Pro, 64-bit | Reported by the malware in its own beacon string |\n\n### Malware Family\n\n**STRRAT** (Java-based RAT/backdoor, commonly delivered via malspam and disguised as a \"password-less\" trojan; abuses a `.crimson` file extension for ransomware-style file renaming in some builds).\n\n**Attribution confidence: signature-confirmed** \u2014 not from an external IDS signature (none was provided with this evidence set), but from the malware's own plaintext C2 check-in protocol, which literally names itself:\n\n```\nping|STRRAT|1BE8292C|DESKTOP-SKBR25F|ccollier|Microsoft Windows 11 Pro|64-bit|Windows Defender||1.6|US:United States|Not Installed|1 Sec\n```\n\nThis is TCP stream 83 (`tcp.stream==83`, `ip.addr==141.98.10.79`), a plaintext, pipe-delimited beacon sent every ~5 seconds for the full 585-second capture. Fields decode as: `ping | <family> | <bot ID> | <hostname> | <user> | <OS> | <arch> | <AV product> | <active window (base64)> | <client version> | <geo> | <\"Not Installed\"> | <uptime>`. Later beacons include `UHJvZ3JhbSBNYW5hZ2Vy` in the active-window field, which base64-decodes to `Program Manager` (idle desktop). The bot ID `1BE8292C` is stable across the entire session.\n\n### Delivery Chain (partial \u2014 TLS-encrypted, no decryption keys available)\n\nImmediately preceding the first C2 check-in (t=76.99s), the host resolved and connected to:\n\n- `github.com` (140.82.113.3:443) at t=64.05s\n- `objects.githubusercontent.com` (185.199.110.133:443) at t=64.83s \u2014 828 KB transferred to the host\n- `repo1.maven.org` (199.232.196.209:443) at t=68.01s \u2014 8.87 MB transferred to the host (STRRAT is Java-based; this volume is consistent with fetching a JAR and/or JRE dependencies)\n\nAll three sessions are TLS 1.2/1.3 and cannot be inspected further without session keys, so no specific download URL or file hash can be grounded from this capture. First C2 beacon fires ~9 seconds after the maven.org transfer completes, which is consistent with these three domains being the delivery/staging chain, but this link is circumstantial (timing-based), not content-confirmed.\n\nAt t=77.87s, the host also queried `ip-api.com` and issued `GET http://ip-api.com/json/` to 208.95.112.1 \u2014 a plaintext HTTP geolocation lookup performed 6 seconds before the first C2 beacon and consistent with STRRAT's known environment-fingerprinting behavior (the beacon itself reports `US:United States` as a field).\n\n### Indicators of Compromise\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"172.16.1.66\",\n    \"mac\": \"00:1e:64:ec:f3:08\",\n    \"hostname\": \"DESKTOP-SKBR25F\",\n    \"user\": \"ccollier\"\n  },\n  \"malware_family\": \"STRRAT\",\n  \"attribution_confidence\": \"signature-confirmed\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"141.98.10.79:12132\",\n      \"evidence\": \"TCP stream 83, persistent plaintext beacon every ~5s for 585s, self-identifies as 'ping|STRRAT|1BE8292C|DESKTOP-SKBR25F|ccollier|...'\"\n    },\n    {\n      \"type\": \"malware_identifier\",\n      \"value\": \"bot ID 1BE8292C\",\n      \"evidence\": \"Stable third field in every STRRAT beacon to 141.98.10.79:12132\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"ip-api.com\",\n      \"evidence\": \"DNS query + plaintext HTTP GET /json/ to 208.95.112.1 at t=77.96-78.01s, ~6s before first C2 beacon; matches STRRAT geo-fingerprinting behavior (beacon reports 'US:United States')\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://ip-api.com/json/\",\n      \"evidence\": \"http.request full URI, frame at t=78.006964s\"\n    }\n  ],\n  \"benign_context\": [\n    \"github.com (140.82.113.3) / objects.githubusercontent.com (185.199.110.133) / repo1.maven.org (199.232.196.209) \u2014 TLS-encrypted, timing suggests possible delivery/staging chain (occurs immediately before first C2 beacon; repo1.maven.org transfer is 8.87 MB, consistent with Java payload staging) but content cannot be confirmed without TLS keys, so not listed as a confirmed malicious IOC\",\n    \"Microsoft/Windows telemetry and services (login.microsoftonline.com, *.events.data.microsoft.com, officeapps.live.com, msn.com, bing.com, skype config, WNS) \u2014 standard OS/Office background noise\",\n    \"wiresharkworkshop.online AD domain traffic (LDAP, Kerberos, CLDAP, NBNS, DHCP-adjacent DC queries to 172.16.1.4 / WIRESHARK-WS-DC) \u2014 normal domain-joined workstation activity, used only to establish victim identity\",\n    \"www.msftconnecttest.com/connecttest.txt \u2014 standard Windows internet connectivity check\",\n    \"javadl-esd-secure.oracle.com \u2014 Java update-related DNS query, consistent with a JRE present on the host but not independently confirmed malicious\"\n  ],\n  \"incident_summary\": \"Windows 11 workstation DESKTOP-SKBR25F (172.16.1.66, MAC 00:1e:64:ec:f3:08), logged in as user ccollier on the wiresharkworkshop.online domain, was infected with the STRRAT Java-based RAT. Roughly 9 seconds after TLS sessions to github.com, objects.githubusercontent.com, and repo1.maven.org (likely payload staging, not decryptable in this capture) and a geolocation lookup against ip-api.com, the host began a persistent plaintext beacon to 141.98.10.79:12132 that explicitly self-identifies as STRRAT with bot ID 1BE8292C, continuing every ~5 seconds for the remainder of the capture.\"\n}\n```\n\n**Note on completeness:** no file was transferred in the clear (all suspected staging traffic is TLS-encrypted), so no SHA256 hash or delivered file name can be grounded in this capture. No IDS/Suricata alert export was present alongside the pcap in the evidence directory \u2014 attribution rests entirely on the malware's self-identifying plaintext C2 protocol."
+}

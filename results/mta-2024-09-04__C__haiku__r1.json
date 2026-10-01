@@ -1,0 +1,84 @@
+{
+  "run_id": "mta-2024-09-04__C__haiku__r1",
+  "case": "mta-2024-09-04",
+  "arm": "C",
+  "arm_label": "custom",
+  "model": "haiku",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 18,
+    "tshark_calls": 13,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -q -z io,phs",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e nbns.name -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==79.124.78.197\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"dns.qry.name\" -T fields -e dns.qry.name | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -q -z conv,ip",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==79.124.78.197\" -T fields -e frame.number -e ip.src -e ip.dst -e http.request.method -e http.request.uri -e http.user_agent",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"ip.dst==46.254.34.201 || ip.src==46.254.34.201\" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.dstport -e http.request.uri | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap --export-objects http,/tmp/http_objects 2>&1 | tail -5",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"tcp.stream==30\" -q -z follow,tcp,ascii,30 2>&1 | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"ip.dst==79.124.78.197 && tcp.stream\" -T fields -e tcp.stream | sort -u | head -1",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04/2024-09-04-traffic-analysis-exercise.pcap -Y \"tcp.stream==100\" -q -z follow,tcp,ascii,100 2>&1 | head -100"
+    ],
+    "input_tokens": 154,
+    "output_tokens": 6457,
+    "num_turns": 19,
+    "duration_ms": 92094,
+    "cost_usd": 0.187378,
+    "wall_time_s": 93.9
+  },
+  "score": {
+    "recall": 0.8889,
+    "iocs_found": 8,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 2,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 4,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Now I have all the information needed. Let me compile the final incident report:\n\n## INCIDENT REPORT: Koi Stealer Malware Infection\n\n**Victim Identification:**\n- IP: 172.17.0.99\n- MAC: 18:3d:a2:b6:8d:c4\n- Hostname: DESKTOP-RNVO9AT\n- User: afletcher\n\n**Malware Family:** Koi Stealer (signature-confirmed via ETPRO alert \"ETPRO TROJAN Win32/Koi Stealer CnC Checkin (POST) M2\")\n\n**Attack Timeline:**\nThe workstation was infected with Koi Stealer infostealer malware. The PCAP captures the malware communicating with its command-and-control server repeatedly over a 56-minute period (starting 2024-09-04 17:32 UTC). The malware exfiltrated stolen data via HTTP POST requests to the C2 endpoint using a characteristic pattern of `/foots.php` and `/index.php?id&subid=` URLs.\n\n**Evidence Summary:**\n- **50 C2 beacons** captured to 79.124.78.197 over port 80\n- **Fake user agent** (IE 7.0 spoofed) confirming malware behavior, not legitimate application\n- **Binary POST payloads** sent to C2 (e.g., \"102|30168213-3be0-a751-81a0-cf3b228c8654\" format)\n- **Kerberos traffic** captured showing user \"afletcher\" logged in during infection\n- **SMB exploitation attempts** also visible in IDS alerts (SMB Session Setup NTMLSSP overflow, IPC$ share access, SMB_COM_TRANSACTION attempts)\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"172.17.0.99\",\n    \"mac\": \"18:3d:a2:b6:8d:c4\",\n    \"hostname\": \"DESKTOP-RNVO9AT\",\n    \"user\": \"afletcher\"\n  },\n  \"malware_family\": \"Koi Stealer\",\n  \"attribution_confidence\": \"signature-confirmed\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"79.124.78.197:80\",\n      \"evidence\": \"ETPRO alert Event#3.1504 'ETPRO TROJAN Win32/Koi Stealer CnC Checkin (POST) M2' and 50 captured HTTP POST/GET requests from victim 172.17.0.99 to 79.124.78.197 port 80 over 3409-second duration\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://79.124.78.197/foots.php\",\n      \"evidence\": \"36 POST requests captured to /foots.php with binary Content-Type: application/octet-stream and spoofed IE 7.0 user agent. tcp.stream 100 shows beaconing payload format '102|<GUID>'\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://79.124.78.197/index.php\",\n      \"evidence\": \"1 POST request captured to /index.php with binary exfiltration payload\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://79.124.78.197/index.php?id=&subid=qIOuKk7U\",\n      \"evidence\": \"1 GET request captured to /index.php with query string parameters matching known Koi Stealer C2 pattern (id&subid=). Frame 2227 in PCAP\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"foots.php\",\n      \"evidence\": \"C2 endpoint script name extracted from HTTP requests. Consistent with Koi Stealer behavioral signature\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"index.php\",\n      \"evidence\": \"C2 endpoint script name extracted from HTTP requests. Consistent with Koi Stealer behavioral signature\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"ed0855c1637e5f93be7d54acb2cb8872683a0e5eb670258abb1ebc41bfbf4591\",\n      \"evidence\": \"SHA256 hash of HTTP response body from C2 (index.php response). 105 bytes of binary data exported via tshark --export-objects http. Represents encrypted/compressed C2 command payload\"\n    }\n  ],\n  \"benign_context\": [\n    \"172.17.0.17 is the domain controller (Windows AD infrastructure); normal LDAP, Kerberos, SMB traffic observed\",\n    \"46.254.34.201 HTTPS traffic (port 443) - encrypted, likely legitimate software updates or cloud services\",\n    \"Multiple Microsoft endpoints (Office 365, Windows Update, telemetry) - benign OS background activity\",\n    \"DNS queries for Windows domain services (_ldap._tcp, _ldap._tcp.Default-First-Site-Name) - normal enterprise environment\"\n  ],\n  \"incident_summary\": \"The workstation DESKTOP-RNVO9AT (172.17.0.99) belonging to user afletcher was infected with Koi Stealer infostealer malware. The malware beaconed to C2 server 79.124.78.197 repeatedly over port 80 using spoofed IE 7.0 user agent and POSTed stolen data to /foots.php and /index.php endpoints in a characteristic pattern. IDS also detected concurrent SMB exploitation attempts targeting the infected workstation. The infection was active at least from 2024-09-04 17:32 UTC for over 56 minutes during the capture window.\"\n}\n```"
+}

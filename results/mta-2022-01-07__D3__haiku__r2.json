@@ -1,0 +1,89 @@
+{
+  "run_id": "mta-2022-01-07__D3__haiku__r2",
+  "case": "mta-2022-01-07",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 22,
+    "tshark_calls": 14,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -q -z io,phs 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -q -z conv,ip 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"nbns\" -T fields -e nbns.name -e ip.src 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"arp && arp.src.proto_ipv4==192.168.1.216\" -T fields -e arp.src.hw_mac -e arp.src.proto_ipv4 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"ip.dst==2.56.57.108 || ip.src==2.56.57.108\" -T fields -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e udp.srcport -e udp.dstport -e frame.protocols 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"http.request && (ip.dst==2.56.57.108 || ip.src==2.56.57.108)\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>/dev/null | grep -v \"^2.56.57.108\" | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name 2>/dev/null | sort -u",
+      "mkdir -p /tmp/pcap-objects && /opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" --export-objects \"http,/tmp/pcap-objects\" -q 2>/dev/null && ls -lah /tmp/pcap-objects/",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e http.user_agent -e http.request.full_uri 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e http.request.full_uri -e http.content_length -e http.content_type 2>/dev/null | sort -u | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e frame.time_relative -e http.request.full_uri 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap\" -Y \"http.response && ip.src==2.56.57.108\" -T fields -e http.response.code -e http.content_length -e frame.time_relative 2>/dev/null | sort -u"
+    ],
+    "input_tokens": 186,
+    "output_tokens": 10388,
+    "num_turns": 23,
+    "duration_ms": 152625,
+    "cost_usd": 0.20596590000000004,
+    "wall_time_s": 154.0
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 0,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 2,
+        "total": 2
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": false,
+      "victim_user": true
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 13,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Analysis complete. Writing the incident report.\n\n---\n\n## INCIDENT REPORT\n\n**Incident Date:** 2022-01-07  \n**Analysis Date:** 2026-07-21\n\n---\n\n### VICTIM HOST IDENTIFICATION\n\n| Property | Value |\n|----------|-------|\n| **IPv4 Address** | 192.168.1.216 |\n| **MAC Address** | 9c:5c:8e:32:58:f9 |\n| **Windows Hostname** | DESKTOP-GXNYNO2 |\n| **Logged-in User** | steve.smith |\n| **OS** | Windows Enterprise (local /24 LAN) |\n\n---\n\n### MALWARE FAMILY\n\n**QBot (QakBot)** - Behavioral attribution\n\n**Attribution Confidence:** High (behavioral), not signature-confirmed.\n\n**Rationale:**\n- Delivered via FakeUpdates (spoofed Windows Update executable from 23.38.189.201 and 23.38.189.225)\n- HTTP POST C2 communication to bare IPv4 address (no DNS lookup, hardcoded endpoint)\n- `/osk/` endpoint path consistent with known QBot campaigns\n- Multipart/form-data encoded exfiltration (no User-Agent headers)\n- Sequential DLL module loading architecture (modules 1\u20137 fetched and executed)\n- Initial reconnaissance check-in followed by command-and-control via `/osk//main.php`\n\nThis is a banking Trojan variant commonly used for credential theft and lateral movement in enterprise environments.\n\n---\n\n### COMMAND-AND-CONTROL INFRASTRUCTURE\n\n| Indicator | Type | Purpose |\n|-----------|------|---------|\n| 2.56.57.108:80 | IP:Port | Primary C2 endpoint |\n| http://2.56.57.108/osk/ | URL | Initial beacon / check-in |\n| http://2.56.57.108/osk//1.jpg\u2013/7.jpg | URLs | Sequential module download |\n| http://2.56.57.108/osk//main.php | URL | Command execution / data exfiltration |\n\n**Traffic Pattern:** Victim initiated HTTP POST with multipart form-data (379 KB exfiltration on initial beacon), followed by 7 sequential module fetches (1.2 MB total), then command execution.\n\n---\n\n### DELIVERY CHAIN\n\n**Attack Vector:** FakeUpdates (spoofed Windows Update)\n\n**Delivery Domains (Compromised/Spoofed):**\n- au.download.windowsupdate.com (Australian mirror)\n- download.windowsupdate.com (primary mirror)\n- ctldl.windowsupdate.com (CRL/certificate download)\n\nThese domains resolved to attacker-controlled IPs (23.38.189.201, 23.38.189.225) rather than legitimate Microsoft infrastructure, indicating DNS poisoning or MITM redirection.\n\n**Payload Filename:** `am_delta_patch_1.355.1569.0_f5fe52e10a18f6ce4bc39541e4aae4a97c270c81.exe`\n\n**Execution Timeline:**\n1. User downloaded fake Windows Update executable (likely social engineered)\n2. Malware executed and beaconed to 2.56.57.108:80/osk/\n3. Exfiltrated host information (379 KB payload)\n4. Downloaded 7 DLL modules sequentially from C2\n5. Executed main.php command module for operator control\n\n---\n\n### INDICATORS OF COMPROMISE\n\n#### Malware Payloads (SHA256)\n\n**Delivery Payload (FakeUpdates):**\n- `9b8db510ef42b8ed54a3712636fda55a4f8cfcd5493e20b74ab00cd4f3979f2d`\n- `6482cf553a8dd0d2b4812ed1e4916423e9b233e77b3f73e8dcf1e1afdef0d1e9` (variant)\n\n**C2-Downloaded DLL Modules:**\n- Module 1: `16574f51785b0e2fc29c2c61477eb47bb39f714829999511dc8952b43ab17660`\n- Module 2: `a770ecba3b08bbabd0a567fc978e50615f8b346709f8eb3cfacf3faab24090ba`\n- Module 3: `3fe6b1c54b8cf28f571e0c5d6636b4069a8ab00b4f11dd842cfec00691d0c9cd`\n- Module 4: `334e69ac9367f708ce601a6f490ff227d6c20636da5222f148b25831d22e13d4`\n- Module 5: `e2935b5b28550d47dc971f456d6961f20d1633b4892998750140e0eaa9ae9d78`\n- Module 6: `43536adef2ddcc811c28d35fa6ce3031029a2424ad393989db36169ff2995083`\n- Module 7: `c40bb03199a2054dabfc7a8e01d6098e91de7193619effbd0f142a7bf031c14d`\n\n#### Network IOCs\n\n**C2 Endpoint:**\n- IP: 2.56.57.108\n- Port: 80 (HTTP)\n- No TLS/encryption\n\n**C2 URIs:**\n- `/osk/` (check-in / data exfiltration)\n- `/osk//[1-7].jpg` (module download)\n- `/osk//main.php` (command execution)\n\n#### Attack Artifacts\n\n**Fake Update Domains:**\n- au.download.windowsupdate.com\n- download.windowsupdate.com\n- ctldl.windowsupdate.com\n\n(These resolved to 23.38.189.201, 23.38.189.225 instead of legitimate Microsoft IPs)\n\n**Benign Context (not malicious, operational background):**\n- Legitimate Windows Update domains and Microsoft telemetry endpoints (events.data.microsoft.com, v10.events.data.microsoft.com, update.microsoft.com)\n- Domain controller (SPOONWATCH-DC.spoonwatch.net on 192.168.1.2)\n- Local domain: spoonwatch.net\n\n---\n\n### RECOMMENDED ACTIONS\n\n1. **Immediate:** Isolate 192.168.1.216 from the network and image the disk for forensic analysis\n2. **Short-term:** Block C2 IP 2.56.57.108 at the firewall; scan all systems on spoonwatch.net for similar artifacts\n3. **Credential review:** Reset all credentials for steve.smith and any accounts with access to systems from this host\n4. **DNS/proxy audit:** Verify au.download.windowsupdate.com and download.windowsupdate.com are not still resolving to attacker infrastructure\n5. **Threat hunting:** Search for other hosts contacting 2.56.57.108 or downloading from 23.38.189.201/225\n\n---\n\n**Evidence Source:** 2022-01-07-traffic-analysis-exercise.pcap (5,880 frames, 4.6 MB)  \n**Analysis Method:** Network forensic triage via tshark (protocol hierarchy, conversation analysis, HTTP artifact extraction, behavioral pattern matching)"
+}

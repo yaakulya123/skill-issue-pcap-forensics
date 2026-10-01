@@ -1,0 +1,101 @@
+{
+  "run_id": "mta-2022-01-07__C__haiku__r3",
+  "case": "mta-2022-01-07",
+  "arm": "C",
+  "arm_label": "custom",
+  "model": "haiku",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 30,
+    "tshark_calls": 26,
+    "tshark_cmds": [
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z io,phs 2>/dev/null",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e nbns.name -e ip.src 2>/dev/null | sort -u",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>/dev/null | sort -u",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString 2>/dev/null | sort -u",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z conv,ip 2>/dev/null | grep -E \"^\\s*192\\.168\\.1\\.216\" | head -20",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.dst==2.56.57.108 || ip.src==2.56.57.108\" -T fields -e tcp.dstport -e udp.dstport 2>/dev/null | sort | uniq -c | sort -rn | head -20",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src==192.168.1.216 && tcp.dstport==49738\" -T fields -e frame.time_epoch -e tcp.seq | head -20",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e http.host -e http.request.method -e http.request.uri 2>/dev/null | sort -u",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>/dev/null | sort -u",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"dns.qry.name\" -T fields -e dns.qry.name 2>/dev/null | sort -u",
+      "mkdir -p /tmp/pcap_objs && cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/pcap_objs\" -q 2>/dev/null && ls -lh /tmp/pcap_objs/",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.response && ip.src==2.56.57.108\" -T fields -e http.response.code 2>/dev/null | sort | uniq -c",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | grep \"192.168.1.216\" | sort -u",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src==192.168.1.216 && tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"tcp.dstport==49738\" -q -z follow,tcp,ascii,0 2>/dev/null | head -100",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.dst==2.56.57.108 && tcp.dstport==49738\" -T fields -e tcp.stream | head -1",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.dst==2.56.57.108\" -T fields -e tcp.stream | sort -u",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,65 2>/dev/null | head -200",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"tcp.stream==65\" -q -z follow,tcp,ascii,65 2>/dev/null | tail -n +20 > /tmp/c2_stream.txt && wc -l /tmp/c2_stream.txt",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"tcp.stream==65\" --export-objects \"http,/tmp/c2_files\" -q 2>/dev/null && ls -lh /tmp/c2_files/",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src==192.168.1.216 && http.request.method==POST\" -T fields -e http.host -e http.request.uri -e http.user_agent 2>/dev/null | sort -u | head -20",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e frame.time_epoch 2>/dev/null | head -20 | awk '{if(prev)print $1-prev; prev=$1}'",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"smb2.cmd==1 || smb2.cmd==9\" -T fields -e smb2.filename 2>/dev/null | sort -u | head -20",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -T fields -e frame.time_epoch | head -1 | xargs -I {} date -r {} -u \"+%Y-%m-%d %H:%M:%S UTC\" && \\\n./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -T fields -e frame.time_epoch | tail -1 | xargs -I {} date -r {} -u \"+%Y-%m-%d %H:%M:%S UTC\" && \\\n./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e frame.time_epoch | head -1 | xargs -I {} date -r {} -u \"+%Y-%m-%d %H:%M:%S UTC\"",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e frame.time | head -1 && \\\n./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e frame.time | tail -1",
+      "cd /opt/homebrew/bin && ./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -T fields -e frame.time | head -1 && \\\n./tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -T fields -e frame.time | tail -1"
+    ],
+    "input_tokens": 250,
+    "output_tokens": 12046,
+    "num_turns": 31,
+    "duration_ms": 169469,
+    "cost_usd": 0.2755246,
+    "wall_time_s": 170.8
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 0,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 2,
+        "total": 2
+      },
+      "file_hash": {
+        "found": 1,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": false,
+      "victim_user": true
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 7,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "I have all the evidence I need. The /osk/ path is a definitive Emotet signature, combined with the credential-stealing behavior and binary protocol. Let me compile the final incident report.\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"192.168.1.216\",\n    \"mac\": \"9c:5c:8e:32:58:f9\",\n    \"hostname\": \"DESKTOP-GXNYNO2\",\n    \"user\": \"steve.smith\"\n  },\n  \"malware_family\": \"Emotet\",\n  \"attribution_confidence\": \"behavioral\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"2.56.57.108:80\",\n      \"evidence\": \"HTTP POST requests to /osk/ paths observed in stream 65; Accept-Language header ru-RU; /osk/ path is definitive Emotet C2 signature\"\n    },\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"2.56.57.108:49738\",\n      \"evidence\": \"2387 TCP packets (3.6 MB) to odd port 49738 from victim; persistent binary protocol stream; commodity RAT high-port indicator\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk/\",\n      \"evidence\": \"POST to bare IP /osk/ path; HTTP 200 response with multipart form-data; Emotet command-and-control URI\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk//main.php\",\n      \"evidence\": \"POST to /osk//main.php; control channel for C2 commands; stream 65 HTTP request\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk//1.jpg\",\n      \"evidence\": \"POST to /osk//1.jpg; returns PE32 DLL executable masqueraded as JPEG; stream 65\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk//2.jpg\",\n      \"evidence\": \"POST returns 326 KB PE32 DLL disguised as image\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk//3.jpg\",\n      \"evidence\": \"POST returns 134 KB PE32 DLL disguised as image\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk//4.jpg\",\n      \"evidence\": \"POST returns 430 KB PE32 DLL disguised as image\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk//5.jpg\",\n      \"evidence\": \"POST returns 1.2 MB PE32 GUI executable disguised as image\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk//6.jpg\",\n      \"evidence\": \"POST returns 141 KB PE32 DLL disguised as image\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk//7.jpg\",\n      \"evidence\": \"POST returns 82 KB PE32 DLL disguised as image\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"16574f51785b0e2fc29c2c61477eb47bb39f714829999511dc8952b43ab17660\",\n      \"evidence\": \"SHA256 of 630 KB PE32 DLL from /osk//1.jpg; exported from HTTP response in stream 65\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"a770ecba3b08bbabd0a567fc978e50615f8b346709f8eb3cfacf3faab24090ba\",\n      \"evidence\": \"SHA256 of 326 KB PE32 DLL from /osk//2.jpg\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"3fe6b1c54b8cf28f571e0c5d6636b4069a8ab00b4f11dd842cfec00691d0c9cd\",\n      \"evidence\": \"SHA256 of 134 KB PE32 DLL from /osk//3.jpg\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"334e69ac9367f708ce601a6f490ff227d6c20636da5222f148b25831d22e13d4\",\n      \"evidence\": \"SHA256 of 430 KB PE32 DLL from /osk//4.jpg\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"e2935b5b28550d47dc971f456d6961f20d1633b4892998750140e0eaa9ae9d78\",\n      \"evidence\": \"SHA256 of 1.2 MB PE32 GUI executable from /osk//5.jpg\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"43536adef2ddcc811c28d35fa6ce3031029a2424ad393989db36169ff2995083\",\n      \"evidence\": \"SHA256 of 141 KB PE32 DLL from /osk//6.jpg\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"c40bb03199a2054dabfc7a8e01d6098e91de7193619effbd0f142a7bf031c14d\",\n      \"evidence\": \"SHA256 of 82 KB PE32 DLL from /osk//7.jpg\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"_586169512.zip\",\n      \"evidence\": \"Exfiltrated data file uploaded to /osk/ POST request; contains Chrome autofill credentials and browser data; filename extracted from multipart form-data boundary in stream 65\"\n    }\n  ],\n  \"benign_context\": [\n    {\n      \"type\": \"domain\",\n      \"value\": \"au.download.windowsupdate.com\",\n      \"evidence\": \"Windows Update distribution point; legitimate Microsoft domain; GET requests for am_delta_patch*.exe\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"download.windowsupdate.com\",\n      \"evidence\": \"Windows Update distribution point; legitimate Microsoft domain; GET requests for .cab files\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"ctldl.windowsupdate.com\",\n      \"evidence\": \"Windows Update certificate revocation list (CRL) endpoint; legitimate Microsoft domain\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"spoonwatch.net\",\n      \"evidence\": \"Local domain controller and LDAP queries; enterprise Active Directory infrastructure\"\n    },\n    {\n      \"type\": \"endpoint\",\n      \"value\": \"192.168.1.2\",\n      \"evidence\": \"Domain controller SPOONWATCH-DC; enterprise LDAP, Kerberos, and SMB traffic\"\n    }\n  ],\n  \"incident_summary\": \"Windows enterprise workstation (DESKTOP-GXNYNO2 / 192.168.1.216 / steve.smith) was compromised by Emotet banking trojan, identified by characteristic /osk/ bare-IP C2 beaconing to 2.56.57.108 on ports 80 and 49738. The malware downloaded seven credential-stealing payloads disguised as JPEG image files and exfiltrated Chrome autofill data (usernames, passwords, payment cards) in a ZIP file during a 4-second active C2 communication window. Emotet's modular payload delivery and credential-theft capabilities confirm the infection vector as a banking trojan with lateral-movement and data-theft objectives.\"\n}\n```"
+}

@@ -1,0 +1,86 @@
+{
+  "run_id": "mta-2026-01-31__B3__sonnet__r2",
+  "case": "mta-2026-01-31",
+  "arm": "B3",
+  "arm_label": "community-pcap",
+  "model": "sonnet",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 19,
+    "tshark_calls": 15,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && /opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -q -z io,phs 2>&1 | head -60",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\necho \"=== Conversations (IPv4) ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -q -z conv,ip 2>&1 | head -40",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\necho \"=== HTTP requests (host + uri + method + user-agent) ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>&1",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\necho \"=== DNS queries (unique) ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"dns.flags.response == 0\" -T fields -e dns.qry.name 2>&1 | sort -u\necho \"=== DNS for whitepepper ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"dns contains \\\"whitepepper\\\"\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e dns.qry.name -e dns.a 2>&1",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\necho \"=== TLS SNI list (unique) ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"tls.handshake.type == 1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>&1 | sort -u -k2\necho \"=== DHCP ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e eth.src -e ip.src -e dhcp.option.hostname -e dhcp.option.requested_ip_address 2>&1\necho \"=== NBNS name registrations ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e ip.src -e eth.src -e nbns.name 2>&1 | sort -u",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\necho \"=== Kerberos CNames ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString -e kerberos.realm 2>&1 | sort -u\necho \"=== NTLMSSP user ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"ntlmssp.auth.username\" -T fields -e ntlmssp.auth.domain -e ntlmssp.auth.username -e ntlmssp.auth.hostname 2>&1 | sort -u\necho \"=== SMB2 username in tree connect / session ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"smb2.tree\" -T fields -e smb2.tree 2>&1 | sort -u | head -20",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\nmkdir -p /tmp/exported_http && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/exported_http\" 2>&1 | tail -5 && \\\necho \"=== exported files ===\" && \\\nls -la /tmp/exported_http && \\\necho \"=== all HTTP incl responses, content-type ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e http.request.method -e http.host -e http.request.uri -e http.response.code -e http.content_type -e http.content_length 2>&1",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\necho \"=== DNS query order for suspicious domains ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"dns.flags.response == 0 && (dns.qry.name contains \\\"filemegahab\\\" or dns.qry.name contains \\\"communicationfirewall\\\" or dns.qry.name contains \\\"holiday-forever\\\" or dns.qry.name contains \\\"hiyter\\\" or dns.qry.name contains \\\"whooptm\\\" or dns.qry.name contains \\\"megafilehub\\\" or dns.qry.name contains \\\"whitepepper\\\")\" -T fields -e frame.time_relative -e dns.qry.name 2>&1 | sort -u -k1 -n\necho \"=== First SYN per suspicious IP ===\" && \\\nfor ip in 104.21.9.36 80.97.160.24 62.72.32.156 104.21.48.156 153.92.1.49; do\n  echo \"-- $ip --\"\n  /opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"ip.addr==$ip && tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e tcp.dstport 2>&1 | head -3\ndone",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e frame.time_relative -e ip.dst -e http.host -e http.request.uri 2>&1",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\necho \"=== all http.request OR http.response with uri ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request or http.response\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e tcp.stream -e http.request.uri -e http.response.code -e http.file_data 2>&1 | grep -iE \"osk|date1|main.php|am_delta|apps\\.|megahab|megahub\" | head -30",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\ncapinfos 2026-01-31-traffic-analysis-exercise.pcap 2>&1 | head -30\necho \"=== check for embedded TLS keylog / DSB block ===\"\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http2\" -T fields -e frame.number 2>&1 | wc -l\npython3 -c \"\ndata = open('2026-01-31-traffic-analysis-exercise.pcap','rb').read(64)\nprint(data[:16])\n\"",
+      "rm -rf /tmp/exported_http && mkdir -p /tmp/exported_http && \\\ncd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/exported_http\" 2>&1 | tail -3 && \\\necho \"=== clean export listing ===\" && ls -la /tmp/exported_http",
+      "cd /tmp/exported_http && \\\necho \"=== SHA256 of transferred whitepepper.su objects ===\" && \\\nshasum -a 256 \"set_agent%3fid=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Chrome\" \\\n  \"set_agent%3fid=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Edge\" \\\n  \"favicon.ico\"\necho\necho \"=== diff Chrome vs Edge fingerprint script (are they identical payload?) ===\" && \\\ndiff \"set_agent%3fid=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Chrome\" \\\n     \"set_agent%3fid=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Edge\" && echo \"IDENTICAL\"\necho\necho \"=== total bytes victim(10.1.21.58) sent to 153.92.1.49 on tcp 443 (TLS, encrypted) vs port 80 ===\" \ncd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\"\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -q -z \"conv,tcp,ip.addr==153.92.1.49\" 2>&1 | tail -10",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -q -z \"conv,tcp,ip.addr==153.92.1.49\" 2>&1 | grep -c \"153.92.1.49:\"\necho \"--- port 443 stream count and total ---\"\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -q -z \"conv,tcp,ip.addr==153.92.1.49\" 2>&1 | grep \"153.92.1.49:443\" | awk '{print}' | wc -l\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -q -z \"conv,tcp,ip.addr==153.92.1.49\" 2>&1 > /tmp/wp_conv.txt\nwc -l /tmp/wp_conv.txt",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\" && \\\necho \"=== Kerberos AS-REQ source/dest for gwyatt ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString == \\\"gwyatt\\\"\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e eth.src 2>&1 | head -5\necho \"=== gateway/DC arp ===\" && \\\n/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"arp.opcode==2 && (arp.src.proto_ipv4==10.1.21.2 or arp.src.proto_ipv4==10.1.21.58)\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>&1 | sort -u"
+    ],
+    "input_tokens": 40,
+    "output_tokens": 24194,
+    "num_turns": 20,
+    "duration_ms": 349682,
+    "cost_usd": 1.0916219999999999,
+    "wall_time_s": 350.9
+  },
+  "score": {
+    "recall": 0.8889,
+    "iocs_found": 8,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 3,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 12,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report: Network Forensic Analysis, MTA-2026-01-31\n\n**Evidence:** `2026-01-31-traffic-analysis-exercise.pcap` (51,181 packets, 27 MB, capture window 2026-01-28 03:04:03 to 03:14:27 UTC, ~624 sec). No supplementary IDS/Suricata exports were present in the evidence directory; findings are derived from the pcap alone via tshark.\n\n## 1. Victim Host\n\n| Attribute | Value |\n|---|---|\n| IPv4 address | **10.1.21.58** |\n| MAC address | **00:21:5d:c8:0e:f2** |\n| Windows hostname | **DESKTOP-ES9F3ML** (NetBIOS domain/workgroup: WIN11OFFICE, AD domain win11office.com) |\n| Logged-in user | **gwyatt** (confirmed via Kerberos AS-REQ CNameString, realm WIN11OFFICE.COM, originating from 10.1.21.58) |\n\nConfirmed via DHCP request (option 12 hostname \"DESKTOP-ES9F3ML\" for 10.1.21.58), NBNS name registration (workstation + WIN11OFFICE), and Kerberos traffic to the domain controller at 10.1.21.2 (MAC 14:b3:1f:2d:ce:69).\n\n## 2. Malware Family\n\n**Attribution: behavioral, not signature-confirmed.** No executable payload was transferred or captured in this pcap, and no hash/string in the traffic matches a publicly known malware signature I can independently verify without internet access. I am not naming a specific commodity family (e.g. a named stealer/RAT) because I have no PE, no config blob, and no confirmed signature to back that claim.\n\nWhat the traffic does show, concretely:\n- A JavaScript-driven **browser fingerprinting-and-check-in beacon** served from `whitepepper.su` (153.92.1.49) collecting `navigator`, WebGL, and canvas fingerprint data and POSTing it back to a `/api/set_agent` panel, tagged with a victim GUID/token pair.\n- The beacon executed twice ~8 seconds apart, once tagged `agent=Chrome` and once `agent=Edge` (identical script apart from that parameter), consistent with an automated check of both installed browsers.\n- Following the two fingerprint check-ins, the host opened **18 short-lived TLS connections to the same C2 IP (153.92.1.49:443)** between t=92s and t=122s, several carrying large, rapid **outbound-heavy** bursts (e.g. 1.4 MB sent by the victim in 2.8 seconds; 404 KB in 2.2 seconds; 263 KB in 1.8 seconds) \u2014 a traffic shape consistent with automated exfiltration of harvested data, though content is TLS-encrypted and cannot be inspected.\n- This was preceded by DNS resolutions to several suspicious-looking domains (fake file-hosting-style names, uncommon TLDs) in the ~45\u2013126 second window, suggesting a redirect/gate chain leading into the whitepepper.su check-in, though those sessions are also TLS/QUIC-encrypted and no plaintext payload could be recovered from them.\n\nFunctional characterization: a **browser-fingerprinting C2 / stealer check-in and exfiltration beacon**, most consistent in behavior with a fake-verification (\"ClickFix\"-style) delivery/tracking gate. Treat the specific family name as unconfirmed until the host or full-content capture is available for static/dynamic analysis.\n\n## 3. Indicators of Compromise (grounded in observed traffic)\n\n**Confirmed C2 (cleartext HTTP, directly observed request/response):**\n- `whitepepper.su` \u2014 153.92.1.49:80 (fingerprint logging) and 153.92.1.49:443 (TLS, high-volume outbound bursts, likely exfil channel)\n\n**Malicious/suspicious URLs (verbatim from capture):**\n- `http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Chrome`\n- `http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Chrome&act=log` (POST, fingerprint data)\n- `http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Edge`\n- `http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Edge&act=log` (POST, fingerprint data)\n\n**Victim tracking ID (unique identifiers seen in the panel URLs):**\n- id: `3BF67EC05320C5729578BE4C0ADF174C`\n- token: `842e2802df0f0a06b4ed51f12f4387e761523b`\n\n**Transferred files and hashes (JS/HTML fingerprinting payloads pulled from the exported HTTP objects, SHA256):**\n- Chrome-tagged fingerprint script (`set_agent?...agent=Chrome`): `a1ee2e3055dc4ce0d60eb6c2c8a655e705b3607bd33d65794e67adf22a2a0124`\n- Edge-tagged fingerprint script (`set_agent?...agent=Edge`): `8f97a4018d4b0675b9592660394cf5b73f1be2252e27aff64a8f160af9079f46`\n- `favicon.ico` served by whitepepper.su: `74ab801591b951bcb6b248a8ef9321388a45ecf8badd2893aea4aa360b26ea90`\n\nNo downloaded executable (.exe/.dll) was present in the HTTP object stream \u2014 the only reconstructable transfers are the two near-identical JS fingerprint pages and the favicon above.\n\n**Suspicious domains resolved shortly before the C2 check-in (encrypted TLS/QUIC sessions, content unverifiable, listed for pivoting/blocking):**\n| Domain | Resolved IP | First seen (t, sec) |\n|---|---|---|\n| hiyter.com | \u2014 | 45.3 |\n| media.megafilehub4.lat | 104.21.48.156 | 45.8 |\n| arch.filemegahab4.sbs | \u2014 | 48.3 |\n| whooptm.cyou | 62.72.32.156 | 90.3 |\n| whitepepper.su | 153.92.1.49 | 92.3 |\n| holiday-forever.cc | 80.97.160.24 | 122.8 |\n| communicationfirewall-security.cc | 104.21.9.36 | 126.5 |\n\nThese domains are flagged as suspicious by naming pattern (fake file-hosting/cloaking-style names on uncommon TLDs) and by their temporal proximity to the confirmed C2 beacon; recommend blocking/sinkholing pending deeper review, but their role in the infection chain is not independently confirmed from this pcap alone since their sessions are encrypted.\n\n## Recommended Actions\n1. Isolate 10.1.21.58 (DESKTOP-ES9F3ML) from the network immediately.\n2. Block outbound traffic to 153.92.1.49 (whitepepper.su) and the six domains/IPs listed above at the perimeter/DNS layer.\n3. Perform host-based forensics (disk/memory acquisition) on DESKTOP-ES9F3ML to recover the dropper/executable and any browser extension or scheduled task responsible for driving the fingerprinting requests \u2014 this pcap alone cannot yield a confirmed malware family name.\n4. Reset credentials for user `gwyatt` given the large outbound TLS bursts to the C2, which are consistent with credential/data exfiltration."
+}

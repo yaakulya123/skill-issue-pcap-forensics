@@ -1,0 +1,104 @@
+{
+  "run_id": "mta-2024-08-15__B3__sonnet__r1",
+  "case": "mta-2024-08-15",
+  "arm": "B3",
+  "arm_label": "community-pcap",
+  "model": "sonnet",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 42,
+    "tshark_calls": 25,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\" && /opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -q -z io,phs 2>/dev/null | head -60",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\" && echo \"--- DHCP ---\" && /opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e ip.src -e ip.dst -e eth.src -e dhcp.type -e dhcp.option.hostname -e dhcp.option.requested_ip_address 2>/dev/null\necho \"--- NBNS ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e ip.src -e ip.dst -e nbns.name 2>/dev/null\necho \"--- Kerberos usernames ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\necho \"--- HTTP requests (host+uri) ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\nmkdir -p /tmp/pcap_exports\necho \"--- export http objects ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/pcap_exports\" 2>/dev/null\nls -la /tmp/pcap_exports\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/exports2\" -q 2>/dev/null\npython3 - <<'EOF'\nimport subprocess\nout = subprocess.run([\"/opt/homebrew/bin/tshark\",\"-r\",\"2024-08-15-traffic-analysis-exercise.pcap\",\"-Y\",\"http.response\",\"-T\",\"fields\",\n \"-e\",\"frame.number\",\"-e\",\"ip.src\",\"-e\",\"ip.dst\",\"-e\",\"http.host\",\"-e\",\"http.content_type\",\"-e\",\"http.content_length\",\"-e\",\"http.response_for.uri\",\"-e\",\"http.request.uri\"],\n capture_output=True, text=True)\nprint(out.stdout[-6000:])\nEOF\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.response\" -T fields -e frame.number -e ip.src -e ip.dst -e http.content_type -e http.content_length -e http.file_data 2>/dev/null | head -5\necho \"count:\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.response\" -T fields -e frame.number -e ip.src -e ip.dst -e http.content_type -e http.content_length 2>&1 | wc -l\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.response and http.content_length > 1000\" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.dstport -e http.content_type -e http.content_length -e http.content_disposition -e http.server 2>/dev/null > /tmp/http_resp.txt\nwc -l /tmp/http_resp.txt\ncat /tmp/http_resp.txt",
+      "/opt/homebrew/bin/tshark -G fields 2>/dev/null | grep -i \"http.content_length\\b\"",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.response\" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e http.content_type -e http.content_length -e http.content_disposition 2>/dev/null | awk -F'\\t' '$6+0 > 1000' > /tmp/http_resp.txt\nwc -l /tmp/http_resp.txt\ncat /tmp/http_resp.txt",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.response\" -T fields -e frame.number -e ip.src -e ip.dst -e tcp.srcport -e http.content_type -e http.content_length -e http.content_disposition 2>/dev/null | head -30",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.response\" 2>&1 | head -20",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\necho \"--- DNS queries (unique) ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.addr==72.5.43.29 and http\" -T fields -e frame.number -e ip.src -e ip.dst -e http.request.method -e http.request.uri -e http.request.line -e http.response.code -e http.file_data -e http.request.full_uri 2>/dev/null | head -20\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\necho \"--- all requests/resolutions to checkfedexexp.com domains ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"dns.qry.name contains \\\"checkfedexexp\\\"\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e dns.qry.name -e dns.a 2>/dev/null\necho \"--- http requests to business.checkfedexexp.com ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.host contains \\\"checkfedexexp\\\"\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e http.request.method -e http.host -e http.request.uri -e http.referer 2>/dev/null\necho \"--- tls SNI for 104.21.55.70 conns ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.addr==104.21.55.70 and tls.handshake.type==1\" -T fields -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\necho \"--- ports used with 72.5.43.29 ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.addr==72.5.43.29\" -T fields -e tcp.srcport -e tcp.dstport 2>/dev/null | tr '\\t' '\\n' | sort -u | grep -v '^$'\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.addr==104.21.55.70\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e tcp.stream -e http.request.method -e http.host -e http.request.uri -e http.referer -e http.response.code 2>/dev/null | grep -v '^\\s*$' | awk -F'\\t' 'NF>4'\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"tcp.stream==113 and http\" -T fields -e frame.number -e http.request.method -e http.request.uri -e http.response.code -e http.request.line -e http.host 2>/dev/null\necho \"=== check for prior GET to quote.checkfedexexp.com root page ===\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.host==\\\"quote.checkfedexexp.com\\\"\" -T fields -e frame.number -e frame.time_relative -e http.request.method -e http.request.uri 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.request and http.host==\\\"msedge.b.tlu.dl.delivery.mp.microsoft.com\\\"\" -T fields -e frame.time_relative -e http.request.uri -e http.response_in 2>/dev/null | cut -c1-250\necho \"=== content-disposition for these responses ===\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.src==199.232.210.172 and http.response\" -T fields -e frame.number -e http.content_type -e http.content_disposition -e http.content_length 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\necho \"=== response for 8f2381c2 (frame near 102-106s) ===\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.src==199.232.210.172 and http.response\" -T fields -e frame.number -e frame.time_relative -e http.response.code -e http.content_length -e http.content_range 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\necho \"=== all HTTP requests with 'teamviewer' in host or uri (case-insens) ===\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e frame.time_relative -e ip.dst -e http.host -e http.request.uri 2>/dev/null | grep -i teamviewer\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"http.content_disposition\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e http.content_disposition -e http.content_length 2>/dev/null\n",
+      "/opt/homebrew/bin/tshark -G fields 2>/dev/null | grep -i content.disp",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"frame contains \\\"TeamViewer\\\"\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e http.request.uri -e http.request.method 2>/dev/null | head -20\n",
+      "rm -rf /tmp/pcap_exports_clean\nmkdir -p /tmp/pcap_exports_clean\ncd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/pcap_exports_clean\" -q 2>/dev/null\necho \"done\"\nls -la /tmp/pcap_exports_clean | sort -k5 -n -r | head -40",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.src==72.5.43.29 and http.response and http.content_length>1000\" -T fields -e frame.number -e frame.time_relative -e http.response.code -e http.content_length -e http.content_type 2>/dev/null\n",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15\"\necho \"--- TLS SNI list ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"tls.handshake.type==1\" -T fields -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\necho \"--- capture duration ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -q -z io,stat,0 2>/dev/null | tail -5\necho \"--- count of GET / beacon requests to 72.5.43.29 ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.dst==72.5.43.29 and http.request.method==\\\"GET\\\" and http.request.uri==\\\"/\\\"\" 2>/dev/null | wc -l\necho \"--- first and last beacon timestamps ---\"\n/opt/homebrew/bin/tshark -r 2024-08-15-traffic-analysis-exercise.pcap -Y \"ip.dst==72.5.43.29 and http.request\" -T fields -e frame.time_relative 2>/dev/null | sort -n | sed -n '1p;$p'\n"
+    ],
+    "input_tokens": 86,
+    "output_tokens": 30325,
+    "num_turns": 43,
+    "duration_ms": 432459,
+    "cost_usd": 2.2614057999999995,
+    "wall_time_s": 434.2
+  },
+  "score": {
+    "recall": 0.8182,
+    "iocs_found": 9,
+    "iocs_total": 11,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 2,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 10,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "All hashes confirmed. Here is the incident report.\n\n---\n\n# Incident Report: PCAP Forensic Analysis\n**Evidence file:** `2024-08-15-traffic-analysis-exercise.pcap` (18,189 frames, 1962.2s / ~32.7 min capture, LAN `10.8.15.0/24`)\n**No other artifacts (IDS/Suricata alerts) were present in the evidence directory \u2014 this analysis is derived entirely from the packet capture.**\n\n## 1. Infected Host\n\n| Field | Value | Evidence |\n|---|---|---|\n| IPv4 address | **10.8.15.133** | DHCP lease, all subsequent traffic |\n| MAC address | **00:1c:bf:03:54:82** (Intel NIC) | DHCP Discover/Request frames, ARP |\n| Windows hostname | **DESKTOP-H8ALZBV** | DHCP option 12, NBNS name registration, mDNS query, LLMNR query |\n| AD domain | LAFONTAINEBLEU / `lafontainebleu.org` | NBNS, DNS SRV lookups (`_ldap._tcp...lafontainebleu.org`) |\n| Logged-in Windows user | **plucero** | Kerberos AS-REQ/TGS-REQ CNameString from 10.8.15.133 to the domain controller (alongside the machine account `DESKTOP-H8ALZBV$`) |\n\n## 2. Malware Family and Attribution\n\n**Attribution basis: behavioral/TTP, not signature-confirmed.** No AV/IDS/YARA alert exists in the provided evidence (only the raw pcap was supplied), so no formal signature match can be claimed. The chain below is reconstructed purely from packet-level observation.\n\n**Infection chain observed:**\n\n1. **t\u224874.7s** \u2014 HTTP GET to `quote.checkfedexexp.com` (104.21.55.70) returns a 2.77 MB ZIP archive (`sha256: 798563fcf7600f7ef1a35996291a9dfb5f9902733404dd499e2e736ea1dc6fc5`) containing a single file, **`Invoice-876597035-003-8331775-8334138.js`** (6,990,020 bytes, `sha256: dab98819d1d7677a60f5d06be210d45b74ae5fd8cf0c24ec1b3766e25ce6dc2c`). The JS is padded with megabytes of unrelated benign filler text (scraped-looking report/document content) to inflate its size \u2014 a well-known evasion technique used by fake-invoice JS downloaders of the **GootLoader** class. This is the strongest behavioral signal for family classification, but it is inferential, not a hash/signature hit against a known-bad database.\n2. **t\u2248135.9s** \u2014 Windows BITS (`User-Agent: Microsoft BITS/7.8`) fetches `http://72.5.43.29/data/0f60a3e7baecf2748b1c8183ed37d1e4` \u2014 a 159,232-byte PE32+ DLL (`sha256: b7aec5f73d2a6bbd8cd920edb4760e2edadc98c3a45bf4fa994d47ca9cbd02f6`). This binary self-identifies via its embedded debug path: `E:\\work\\ooooooops\\181\\knock_v1.1.8\\knock\\bin64\\knock.pdb` (internal module name `release.dll`), and exports `DllRegisterServer`, `DllRegisterServerEx`, `DllGetClassObject`, `DllUnregisterServer` \u2014 i.e., it is built to be invoked via `regsvr32.exe`/COM registration (a documented defense-evasion LOLBin technique, MITRE T1218.010). I'm labeling this component **\"Knock\" loader/backdoor** based on its own self-identifying build string; I have no independent signature database to confirm this matches a named, tracked malware family, so treat the name as descriptive rather than confirmed attribution.\n3. **t\u2248196s \u2192 1962s (end of capture)** \u2014 Sustained C2 beaconing: **303** HTTP `GET /` requests from 10.8.15.133 to 72.5.43.29:80, at roughly 5\u20137 second intervals, using a distinctive non-browser User-Agent string `Mozilla / 5.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705)` (note the malformed spacing \"Mozilla / 5.0\", inconsistent with any real browser). Most responses are small (94\u2013124 byte) `400 Bad Request` bodies, consistent with idle/no-tasking beacon check-ins.\n\n**Note on a discarded lead:** intermediate BITS transfers from the legitimate Microsoft Delivery Optimization CDN (`msedge.b.tlu.dl.delivery.mp.microsoft.com`, 199.232.210.172) were also observed around t\u2248102\u2013127s, content-typed `application/x-chrome-extension`, 15KB and 171KB respectively. These are Microsoft-hosted, small, and do not correlate with any malicious string/hash in this capture \u2014 I could not confirm they are part of the attack chain and am not including them as IOCs.\n\n## 3. Indicators of Compromise (grounded in this capture only)\n\n**C2 endpoint:**\n- `72.5.43.29:80` \u2014 hardcoded IP, no DNS lookup performed (confirms it is not resolved via a domain), used both to serve the loader DLL and for ongoing beacon traffic.\n\n**Malicious domains:**\n- `quote.checkfedexexp.com` (resolved to 104.21.55.70, 172.67.170.159 \u2014 Cloudflare-fronted) \u2014 hosted the invoice ZIP/JS downloader.\n- `business.checkfedexexp.com` (same resolved IPs) \u2014 queried via DNS and contacted over TLS (present in TLS SNI); no plaintext HTTP request body was captured for this host.\n\n**Malicious URL:**\n- `http://quote.checkfedexexp.com/managements?16553a25e45250a41fd5&endeds=MIGpq&JStx=59bf050d37df88a9-ade43358-eaa1220b-0571422b-0f33e6aa150e86bafd0ed4&Ld=9d7502d88d752a27b1d00587309184b5a215`\n- `http://72.5.43.29/data/0f60a3e7baecf2748b1c8183ed37d1e4`\n\n**Transferred files / hashes:**\n\n| File | Size | SHA256 | Source |\n|---|---|---|---|\n| ZIP delivered from FedEx-lure domain (unnamed by the site; underlying filename below) | 2,767,804 B | `798563fcf7600f7ef1a35996291a9dfb5f9902733404dd499e2e736ea1dc6fc5` | quote.checkfedexexp.com |\n| `Invoice-876597035-003-8331775-8334138.js` (contents of above ZIP) | 6,990,020 B | `dab98819d1d7677a60f5d06be210d45b74ae5fd8cf0c24ec1b3766e25ce6dc2c` | inside ZIP |\n| `0f60a3e7baecf2748b1c8183ed37d1e4` (PE32+ DLL, internal name `release.dll` / `knock.pdb`) | 159,232 B | `b7aec5f73d2a6bbd8cd920edb4760e2edadc98c3a45bf4fa994d47ca9cbd02f6` | 72.5.43.29 |\n\n## Summary\n\nHost **DESKTOP-H8ALZBV** (10.8.15.133, MAC 00:1c:bf:03:54:82), logged in as domain user **plucero** on the LAFONTAINEBLEU AD domain, retrieved a fake-invoice ZIP/JS downloader from `quote.checkfedexexp.com`, which subsequently triggered a BITS-driven download of a COM-registrable loader DLL (\"Knock\", per its own PDB path) from a hardcoded C2 IP (72.5.43.29:80). The host then beaconed to that C2 IP roughly every 5\u20137 seconds for the remainder of the 32-minute capture (303 check-ins). Family attribution to GootLoader/associated loader tooling is behavioral (delivery TTP and build-string match) rather than signature-confirmed, since no IDS/AV artifacts accompanied this pcap."
+}

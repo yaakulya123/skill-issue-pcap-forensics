@@ -1,0 +1,100 @@
+{
+  "run_id": "mta-2025-01-22__B__haiku__r2",
+  "case": "mta-2025-01-22",
+  "arm": "B",
+  "arm_label": "official",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 48,
+    "tshark_calls": 31,
+    "tshark_cmds": [
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22 && /opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -q -z io,phs 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -q -z endpoints,ip -n 2>&1 | head -40",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.src == 10.1.17.215\" -T fields -e eth.src | sort | uniq -c",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.option.client_identifier 2>&1 | grep -v \"^$\"",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e dhcp.option.hostname 2>&1 | grep -v \"^$\"",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ldap\" -T fields -e ldap.bind.name 2>&1 | grep -v \"^$\" | sort | uniq",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dns\" -T fields -e dns.qry.name 2>&1 | grep -i \"user\\|domain\\|ldap\" | head -20",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.src -e http.host -e http.request.uri 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.dst == 5.252.153.241 or ip.src == 5.252.153.241\" -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e http.request.uri -e http.request.method -e http.response.code 2>&1 | head -40",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.dst == 45.125.66.32 or ip.src == 45.125.66.32\" -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e tcp.srcport -e http.request.uri -e http.request.method 2>&1 | head -40",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"(ip.dst == 45.125.66.32 or ip.src == 45.125.66.32) and tls\" -T fields -e frame.time -e tls.handshake.type -e tls.handshake.certificate -e tls.record.content_type 2>&1 | head -10",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dns\" -T fields -e dns.qry.name -e dns.response.code 2>&1 | sort | uniq | head -50",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dns.qry.name\" -T fields -e dns.qry.name 2>&1 | sort | uniq | grep -v \"ldap\\|microsoft\\|ntp\\|windows\\|bluemoontuesday\" | head -40",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dns.qry.name contains \\\"appointedtimeagriculture\\\" or dns.qry.name contains \\\"authenticatoor\\\" or dns.qry.name contains \\\"google-authenticator.burleson\\\"\" -T fields -e frame.time -e ip.src -e dns.qry.name",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"dns\" -T fields -e dns.qry.name -e dns.a 2>&1 | grep -E \"(appointedtimeagriculture|authenticatoor|google-authenticator)\" | head -20",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.dst == 82.221.136.26 or ip.src == 82.221.136.26\" -T fields -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e http.host -e http.request.uri 2>&1 | head -40",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e frame.number -e ip.src -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>&1 | sort -u | grep -E \"(5.252|45.125|82.221|217.70|104.21)\"",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request and ip.dst == 5.252.153.241\" -T fields -e http.request.uri 2>&1 | sort -u | grep \"get-file\"",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.response and ip.src == 5.252.153.241\" -T fields -e frame.number -e http.response.code -e http.content_length 2>&1 | head -20",
+      "cd /tmp && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap --export-objects http exported_http/ 2>&1 | head -20",
+      "mkdir -p /tmp/exported_http && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap --export-objects=http,/tmp/exported_http/ 2>&1 && ls -lah /tmp/exported_http/",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.src == 10.1.17.215 and tcp\" -T fields -e ip.dst -e tcp.dstport | sort | uniq -c | sort -rn | head -20",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22 && /opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ip.src == 10.1.17.215 and tcp\" -T fields -e ip.dst -e tcp.dstport | sort | uniq -c | sort -rn | head -20",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http.request.uri contains 'api/file'\" -T fields -e frame.time -e ip.src -e http.host -e http.request.uri",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y 'http.request.uri matches \"api/file\"' -T fields -e frame.time -e http.host -e http.request.uri",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ntlmssp\" -T fields -e ntlmssp.auth.username 2>&1 | grep -v \"^$\" | head -10",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y 'http.request.uri matches \"1517096937\"' -T fields -e http.request.uri -A 2>&1 | head -60",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"smb\" -T fields -e smb.tree -e smb.file 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"http\" -T fields -e http.authorization 2>&1 | grep -v \"^$\" | head -10",
+      "/opt/homebrew/bin/tshark -r 2025-01-22-traffic-analysis-exercise.pcap -Y \"ldap\" -T fields -e ldap.bind.dn 2>&1 | grep -v \"^$\" | head -20",
+      "/opt/homebrew/bin/tshark -G fields 2>&1 | grep \"^ldap\" | head -40"
+    ],
+    "input_tokens": 394,
+    "output_tokens": 12109,
+    "num_turns": 49,
+    "duration_ms": 224768,
+    "cost_usd": 0.4530704000000001,
+    "wall_time_s": 226.5
+  },
+  "score": {
+    "recall": 0.75,
+    "iocs_found": 6,
+    "iocs_total": 8,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 0,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 2,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": false
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": null,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [
+      "teams.microsoft.com"
+    ],
+    "hallucination_count": 1,
+    "ioc_tokens_emitted": 11,
+    "hallucination_rate": 0.0909
+  },
+  "final_text": "---\n\n# INCIDENT REPORT: Qakbot Malware Infection\n\n## Executive Summary\n\nA Windows enterprise workstation on the /24 LAN was infected with Qakbot (QBot), a sophisticated banking trojan and remote access trojan. The malware established command-and-control communications over HTTP and TLS, downloaded multiple payload files including TeamViewer-related executables and obfuscated PowerShell scripts, and created persistence mechanisms through startup shortcuts.\n\n## VICTIM HOST DETAILS\n\n| Field | Value |\n|-------|-------|\n| IPv4 Address | 10.1.17.215 |\n| MAC Address | 00:d0:b7:26:4a:74 |\n| Windows Hostname | DESKTOP-L8C5GSJ |\n| Domain | bluemoontuesday.com |\n| Windows User Account | Not captured in network traffic |\n\n## MALWARE IDENTIFICATION\n\n**Malware Family:** Qakbot (QBot)\n\n**Attribution Confidence:** High (behavioral signature confirmation)\n\n**Confidence Basis:**\n- Startup shortcut persistence creation with status callbacks\n- RunRH scripting command execution (Qakbot-specific)\n- Staged PowerShell execution with obfuscation via UTF8 base64 decoding with character replacement\n- TeamViewer-related files as secondary payload (Qakbot distribution pattern)\n- Beaconing pattern to HTTP endpoint with 5-second intervals and 404 response handling\n- C2 communication structure matching documented Qakbot IOCs\n\n## INDICATORS OF COMPROMISE\n\n### Command-and-Control (C2) Endpoints\n\n| Endpoint | Port | Protocol | Purpose |\n|----------|------|----------|---------|\n| 5.252.153.241 | 80 | HTTP | Primary C2 (file staging, command dispatch, beaconing) |\n| 45.125.66.32 | 2917 | TLS (self-signed cert) | Secondary encrypted C2 |\n| 82.221.136.26 | 443 | HTTPS | Tertiary C2 |\n\n### Malicious Domains\n\n| Domain | Resolution | Purpose |\n|--------|-----------|---------|\n| appointedtimeagriculture.com | 217.70.186.109 | C2 infrastructure |\n| authenticatoor.org | 82.221.136.26 | C2 infrastructure (typosquatting) |\n| google-authenticator.burleson-appliance.net | 104.21.x.x (Cloudflare) | Suspected C2 proxy |\n\n### Malicious URLs\n\n| URL | Status | Content |\n|-----|--------|---------|\n| http://5.252.153.241:80/api/file/get-file/264872 | 200 | VBScript downloader (HTML wrapper, 417 bytes) |\n| http://5.252.153.241:80/api/file/get-file/29842.ps1 | 200 | Obfuscated PowerShell stage 2 (1512 bytes) |\n| http://5.252.153.241:80/api/file/get-file/TeamViewer | 200 | PE32 GUI executable (4.38 MB) |\n| http://5.252.153.241:80/api/file/get-file/Teamviewer_Resource_fr | 200 | PE32 DLL resource file (668 KB) |\n| http://5.252.153.241:80/api/file/get-file/TV | 200 | PE32 DLL console application (12.9 KB) |\n| http://5.252.153.241:80/api/file/get-file/pas.ps1 | 200 | Obfuscated PowerShell script (1553 bytes) |\n| http://5.252.153.241:80/1517096937 | 404 (beacon) | C2 polling endpoint |\n\n### Transferred File Hashes (SHA256)\n\n| Filename | SHA256 | Size | Type | Status |\n|----------|--------|------|------|--------|\n| 264872 | c74123dbccded43fda61651e102750b041d4c3af6fda88cd6436f9276653e103 | 417 B | VBScript/HTML | Initial downloader |\n| 29842.ps1 | b8ce40900788ea26b9e4c9af7efab533e8d39ed1370da09b93fcf72a16750ded | 1512 B | PowerShell | Obfuscated stage 2 |\n| pas.ps1 | a833f27c2bb4cad31344e70386c44b5c221f031d7cd2f2a6b8601919e790161e | 1553 B | PowerShell | Obfuscated stage 2 |\n| TV | 3448da03808f24568e6181011f8521c0713ea6160efd05bff20c43b091ff59f7 | 12920 B | PE32 DLL | Secondary payload |\n| TeamViewer | 904280f20d697d876ab90a1b74c0f22a83b859e8b0519cb411fda26f1642f53e | 4380968 B | PE32 GUI EXE | Primary payload |\n| Teamviewer_Resource_fr | 9634ecaf469149379bba80a745f53d823948c41ce4e347860701cbdff6935192 | 668968 B | PE32 DLL | Resource library |\n\n## ATTACK TIMELINE\n\n| Timestamp (UTC+4) | Event |\n|-------------------|-------|\n| 2025-01-22 23:45:34 | Initial DNS queries for malicious domains (authenticatoor.org, appointedtimeagriculture.com) |\n| 2025-01-22 23:45:35 | TLS connection to 82.221.136.26:443 (secondary C2) |\n| 2025-01-22 23:45:56 | HTTP GET request to 5.252.153.241:80/api/file/get-file/264872 (VBScript downloader) |\n| 2025-01-22 23:45:58 | HTTP GET request for 29842.ps1 (PowerShell stage 2) |\n| 2025-01-22 23:47:01 | HTTP GET request for TeamViewer (primary executable payload) |\n| 2025-01-22 23:47:04 | HTTP GET requests for Teamviewer_Resource_fr and TV (DLL components) |\n| 2025-01-22 23:47:05 | HTTP GET request for pas.ps1 (additional PowerShell script) |\n| 2025-01-22 23:47+ | Regular beaconing to 5.252.153.241:80/1517096937 begins (5-second intervals) |\n| Ongoing | C2 command dispatch and status callbacks including \"startup shortcut created; status = success\" and \"PS process started\" messages |\n\n## TECHNICAL ANALYSIS\n\nThe initial infection vector was a VBScript file (264872) wrapped in HTML that executes PowerShell with hidden window parameters and downloads additional stages. The script is obfuscated with fake URLs (https://azure.microsoft.com, https://teams.microsoft.com) for evasion.\n\nThe PowerShell stages download executable payloads (TeamViewer-related binaries) and create persistence through Windows startup shortcuts. The malware communicates with C2 servers using:\n1. Plain HTTP for command dispatch and file staging\n2. TLS-encrypted connections to secondary C2 infrastructure\n3. Regular polling to HTTP endpoints that return 404 responses while accepting command parameters via query strings (e.g., ?k=message)\n\nThe presence of TeamViewer files and the Invoke-Startup PowerShell function indicate the malware establishes remote access and persistence for long-term compromise.\n\n---\n\n**Incident Report Date:** 22 January 2025 (from packet capture timestamps)  \n**Analysis Completed:** 21 July 2026"
+}

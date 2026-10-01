@@ -1,0 +1,101 @@
+{
+  "run_id": "mta-2022-01-07__D3__haiku__r3",
+  "case": "mta-2022-01-07",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "haiku",
+  "rep": 3,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 41,
+    "tshark_calls": 26,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z io,phs 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z conv,ip 2>&1 | head -40",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e nbns.name -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.dst==2.56.57.108 && (tcp.dstport)\" -T fields -e ip.dst -e tcp.dstport | sort | uniq -c",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e http.request.method -e http.request.uri -e http.host | sort | uniq -c | sort -rn | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"tcp.stream==0\" -T fields -e tcp.stream -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.method -e http.request.uri | head -5",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==2.56.57.108\" -T fields -e frame.time_epoch -e http.request.uri | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"dns.qry.name\" -T fields -e dns.qry.name | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request.method==GET\" -T fields -e http.host -e http.request.uri | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request.method==POST\" -T fields -e http.host -e http.request.uri | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request.method==GET && ip.dst!=192.168.1.2\" -T fields -e ip.dst -e http.host -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,1 2>&1 | head -100",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==2.56.57.108 && http.request.uri==/osk//main.php\" -T fields -e frame.number | head -1",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==2.56.57.108 && http.request.uri==\\\"/osk//main.php\\\"\" -T fields -e frame.number | head -1",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"frame.number==4275\" -T fields -e http.request.full_uri -e http.file_data | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.response && ip.src==2.56.57.108\" -T fields -e frame.number -e http.response.code -e http.content_length | head -10",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"frame.number==4192\" -T fields -e http.response.body | head -c 512",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/pcap_objects\" -q 2>&1",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request && http.request.uri contains \\\"Invoice\\\"\" -T fields -e http.host -e http.request.uri -e ip.dst",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request.method==GET && ip.dst != 192.168.1.2 && ip.dst != 192.168.1.1\" -T fields -e frame.time_epoch -e ip.dst -e http.host -e http.request.uri | grep -v \"microsoft\\|windows\\|msdn\\|cdn77\" | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.dst==2.56.57.108\" -T fields -e frame.time_epoch -e http.request.uri | head -5 && echo \"...\" && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.dst==2.56.57.108\" -T fields -e frame.time_epoch -e http.request.uri | tail -5",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z endpoints,ip | grep 192.168.1.216",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e http.host | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"dns.a==2.56.57.108\" -T fields -e dns.qry.name"
+    ],
+    "input_tokens": 338,
+    "output_tokens": 11204,
+    "num_turns": 42,
+    "duration_ms": 206043,
+    "cost_usd": 0.3340763,
+    "wall_time_s": 207.6
+  },
+  "score": {
+    "recall": 0.6667,
+    "iocs_found": 6,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 0,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 2,
+        "total": 2
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": false,
+      "victim_user": true
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 7,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "---\n\n## INCIDENT REPORT: Browser Stealer Malware Infection\n\n**Date of Analysis:** 2022-01-07\n**Evidence Source:** 2022-01-07-traffic-analysis-exercise.pcap\n\n### INFECTED HOST\n\n| Attribute | Value |\n|-----------|-------|\n| IPv4 Address | 192.168.1.216 |\n| MAC Address | 9c:5c:8e:32:58:f9 |\n| Windows Hostname | DESKTOP-GXNYNO2 |\n| Logged-in User | steve.smith |\n| Asset Role | Enterprise workstation, local /24 LAN |\n\n### MALWARE CLASSIFICATION\n\n**Family:** Browser Credential Stealer (behavioral attribution)\n**Attribution:** Behavioral, not IDS-confirmed. Evidence pattern consistent with Amadey or similar commodity stealer family.\n\n### COMMAND-AND-CONTROL\n\n| Indicator | Value |\n|-----------|-------|\n| C2 IP | 2.56.57.108 |\n| C2 Port | 80 (HTTP) |\n| Protocol | HTTP POST |\n| Beacon URIs | `/osk/`, `/osk//main.php`, `/osk//1.jpg` - `/osk//7.jpg` |\n| Resolution | No DNS resolution; IP hardcoded in malware |\n| Beaconing Interval | ~0.5-1 second per POST (continuous) |\n\n**Behavioral Indicator:** Bare-IP HTTP beaconing to a non-standard port 80 with `/osk/` path structure is a strong C2 tell. Absence of DNS queries and repeated POSTs to the same IP on fixed intervals indicate active command-and-control.\n\n### INDICATORS OF COMPROMISE\n\n#### C2 Endpoint\n- **IP:Port:** 2.56.57.108:80\n- **HTTP POST URIs:** \n  - `/osk/` (general beacon)\n  - `/osk//main.php` (command channel)\n  - `/osk//1.jpg` through `/osk//7.jpg` (staged downloads)\n\n#### Malware Artifacts (File Hashes)\n\n| Filename | SHA256 | Purpose | Observed In |\n|----------|--------|---------|------------|\n| osk | `1ecee6ff37e03c1160b8bf66d5ca8dc784e0b35fb9fd105f0964b314d310c07f` | Main stealer binary; exfiltrates browser credentials (Chrome/Edge autofill, cookies, passwords) | C2 response payload, extracted from PCAP |\n| Invoice-876597035-003-8331775-8334138.js | `dab98819d1d7677a60f5d06be210d45b74ae5fd8cf0c24ec1b3766e25ce6dc2c` | Likely initial delivery vector; 6.7 MB obfuscated/packed payload | Extracted from PCAP HTTP responses |\n| TeamViewer | `904280f20d697d876ab90a1b74c0f22a83b859e8b0519cb411fda26f1642f53e` | Legitimate remote-access tool; possibly repurposed by attacker for C2 or lateral movement | Extracted from PCAP HTTP responses |\n\n#### Exfiltrated Credentials\n- Google Chrome autofill data\n- Google Chrome cookies (from \"Google Chrome_Default\" profile)\n- Google Chrome network cookies\n- Microsoft Edge autofill data\n- Microsoft Edge cookies (from \"Microsoft Edge_Default\" profile)\n- Data exported in ZIP archive format: `_5861695120.zip`\n\n#### Command Execution\n- PowerShell script execution via command: `RunRH`\n- C2 commands trigger creation of startup shortcuts\n- Victim reports successful PowerShell process execution via POST responses\n\n#### Network Characteristics\n- Victim machine sent 2,387 frames (3.1 MB) to C2; received 948 frames (435 KB)\n- Total C2 traffic: 3.6 MB over ~750 seconds of capture\n- C2 response payloads: 83 KB - 1.2 MB (large command/stage downloads)\n- All POST requests contain boundary markers (e.g., `--1BEF0A57BE110FD467A--`), consistent with multipart form data exfiltration\n\n### DELIVERY CHAIN & ATTACK TIMELINE\n\n1. **Initial Infection Vector:** Unknown (not directly observable in this capture). File `Invoice-876597035-003-8331775-8334138.js` and `TeamViewer` suggest either email delivery or compromised download site.\n2. **Malware Installation:** Malware establishes C2 beaconing before capture begins (2022-01-07T11:54 UTC).\n3. **Active Exploitation:** Continuous credential exfiltration and command execution observed throughout capture duration.\n4. **No Lateral Movement Observed:** SMB traffic to domain controller (192.168.1.2) is authentication-related only; no evidence of internal propagation in this capture.\n\n### BENIGN CONTEXT\n\n- Windows Update downloads from au.download.windowsupdate.com, download.windowsupdate.com, ctldl.windowsupdate.com (legitimate, for comparison against C2 traffic)\n- Domain controller: SPOONWATCH-DC.spoonwatch.net (192.168.1.2, legitimate internal infrastructure)\n- All DNS queries: Windows Update, local domain services, browser checks (no malicious domains detected)\n\n### SEVERITY & IMPACT\n\n- **Severity:** CRITICAL\n- **Impact:** \n  - Browser passwords and autofill data compromised (Google Chrome, Microsoft Edge)\n  - Active command execution capability (PowerShell)\n  - Attacker maintains persistent C2 presence\n  - Potential for lateral movement, data theft, or further compromise\n\n### RECOMMENDED ACTIONS\n\n1. Isolate host 192.168.1.216 from network immediately\n2. Reset passwords for all accounts used on this workstation\n3. Revoke any SSH/VPN keys, OAuth tokens, and API credentials accessed via Chrome/Edge\n4. Perform full endpoint scan and malware removal with enterprise EDR\n5. Review domain controller logs (192.168.1.2) for lateral movement attempts from this host\n6. Block C2 IP 2.56.57.108 at firewall (ingress and egress)\n7. Investigate how the initial payload (Invoice JS file) was delivered (email, web, USB)"
+}

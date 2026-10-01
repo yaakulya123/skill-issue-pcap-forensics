@@ -1,0 +1,90 @@
+{
+  "run_id": "mta-2026-01-31__D1__haiku__r2",
+  "case": "mta-2026-01-31",
+  "arm": "D1",
+  "arm_label": "no-workflow",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 22,
+    "tshark_calls": 19,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -q -z io,phs",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"nbns\" -T fields -e nbns.name -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"dns.qry.name\" -T fields -e dns.qry.name | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name | sort -u | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"tcp.flags.syn==1 && tcp.flags.ack==0\" -T fields -e ip.dst -e tcp.dstport | sort | uniq -c | sort -rn | head -20",
+      "mkdir -p /tmp/objs && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap --export-objects \"http,/tmp/objs\" -q && ls -lh /tmp/objs/",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"http && ip.dst==153.92.1.49\" -T fields -e http.request.method -e http.host -e http.request.uri -e http.response.code | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request && ip.dst==153.92.1.49 && http.request.method==POST\" -T fields -e http.request.full_uri -e data-text-lines | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,0 | head -100",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"http && ip.dst==153.92.1.49\" -T fields -e tcp.stream",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,99",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,101 | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,111 | head -80",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"dns\" -T fields -e dns.qry.name | grep -E \"hiyter|communicationfirewall|holiday-forever|megafilehub|whooptm\" | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"ip.dst==104.21.9.36 || ip.dst==104.21.48.156\" -T fields -e ip.dst -e tcp.dstport -e udp.dstport | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31/2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request.method==POST\" -T fields -e ip.dst -e http.host | sort -u"
+    ],
+    "input_tokens": 186,
+    "output_tokens": 7085,
+    "num_turns": 23,
+    "duration_ms": 127067,
+    "cost_usd": 0.2215849,
+    "wall_time_s": 128.8
+  },
+  "score": {
+    "recall": 0.5556,
+    "iocs_found": 5,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 0,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": false,
+      "victim_user": true
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 6,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Based on my forensic analysis of the PCAP, I've identified a browser fingerprinting and profiling malware communicating with a C2 server. Here's my incident report:\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"10.1.21.58\",\n    \"mac\": \"00:21:5d:c8:0e:f2\",\n    \"hostname\": \"WIN11OFFICE\",\n    \"user\": \"gwyatt\"\n  },\n  \"malware_family\": \"Browser Fingerprinter/Stealer\",\n  \"attribution_confidence\": \"behavioral\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"153.92.1.49:80\",\n      \"evidence\": \"Unencrypted HTTP GET/POST requests to /api/set_agent endpoint, 18 SYN packets observed\"\n    },\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"153.92.1.49:443\",\n      \"evidence\": \"TLS handshake with SNI whitepepper.su, 18 SYN packets observed\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"whitepepper.su\",\n      \"evidence\": \"DNS query observed (tcp.stream=99), TLS Server Name Indication in ClientHello packets, HTTP Host header in requests\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Chrome&act=log\",\n      \"evidence\": \"POST request with 8023-byte body exfiltrating Chrome browser fingerprint data: system info, WebGL GPU vendor/renderer, canvas fingerprint, network settings, screen resolution (1920x1080), audio capabilities, installed fonts\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Edge&act=log\",\n      \"evidence\": \"POST request with 7975-byte body exfiltrating Edge browser fingerprint data with identical profiling parameters\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"35097072_9c18abaa0dd4f3355c05cb1e0ac0d0a1da10552a.cab\",\n      \"evidence\": \"Exported from HTTP stream, 7.0 KB Microsoft Cabinet archive file\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"6c1eac65b98a81cd11abeaffe3fcf7f268e8788f733a0a8598b900201f05fc6d\",\n      \"evidence\": \"SHA256 hash of exported .cab file from HTTP objects\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"35095158_9a369166024cd2046a41b3fcf5a7d5743d20b1f8.cab\",\n      \"evidence\": \"Exported from HTTP stream, 11 KB Microsoft Cabinet archive file\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"1127774b7710ffa8c9bd5d3182517be848d9373e8f4382f28f801ba9e44f80fb\",\n      \"evidence\": \"SHA256 hash of exported .cab file from HTTP objects\"\n    }\n  ],\n  \"benign_context\": [\n    \"Google connectivity checks (clients2.google.com) for time synchronization\",\n    \"Microsoft connectivity test (msftconnecttest.com)\",\n    \"Active Directory LDAP queries to domain controller (10.1.21.2)\",\n    \"Kerberos authentication to local domain controller\"\n  ],\n  \"incident_summary\": \"Windows workstation WIN11OFFICE (10.1.21.58) is infected with a browser fingerprinting and profiling malware that systematically exfiltrates sensitive browser metadata from Chrome and Edge browsers. The malware communicates via HTTP POST requests to command-and-control server whitepepper.su (153.92.1.49) using hardcoded agent ID and authentication token, continuously profiling GPU capabilities, canvas fingerprints, system configuration, and network settings for tracking and identification purposes.\"\n}\n```"
+}

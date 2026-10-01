@@ -1,0 +1,78 @@
+{
+  "run_id": "mta-2026-01-31__D3__sonnet__r2",
+  "case": "mta-2026-01-31",
+  "arm": "D3",
+  "arm_label": "no-schema",
+  "model": "sonnet",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 9,
+    "tshark_calls": 7,
+    "tshark_cmds": [
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\nPCAP=2026-01-31-traffic-analysis-exercise.pcap\necho \"=== PROTOCOL HIERARCHY ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z io,phs 2>/dev/null\necho \"=== TOP CONVERSATIONS (IP) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z conv,ip 2>/dev/null | head -40",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\nPCAP=2026-01-31-traffic-analysis-exercise.pcap\necho \"=== NBNS names ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"nbns\" -T fields -e ip.src -e nbns.name 2>/dev/null | sort -u\necho \"=== DHCP hostname ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.hw.mac_addr -e ip.src 2>/dev/null | sort -u\necho \"=== Kerberos CNames ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"kerberos.CNameString\" -T fields -e ip.src -e kerberos.CNameString 2>/dev/null | sort -u\necho \"=== ARP IP<->MAC ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac 2>/dev/null | sort -u\necho \"=== mDNS/LLMNR ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"mdns or llmnr\" -T fields -e ip.src -e dns.qry.name 2>/dev/null | sort -u | head -20",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\nPCAP=2026-01-31-traffic-analysis-exercise.pcap\necho \"=== HTTP requests ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"http.request\" -T fields -e frame.number -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\necho \"=== DNS queries (unique) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dns.qry.name and dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\nPCAP=2026-01-31-traffic-analysis-exercise.pcap\necho \"=== TLS SNI list ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"tls.handshake.type==1\" -T fields -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -u\necho \"=== Full HTTP stream to whitepepper.su (first GET, stream index) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==153.92.1.49 && http\" -T fields -e tcp.stream 2>/dev/null | sort -u",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\nPCAP=2026-01-31-traffic-analysis-exercise.pcap\nfor s in 99 101 111 112; do\necho \"===== STREAM $s =====\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -q -z follow,tcp,ascii,$s 2>/dev/null | head -60\necho\ndone",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\nPCAP=2026-01-31-traffic-analysis-exercise.pcap\necho \"=== DNS query/response timing for suspicious domains ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"dns.qry.name matches \\\"(whitepepper|filemegahab4|megafilehub4|holiday-forever|whooptm|communicationfirewall-security|hiyter)\\\"\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e dns.qry.name -e dns.a 2>/dev/null | sort -u\necho \"=== export objects http ===\"\nmkdir -p /tmp/objs\n/opt/homebrew/bin/tshark -r \"$PCAP\" --export-objects \"http,/tmp/objs\" -q 2>/dev/null\nls -la /tmp/objs 2>/dev/null\necho \"=== TCP conv to whooptm.cyou / holiday-forever / megafilehub4 ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==62.72.32.156 or ip.addr==80.97.160.24 or ip.addr==104.21.48.156 or ip.addr==104.21.9.36\" -T fields -e frame.time_relative -e ip.src -e ip.dst -e frame.len -e tls.handshake.extensions_server_name 2>/dev/null | head -20",
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31\nPCAP=2026-01-31-traffic-analysis-exercise.pcap\necho \"=== all HTTP reqs to whitepepper.su with time ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==153.92.1.49 and http.request\" -T fields -e frame.time_relative -e http.request.method -e http.request.uri 2>/dev/null\necho \"=== TLS cert CN for 153.92.1.49 (if any tls there) ===\"\n/opt/homebrew/bin/tshark -r \"$PCAP\" -Y \"ip.addr==153.92.1.49 and tls\" -T fields -e tls.handshake.extensions_server_name 2>/dev/null | sort -u"
+    ],
+    "input_tokens": 20,
+    "output_tokens": 8165,
+    "num_turns": 10,
+    "duration_ms": 126874,
+    "cost_usd": 0.5339013,
+    "wall_time_s": 128.0
+  },
+  "score": {
+    "recall": 1.0,
+    "iocs_found": 9,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 3,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 24,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report: MTA 2026-01-31 Traffic Analysis Exercise\n\n## Victim Host\n- **IPv4:** 10.1.21.58\n- **MAC:** 00:21:5d:c8:0e:f2\n- **Windows hostname:** DESKTOP-ES9F3ML (workgroup/domain label WIN11OFFICE, DHCP-confirmed, NBNS-confirmed)\n- **Logged-in user:** gwyatt (confirmed via Kerberos CNameString in AS-REQ/TGS-REQ traffic between 10.1.21.58 and the domain controller at 10.1.21.2)\n- LAN: 10.1.21.0/24, gateway 10.1.21.2 (MAC 14:b3:1f:2d:ce:69)\n\n## Malware Family\n**Attribution: behavioral, not signature-confirmed** (no IDS/Suricata alert export was present in the evidence directory \u2014 only the pcap).\n\nThe host is infected with an **HTTP-based information stealer / browser-credential-exfiltration bot**. Behavior consistent with common commodity stealer families (Lumma/StealC-style panels):\n- Plaintext HTTP check-in to a `/api/set_agent` endpoint carrying a persistent bot `id` and `token`\n- Separate check-ins per installed browser (`agent=Chrome`, then `agent=Edge`), each followed by a `favicon.ico` fetch mimicking normal browser behavior\n- A `POST ... &act=log` immediately after each GET, uploading 6.5\u20138 KB of binary/compressed data per browser (consistent with harvested browser data: cookies, saved credentials, autofill)\n- Preceded by a chain of DNS lookups to freshly-registered, fake-file-hosting-style domains (`hiyter.com`, `media.megafilehub4.lat`, `arch.filemegahab4.sbs`, `whooptm.cyou`) in the 20 seconds before first C2 contact \u2014 consistent with a malvertising/fake-download delivery chain. These sessions were TLS-encrypted, so the delivered payload could not be recovered from the capture (no file object exported, no hash obtainable).\n\n## Indicators of Compromise (all grounded in the capture)\n\n### Command-and-Control\n- **153.92.1.49:80** \u2014 C2 server, HTTP (confirmed via TLS SNI + plaintext HTTP Host header)\n  - Domain: **whitepepper.su**\n  - Bot ID: `3BF67EC05320C5729578BE4C0ADF174C`\n  - Auth token: `842e2802df0f0a06b4ed51f12f4387e761523b`\n\n### Malicious URLs (observed C2 traffic)\n- `http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Chrome`\n- `http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Chrome&act=log` (POST, 7975 bytes exfiltrated)\n- `http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Edge`\n- `http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&description=&agent=Edge&act=log` (POST, 7975 bytes exfiltrated)\n- `http://whitepepper.su/favicon.ico` (x2)\n\n### Malicious/suspicious domains (pre-C2 delivery-chain lookups, resolved and visited by the victim, content not recoverable due to TLS)\n- `hiyter.com` \u2192 104.21.22.231 / 172.67.207.145\n- `media.megafilehub4.lat` \u2192 104.21.48.156 / 172.67.154.67\n- `arch.filemegahab4.sbs` \u2192 104.21.46.67 / 172.67.136.13\n- `whooptm.cyou` \u2192 62.72.32.156\n- `communicationfirewall-security.cc` \u2192 104.21.9.36 / 172.67.141.109 (visited ~24s after C2, possibly a fake-alert/tech-support-scam page)\n- `holiday-forever.cc` \u2192 80.97.160.24\n\n**Note:** these six domains are IOCs by association (queried by the infected host shortly before/around C2 activity, all Cloudflare-fronted, no legitimate business purpose observed) but their traffic was TLS-encrypted end to end \u2014 no plaintext content, transferred file name, or hash could be extracted from this capture. They should be treated as suspected delivery-chain infrastructure, not confirmed malicious payload servers.\n\n### Transferred files / hashes\n**None recoverable.** No executable, script, or archive was transferred in cleartext anywhere in this capture. All non-C2 external sessions besides whitepepper.su were TLS/QUIC-encrypted. The only plaintext HTTP objects exported were the C2 check-in/log bodies above (opaque, likely gzip/encrypted blobs) and benign Microsoft NCSI (`connecttest.txt`) and Google time-sync objects \u2014 no SHA256 of a dropped binary can be stated.\n\n## Benign context (not indicators)\n- 104.21.46.67, cloudflare-ech.com SNI \u2014 generic Encrypted Client Hello placeholder for Cloudflare-fronted sites, largest byte volume in the capture (16 MB) but this reflects the TLS session to `arch.filemegahab4.sbs`, already listed above.\n- Standard Windows/AD chatter: NBNS, LLMNR, CLDAP, Kerberos, DCE/RPC (samr/lsarpc/drsuapi), LDAP to the domain controller (10.1.21.2) \u2014 normal enterprise domain-joined workstation activity.\n- Microsoft/Google telemetry and services (msn.com, live.com, officeapps, googleapis.com, gstatic.com, bing.com, etc.) \u2014 background OS/browser noise."
+}

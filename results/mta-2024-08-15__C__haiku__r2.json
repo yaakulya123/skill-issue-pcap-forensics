@@ -1,0 +1,99 @@
+{
+  "run_id": "mta-2024-08-15__C__haiku__r2",
+  "case": "mta-2024-08-15",
+  "arm": "C",
+  "arm_label": "custom",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 22,
+    "tshark_calls": 18,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -q -z io,phs 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -q -z conv,ip 2>/dev/null | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"nbns\" -T fields -e nbns.name -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"arp.src.proto_ipv4==10.8.15.133\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>/dev/null | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.dst==72.5.43.29\" -T fields -e frame.number -e http.request.method -e http.request.uri 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.request.method==POST\" -T fields -e ip.dst -e http.host -e http.request.uri 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.dst==72.5.43.29 && http.request.method==POST\" -T fields -e frame.number 2>/dev/null | head -1",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"frame.number==11032 || frame.number==11033 || frame.number==11034 || frame.number==11035\" -T text 2>/dev/null | head -200",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.host==quote.checkfedexexp.com\" -T fields -e frame.number -e ip.dst -e http.host -e http.request.method -e http.request.uri 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"dns.qry.name\" -T fields -e dns.qry.name 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" --export-objects http /tmp/pcap-objs 2>/dev/null && find /tmp/pcap-objs -type f -exec sh -c 'shasum -a 256 \"{}\" | awk \"{print \\$1, \\$NF}\"' \\; 2>/dev/null | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"ip.src==10.8.15.133 && http.request.method==POST && ip.dst==72.5.43.29\" -T fields -e frame.number 2>/dev/null | head -1 | xargs -I {} /opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"frame.number=={}\" -T text 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"frame.number==11032\" -T text 2>/dev/null | tail -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"http.user_agent\" -T fields -e http.user_agent 2>/dev/null | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y 'http.user_agent==\"Mozilla / 5.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705)\"' -T fields -e frame.number -e ip.dst -e http.host 2>/dev/null",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-08-15/2024-08-15-traffic-analysis-exercise.pcap\" -Y \"tcp.flags.syn==1 && tcp.flags.ack==0 && ip.dst==72.5.43.29\" -T fields -e frame.time_epoch -e tcp.dstport | sort -u | head -20"
+    ],
+    "input_tokens": 186,
+    "output_tokens": 7367,
+    "num_turns": 23,
+    "duration_ms": 121392,
+    "cost_usd": 0.21059630000000001,
+    "wall_time_s": 122.8
+  },
+  "score": {
+    "recall": 0.6364,
+    "iocs_found": 7,
+    "iocs_total": 11,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 2,
+        "total": 2
+      },
+      "file_name": {
+        "found": 0,
+        "total": 1
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 2
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [
+      "fedex.com"
+    ],
+    "hallucination_count": 1,
+    "ioc_tokens_emitted": 10,
+    "hallucination_rate": 0.1
+  },
+  "final_text": "Based on my analysis of the PCAP, I've identified a Qbot (Qakbot) infection on the victim workstation. Here is the incident report:\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"10.8.15.133\",\n    \"mac\": \"00:1c:bf:03:54:82\",\n    \"hostname\": \"DESKTOP-H8ALZBV\",\n    \"user\": \"plucero\"\n  },\n  \"malware_family\": \"Qbot (Qakbot)\",\n  \"attribution_confidence\": \"behavioral\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"72.5.43.29:80\",\n      \"evidence\": \"Repeated HTTP connections with spoofed IE 6 UA (Mozilla / 5.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705)) at regular intervals. Host-only (bare-IP) HTTP header. 300+ GET and POST requests on root path / from frames 11028-18188. TCP SYN packets at regular 2-10 second intervals (epoch timestamps 1723680718-1723680857). Classic C2 beaconing behavior.\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"quote.checkfedexexp.com\",\n      \"evidence\": \"DNS query in frame 6418. HTTP GET request from 10.8.15.133 to 104.21.55.70 (resolves to quote.checkfedexexp.com) with encoded parameters in URI: /managements?16553a25e45250a41fd5&endeds=MIGpq&JStx=59bf050d37df88a9-ade43358-eaa1220b-0571422b-0f33e6aa150e86bafd0ed4&Ld=9d7502d88d752a27b1d00587309184b5a215. Spoofed FedEx domain (legitimate is fedex.com, not checkfedexexp.com). Consistent with Qbot malspam campaign lure.\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"business.checkfedexexp.com\",\n      \"evidence\": \"DNS query resolving malicious FedEx-themed domain. Part of same fake FedEx infrastructure.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"ea203eb1b56387cac02308b5aca040993e2d1c7fbd06413d41c957a726e4898f\",\n      \"evidence\": \"SHA256 of Windows Cabinet (.cab) archive downloaded and exported from HTTP traffic. File transferred to victim via quote.checkfedexexp.com C2 pathway. Multiple .cab files downloaded across the capture; this hash represents one of three sampled file exports.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"e008608c81024ed297a07321b7c9ba9a00adac7cea71f24491af04b5e88f2f21\",\n      \"evidence\": \"SHA256 of Windows Cabinet (.cab) archive downloaded via C2. Second sample from exported HTTP objects.\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"4839da5b25468809fbc7708652e77c4aa945e6735bf5c9119b3299653898ce34\",\n      \"evidence\": \"SHA256 of Windows Cabinet (.cab) archive downloaded via C2. Third sample from exported HTTP objects.\"\n    }\n  ],\n  \"benign_context\": [\n    \"Windows telemetry and update traffic (Microsoft domains, BITS transfers) to legitimate Microsoft CDN and update endpoints (msedge.b.tlu.dl.delivery.mp.microsoft.com, update.microsoft.com)\",\n    \"Local Active Directory (lafontainebleu.org domain controller queries via LDAP/Kerberos)\",\n    \"Standard OS connectivity (Microsoft NCSI, SmartScreen, Windows Update)\"\n  ],\n  \"incident_summary\": \"Workstation DESKTOP-H8ALZBV (user plucero, 10.8.15.133) is infected with Qbot malware. The infection was likely delivered via phishing email containing a malicious FedEx-themed domain (quote.checkfedexexp.com). The malware established command-and-control communication to bare-IP 72.5.43.29:80, continuously beaconing with spoofed Internet Explorer 6 HTTP headers and exfiltrating data via POST requests. Multiple Windows Cabinet archives were downloaded from the C2 server, indicating active command execution.\"\n}\n```"
+}

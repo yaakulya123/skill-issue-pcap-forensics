@@ -1,0 +1,92 @@
+{
+  "run_id": "mta-2022-01-07__D2__haiku__r2",
+  "case": "mta-2022-01-07",
+  "arm": "D2",
+  "arm_label": "no-recipes",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 23,
+    "tshark_calls": 17,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z io,phs | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -q -z conv,ip | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"eth.src == ff:ff:ff:ff:ff:ff or nbns or dhcp or kerberos\" -T fields -e eth.src -e eth.dst -e ip.src -e ip.dst -e nbns.name -e dhcp.option.hostname -e kerberos.CNameString | grep -E \"216|dhcp|nbns|kerberos\" | head -40",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"smb2.security_user_name or kerberos\" -T fields -e smb2.security_user_name -e kerberos.CNameString 2>/dev/null | grep -v \"^$\" | sort | uniq",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ntlmssp or smb2\" -T fields -e ntlmssp.auth.username -e smb2.security_user_name -e smb.identity 2>/dev/null | grep -v \"^$\" | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"smb2.cmd == 1\" -T fields -e frame.number -e ip.src -e ip.dst 2>/dev/null | head -5",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src == 192.168.1.216 and ip.dst == 2.56.57.108\" -T fields -e frame.number -e tcp.srcport -e tcp.dstport -e tcp.len | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src == 192.168.1.216 and ip.dst == 2.56.57.108 and http\" -T fields -e http.request.method -e http.request.uri -e http.host | head -60",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src == 192.168.1.216 and ip.dst == 2.56.57.108 and http.request\" -A -T text | grep -A 5 \"POST /osk\" | head -50",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ip.src == 192.168.1.216 and ip.dst == 2.56.57.108 and http.request\" -T fields -e frame.number -e http.request.method -e http.request.uri -e http.request_line | sort -u",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request\" -T text 2>/dev/null | grep -A 2 \"POST /osk\" | head -60",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"http.request and not (ip.dst == 2.56.57.108 or ip.dst == 23.38.189.225 or ip.dst == 52.249.36.204 or ip.dst == 52.178.17.2 or ip.dst == 204.79.197.200 or ip.dst == 52.183.220.149)\" -T text 2>/dev/null | grep \"POST\\|GET\" | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -T text 2>/dev/null | grep -E \"\\.exe|\\.msi|\\.zip|\\.scr|\\.vbs|\\.ps1|\\.bat\" | head -30",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"dns.qry.name\" -T fields -e dns.qry.name -e ip.dst | sort -u",
+      "mkdir -p /tmp/pcap_exports && /opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap --export-objects http,/tmp/pcap_exports 2>&1 && ls -lh /tmp/pcap_exports/",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"ldap\" -T text 2>/dev/null | grep -i \"username\\|user\\|login\\|account\" | head -20",
+      "/opt/homebrew/bin/tshark -r /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2022-01-07/2022-01-07-traffic-analysis-exercise.pcap -Y \"smb or smb2\" -T text 2>/dev/null | grep -i \"user\\|account\\|session\\|login\" | head -20"
+    ],
+    "input_tokens": 194,
+    "output_tokens": 7017,
+    "num_turns": 24,
+    "duration_ms": 114110,
+    "cost_usd": 0.20809940000000005,
+    "wall_time_s": 115.4
+  },
+  "score": {
+    "recall": 0.6667,
+    "iocs_found": 6,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 0,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 0,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 2,
+        "total": 2
+      },
+      "file_hash": {
+        "found": 0,
+        "total": 1
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": false,
+      "victim_user": true
+    },
+    "victim_correct": 3,
+    "victim_total": 4,
+    "family_correct": false,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 9,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Perfect! I found the logged-in user in the SMB Session Setup. Now I have all the pieces. Let me compile the final incident report.\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"192.168.1.216\",\n    \"mac\": \"9c:5c:8e:32:58:f9\",\n    \"hostname\": \"DESKTOP-GXNYNO2\",\n    \"user\": \"SPOONWATCH\\\\steve.smith\"\n  },\n  \"malware_family\": \"Qbot (QakBot)\",\n  \"attribution_confidence\": \"behavioral\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"2.56.57.108:80\",\n      \"evidence\": \"3335 frames (3.6 MB) of HTTP traffic from victim to this IP, POST requests to /osk/ paths (frames 1501, 1641, 2225, 2541, 2691, 3054, 4194, 4275, 4816)\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk//main.php\",\n      \"evidence\": \"HTTP POST request in frame 4275, characteristic Qbot C2 command handler path\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://2.56.57.108/osk/\",\n      \"evidence\": \"HTTP POST request in frame 4816 with zip-encoded data, Qbot exfiltration pattern\"\n    }\n  ],\n  \"benign_context\": [\n    \"HTTP GETs to 23.38.189.225 and 23.38.189.201 for Windows Update CAB files (am_delta_patch updates)\",\n    \"DNS queries to spoonwatch.net (internal AD domain)\",\n    \"DHCP, mDNS, LLMNR traffic (host discovery)\",\n    \"Kerberos and LDAP queries to 192.168.1.2 (domain controller)\",\n    \"Windows telemetry to Microsoft domains (api.msn.com, download.windowsupdate.com, events.data.microsoft.com, etc.)\"\n  ],\n  \"incident_summary\": \"Windows workstation DESKTOP-GXNYNO2 (192.168.1.216) operated by user steve.smith is infected with Qbot, a banking trojan. The malware maintains persistent HTTP-based command-and-control communication with 2.56.57.108:80 using POST requests to /osk/ URIs with .jpg file extensions, a hallmark of Qbot's steganographic C2 protocol. The infection was already active at the time of capture, suggesting either a prior delivery event or ongoing dormancy.\"\n}\n```"
+}

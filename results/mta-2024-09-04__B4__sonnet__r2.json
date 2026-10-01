@@ -1,0 +1,80 @@
+{
+  "run_id": "mta-2024-09-04__B4__sonnet__r2",
+  "case": "mta-2024-09-04",
+  "arm": "B4",
+  "arm_label": "community-wireshark2",
+  "model": "sonnet",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 13,
+    "tshark_calls": 9,
+    "tshark_cmds": [
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04\" && /opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -q -z io,phs 2>/dev/null | head -60",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04\" && echo \"--- DHCP ---\" && /opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y dhcp -T fields -e frame.number -e eth.src -e ip.src -e ip.dst -e dhcp.option.hostname -e dhcp.option.value -e bootp.option.hostname 2>/dev/null\necho \"--- NBNS ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y nbns -T fields -e ip.src -e ip.dst -e nbns.name 2>/dev/null | sort -u\necho \"--- Kerberos CNames ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y kerberos -T fields -e ip.src -e ip.dst -e kerberos.CNameString -e kerberos.realm 2>/dev/null | sort -u",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04\"\necho \"--- HTTP requests (host, uri, method, user-agent) ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y http.request -T fields -e frame.number -e ip.src -e ip.dst -e tcp.dstport -e http.host -e http.request.method -e http.request.uri -e http.user_agent 2>/dev/null\necho \"--- HTTP responses w/ content-type ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y http.response -T fields -e frame.number -e ip.src -e ip.dst -e http.response.code -e http.content_type -e http.content_length 2>/dev/null",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04\"\necho \"--- All DNS queries (unique) ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"dns.flags.response==0\" -T fields -e dns.qry.name 2>/dev/null | sort -u\necho \"--- frames before 1668 involving external IPs (non-172.17, non-multicast) ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"frame.number<1668 && ip && !(ip.addr==172.17.0.0/24)\" -T fields -e frame.number -e frame.time_relative -e ip.src -e ip.dst -e tcp.dstport -e udp.dstport -e _ws.col.Protocol -e _ws.col.Info 2>/dev/null | head -80",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04\"\necho \"--- TLS SNI list (unique) ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"tls.handshake.extensions_server_name\" -T fields -e frame.number -e ip.dst -e tls.handshake.extensions_server_name 2>/dev/null | sort -k3 -u\necho \"--- first POST /foots.php full stream (packet 1668) ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -q -z follow,tcp,ascii,$(/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"frame.number==1668\" -T fields -e tcp.stream 2>/dev/null) 2>/dev/null | head -100",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04\"\nmkdir -p /tmp/exported_objs\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap --export-objects http,/tmp/exported_objs 2>/dev/null\nls -la /tmp/exported_objs\necho \"--- stream around GET index.php ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"frame.number==2227\" -T fields -e tcp.stream 2>/dev/null",
+      "ls -la /tmp/exported_objs 2>/dev/null\necho \"---\"\ncd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"frame.number==2227\" -T fields -e tcp.stream 2>/dev/null",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04\"\necho \"--- search for MZ/PE headers or exe content types across all TCP payload ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"data-text-lines or http.content_type contains \\\"application\\\"\" -T fields -e frame.number -e http.content_type -e http.content_length 2>/dev/null\necho \"--- any Content-Disposition headers ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"http.content_disposition\" -T fields -e frame.number -e http.content_disposition 2>/dev/null\necho \"--- SMB/SMB2 filenames of interest (non-standard share admin activity) ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"smb2.filename or smb.file\" -T fields -e frame.number -e smb2.filename -e smb.file 2>/dev/null | sort -u | head -40",
+      "cd \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2024-09-04\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"frame.number==1668 or frame.number==1\" -T fields -e frame.number -e frame.time 2>/dev/null\necho \"--- last frame time ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -T fields -e frame.time 2>/dev/null | tail -1\necho \"--- count of foots.php POSTs (C2 beacon count) ---\"\n/opt/homebrew/bin/tshark -r 2024-09-04-traffic-analysis-exercise.pcap -Y \"http.request.uri==\\\"/foots.php\\\"\" 2>/dev/null | wc -l"
+    ],
+    "input_tokens": 28,
+    "output_tokens": 8907,
+    "num_turns": 14,
+    "duration_ms": 137484,
+    "cost_usd": 0.6777224000000001,
+    "wall_time_s": 138.7
+  },
+  "score": {
+    "recall": 0.8889,
+    "iocs_found": 8,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "url": {
+        "found": 2,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 8,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "# Incident Report: Koi Stealer Infection \u2014 DESKTOP-RNVO9AT\n\n**Case:** mta-2024-09-04 | **Capture window:** 2024-09-04 17:32:31 \u2013 18:32:07 UTC (`2024-09-04-traffic-analysis-exercise.pcap`, 5,091 frames)\n\n## 1. Victim host\n\n| Attribute | Value |\n|---|---|\n| IPv4 address | **172.17.0.99** |\n| MAC address | **18:3d:a2:b6:8d:c4** (Intel NIC vendor prefix) |\n| Windows hostname | **DESKTOP-RNVO9AT** (confirmed via DHCP Option 12, NBNS, mDNS, and DNS dynamic update) |\n| AD domain | bepositive.com (DC: WIN-CTL9XBQ9Y19 / 172.17.0.17) |\n| Logged-in Windows user | **afletcher** (Kerberos CNameString in AS-REQ/TGS-REQ exchanges with the domain controller, realm BEPOSITIVE.COM) |\n\n## 2. Malware family\n\n**Koi Stealer** \u2014 a Windows information-stealer/loader.\n\nAttribution is **signature-confirmed**, not just behavioral: Suricata/ET fired `ETPRO TROJAN Win32/Koi Stealer CnC Checkin (POST) M2` (48 hits, first seen 17:35 UTC) directly on the POST traffic from 172.17.0.99 to 79.124.78.197. This is corroborated by behavioral evidence: 96 recurring `POST /foots.php` beacons to the same IP using the pipe-delimited `<code>|<GUID>|<payload>` protocol format characteristic of this family (e.g., `101|30168213-3be0-a751-81a0-cf3b228c8654|5LHtVruc|<base64 blob>` for check-in/exfil, and bare `102|<GUID>` heartbeat beacons every ~30-60s for the remainder of the capture).\n\n## 3. Indicators of compromise (observed in traffic)\n\n**Command-and-control:**\n- `79.124.78.197:80` \u2014 primary C2 (accessed directly by IP literal, no DNS resolution seen for it; consistent with a hardcoded C2 address)\n\n**Malicious URLs / paths (host 79.124.78.197):**\n- `POST http://79.124.78.197/foots.php` \u2014 beacon/check-in and data-exfil endpoint (96 requests)\n- `GET http://79.124.78.197/index.php?id=&subid=qIOuKk7U` \u2014 response body: `HckDcK0czXjaq48jVHNn|qIOuKk7U|http://79.124.78.197/index.php|` (config/redirect handshake)\n- `POST http://79.124.78.197/index.php` \u2014 response was an encrypted/binary blob (not plaintext HTTP; no file extension or Content-Disposition, so not a named artifact)\n\n**Malware C2 User-Agent (all beacon traffic):**\n- `Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729)`\n\n**Malicious/associated domains:** None \u2014 I could not ground a malicious *domain* IOC in this capture. All DNS queries resolved to legitimate Microsoft/MSN/Adobe/GoDaddy infrastructure (msftconnecttest.com, windowsupdate.com, msn.com, adobe.com, etc.); the C2 traffic went straight to the bare IP `79.124.78.197` with no corresponding DNS lookup.\n\n**Related Suricata alerts on the same host (context, same timeframe):**\n- `ET INFO GENERIC SUSPICIOUS POST to Dotted Quad with Fake Browser 1` (50 hits) \u2014 same 79.124.78.197 traffic, flags the raw-IP POST + spoofed legacy UA\n- SMB/Kerberos alerts (`SMBv1 in use`, `SMB Session Setup NTMLSSP overflow attempt`, `IPC$ unicode share access`, `SMB_COM_TRANSACTION Max Data Count of 0`, `RPC kerberos principal name overflow`) between 172.17.0.99 and the domain controller 172.17.0.17 at 17:33-17:34 UTC \u2014 these fired on ordinary domain-join/SAMR/DRSUAPI authentication traffic to the DC; I did not find evidence they represent a separate exploitation stage (legacy IDS signatures are prone to false-positives on normal AD auth chatter), but flagging for completeness since they're in the alert export.\n\n**Transferred files / SHA256 hashes:** None observed. No executable, script, or named file download (no `.exe`/`.zip`/`Content-Disposition` header) is present anywhere in the capture. The only binary content is the encrypted HTTP request/response bodies on the `foots.php`/`index.php` C2 channel, which carry no filename and cannot be attributed a meaningful hash as a \"transferred file\" \u2014 they are stealer protocol data, not a dropped artifact.\n\n## Summary\n\nDESKTOP-RNVO9AT (172.17.0.99, user afletcher) began beaconing to Koi Stealer C2 at **79.124.78.197:80** at **17:35:07 UTC**, roughly 3 minutes after the capture starts, and continued heartbeat/exfil POSTs to `/foots.php` for the remainder of the hour-long capture (96 total requests). No initial-access artifact (dropper, downloaded binary) is visible in this PCAP \u2014 the capture begins with the host already compromised."
+}

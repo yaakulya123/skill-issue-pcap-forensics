@@ -1,0 +1,96 @@
+{
+  "run_id": "mta-2026-01-31__C__haiku__r2",
+  "case": "mta-2026-01-31",
+  "arm": "C",
+  "arm_label": "custom",
+  "model": "haiku",
+  "rep": 2,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 31,
+    "tshark_calls": 25,
+    "tshark_cmds": [
+      "cd /Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2026-01-31 && /opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -q -z io,phs 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -q -z conv,ip 2>&1 | head -40",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"arp\" -T fields -e arp.src.proto_ipv4 -e arp.src.hw_mac -e ip.src | sort -u | grep 10.1.21.58",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"nbns and ip.src==10.1.21.58\" -T fields -e nbns.name -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"dhcp\" -T fields -e dhcp.option.hostname -e dhcp.hw.mac_addr | sort -u",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"kerberos.CNameString\" -T fields -e kerberos.CNameString -e ip.src | grep -i \"10.1.21.58\" | sort -u",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"ip.dst==104.21.46.67 and ip.src==10.1.21.58\" -T fields -e tcp.dstport -e ip.dst -e ip.proto | sort | uniq -c | sort -rn",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request and ip.src==10.1.21.58\" -T fields -e ip.dst -e http.host -e http.request.method -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http and ip.dst==153.92.1.49\" -T fields -e ip.src -e ip.dst -e http.host -e tcp.dstport -e http.request.method -e http.request.uri | sort -u",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"dns.qry.name and ip.src==10.1.21.58\" -T fields -e dns.qry.name | sort -u",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request and (http.host contains 'filemegahab' or http.host contains 'communicationfirewall' or http.host contains 'holiday-forever' or http.host contains 'hiyter' or http.host contains 'whooptm')\" -T fields -e ip.src -e http.host -e http.request.method -e http.request.uri",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.src -e http.host -e http.request.method -e http.request.uri | grep -E \"(filemegahab|megafilehub|communicationfirewall|holiday-forever|hiyter|whooptm)\"",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap --export-objects http,/tmp/http_objs -q && ls -lah /tmp/http_objs/ 2>&1 | head -20",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.response and http.content_length > 100000\" -T fields -e http.host -e http.request.uri -e http.content_length | sort -u | head -20",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.uri | grep -i \"delta_patch\\|patch\" | head -10",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.response\" -T fields -e http.host -e http.response.code -e ip.dst | sort | uniq -c | sort -rn | head -20",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.response and ip.dst==10.1.21.58\" -T fields -e ip.src -e ip.dst -e http.host | sort -u",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"ip.src==10.1.21.58 and (ip.dst==104.21.46.67 or ip.dst==104.21.48.156)\" -T fields -e frame.number -e ip.dst -e tcp.dstport | head -30",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e ip.src -e ip.dst -e http.host -e http.request.uri | awk '{print $3}' | sort -u | grep -v \"^$\" | head -20",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"dns.qry.name and dns.flags.response==0\" -T fields -e dns.qry.name -e ip.dst | grep -E \"104.21|153.92\" ",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"dns and (ip.src==10.1.21.58)\" -T fields -e dns.qry.name -e dns.a | grep -v \"^$\" | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"dns.qry.name==\\\"whitepepper.su\\\"\" -T fields -e dns.qry.name -e dns.a -e ip.src | sort -u",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"http.request\" -T fields -e frame.time -e ip.src -e ip.dst -e http.host -e http.request.uri | head -20",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"ip.src==10.1.21.58 and ip.dst==104.21.46.67\" -T fields -e frame.time -e tcp.dstport | head -10",
+      "/opt/homebrew/bin/tshark -r 2026-01-31-traffic-analysis-exercise.pcap -Y \"smb\" -T fields -e ip.src -e ip.dst -e tcp.dstport | sort -u | head -20"
+    ],
+    "input_tokens": 258,
+    "output_tokens": 8928,
+    "num_turns": 32,
+    "duration_ms": 150902,
+    "cost_usd": 0.26384799999999997,
+    "wall_time_s": 152.6
+  },
+  "score": {
+    "recall": 0.7778,
+    "iocs_found": 7,
+    "iocs_total": 9,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "malware_family": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": true,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 10,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Based on my analysis, I have all the information needed. Let me compile the final incident report.\n\n---\n\n## Incident Report\n\n**Incident Date:** January 28, 2026  \n**Analysis Date:** January 31, 2026  \n**Analysis Method:** PCAP forensics with tshark\n\n### Victim Host\n\n| Field | Value |\n|---|---|\n| IPv4 Address | 10.1.21.58 |\n| MAC Address | 00:21:5d:c8:0e:f2 |\n| Hostname | DESKTOP-ES9F3ML |\n| Logged-in User | gwyatt |\n| OS | Windows 10 (x64) |\n\n### Malware Identification\n\n**Family:** Lumma Stealer (behavioral attribution)  \n**Attribution Confidence:** Behavioral  \n**Reasoning:** The traffic pattern exhibits the hallmarks of Lumma Stealer C2 communication: (1) URI pattern `/api/set_agent?id=...&token=...` with browser agent enumeration (Chrome/Edge); (2) comprehensive browser fingerprinting including WebGL info, canvas fingerprints, font enumeration, plugin detection, and hardware capabilities; (3) data exfiltration via POST requests to a bare-IP C2 with `act=log` parameter; (4) system info harvesting (userAgent, platform, language, screen resolution, audio capabilities).\n\n### Attack Timeline\n\n- **03:04:52 (Jan 28):** Malware already active, initiating large data transfer to 104.21.46.67:443\n- **03:05:39:** First C2 beacon to whitepepper.su (153.92.1.49:80) for agent enumeration\n- **03:05:40-03:05:47:** Browser fingerprinting data exfiltration to C2 via POST requests\n\n### Indicators of Compromise\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"10.1.21.58\",\n    \"mac\": \"00:21:5d:c8:0e:f2\",\n    \"hostname\": \"DESKTOP-ES9F3ML\",\n    \"user\": \"gwyatt\"\n  },\n  \"malware_family\": \"Lumma Stealer\",\n  \"attribution_confidence\": \"behavioral\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"153.92.1.49:80\",\n      \"evidence\": \"HTTP beaconing to whitepepper.su on port 80; agent enumeration and data exfil POSTs with ID 3BF67EC05320C5729578BE4C0ADF174C\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"whitepepper.su\",\n      \"evidence\": \"DNS query resolves to 153.92.1.49; HTTP requests to /api/set_agent endpoints; tshark frame timestamps 03:05:39 onward\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&agent=Chrome\",\n      \"evidence\": \"GET request from 10.1.21.58 returning fingerprinting JavaScript payload; observed at 2026-01-28T03:05:39\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://whitepepper.su/api/set_agent?id=3BF67EC05320C5729578BE4C0ADF174C&token=842e2802df0f0a06b4ed51f12f4387e761523b&agent=Chrome&act=log\",\n      \"evidence\": \"POST request exfiltrating browser fingerprint data (system info, WebGL, canvas, fonts, plugins); observed at 2026-01-28T03:05:40\"\n    },\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"104.21.46.67:443\",\n      \"evidence\": \"16 MB data transfer from 10.1.21.58 to this IP on port 443 (HTTPS); starts immediately at capture begin (03:04:52); likely secondary C2 or data staging\"\n    },\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"104.21.48.156:443\",\n      \"evidence\": \"217 KB transferred from 10.1.21.58 on port 443; persistent TCP connection; likely secondary C2 infrastructure\"\n    }\n  ],\n  \"benign_context\": [\n    \"clients2.google.com (142.250.115.113) - Google time sync (CUP protocol)\",\n    \"www.msftconnecttest.com (23.55.178.249) - Microsoft connectivity verification\",\n    \"LDAP/Kerberos traffic to 10.1.21.2 - domain controller authentication (expected)\"\n  ],\n  \"incident_summary\": \"Windows workstation DESKTOP-ES9F3ML (user gwyatt) is compromised with Lumma Stealer, a commercial browser information-stealing trojan. Malware beacons to whitepepper.su (153.92.1.49:80) and exfiltrates comprehensive browser fingerprints, system info, GPU/WebGL details, installed fonts, plugins, and hardware configuration. Secondary C2 or data staging infrastructure at 104.21.46.67:443 receives 16 MB of data. Infection occurred before capture start; delivery vector not captured.\"\n}\n```"
+}

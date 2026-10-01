@@ -1,0 +1,84 @@
+{
+  "run_id": "mta-2025-01-22__D2__haiku__r1",
+  "case": "mta-2025-01-22",
+  "arm": "D2",
+  "arm_label": "no-recipes",
+  "model": "haiku",
+  "rep": 1,
+  "returncode": 0,
+  "trajectory": {
+    "tool_calls": 22,
+    "tshark_calls": 17,
+    "tshark_cmds": [
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -z io,phs 2>&1 | head -100",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -z conv,ip 2>&1 | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -q -z conv,ip 2>&1 | head -80",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"eth.src == 00:1a:64:26:4a:74 || eth.src contains 26:4a:74\" -e eth.src -e eth.dst -Tfields 2>&1 | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"kerberos.CNameString\" -e kerberos.CNameString -Tfields 2>&1 | sort -u | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.dst == 45.125.66.32 || ip.dst == 5.252.153.241\" -e ip.dst -e tcp.dstport -e udp.dstport -Tfields | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.1.17.215 && (ip.dst == 45.125.66.32 || ip.dst == 5.252.153.241)\" -e frame.number -e frame.time -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e http.request.uri -Tfields 2>&1 | head -100",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.1.17.215 && ip.dst == 45.125.66.32\" -e frame.number -e frame.time -e ip.src -e ip.dst -e tcp.dstport -e tcp.flags -Tfields 2>&1 | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"dns && ip.src == 10.1.17.215\" -e dns.qry.name -Tfields 2>&1 | sort | uniq -c | sort -rn | head -50",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http.request && ip.src == 10.1.17.215\" -e http.user_agent -Tfields 2>&1 | sort | uniq -c | sort -rn | head -20",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"http.response && ip.dst == 10.1.17.215 && ip.src == 5.252.153.241\" -e frame.number -e http.response.code -Tfields | head -50",
+      "mkdir -p /tmp/pcap_exports && /opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" --export-objects http,/tmp/pcap_exports/ >/dev/null 2>&1 && ls -lah /tmp/pcap_exports/ | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"dns.qry.type == 1 && ip.src == 10.1.17.215 && dns.flags.rcode != 0\" -e dns.qry.name -Tfields 2>&1 | sort -u | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.1.17.215 && ip.dst >= 10.1.17.0 && ip.dst <= 10.1.17.255 && !(ip.dst == 10.1.17.215 || ip.dst == 10.1.17.255 || ip.dst == 10.1.17.2)\" -e ip.dst -e tcp.dstport -Tfields | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ip.src == 10.1.17.215 && ip.dst == 82.221.136.26\" -e frame.number -e tcp.dstport -e http.request.uri -Tfields 2>&1 | head -30",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"tls.sni && ip.src == 10.1.17.215 && ip.dst == 82.221.136.26\" -e tls.sni -Tfields | sort -u",
+      "/opt/homebrew/bin/tshark -r \"/Users/yaakulyasabbani/Documents/GitHub/latex_researchpapers/Skill_Issue_LLM_PCAP_Forensics/datasets/evidence/mta-2025-01-22/2025-01-22-traffic-analysis-exercise.pcap\" -Y \"ssl.handshake.extensions_server_name && ip.src == 10.1.17.215 && ip.dst == 82.221.136.26\" -e ssl.handshake.extensions_server_name -Tfields | sort -u"
+    ],
+    "input_tokens": 186,
+    "output_tokens": 9240,
+    "num_turns": 23,
+    "duration_ms": 151572,
+    "cost_usd": 0.270838,
+    "wall_time_s": 153.5
+  },
+  "score": {
+    "recall": 0.875,
+    "iocs_found": 7,
+    "iocs_total": 8,
+    "recall_by_type": {
+      "victim_ip": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_mac": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_hostname": {
+        "found": 1,
+        "total": 1
+      },
+      "victim_user": {
+        "found": 1,
+        "total": 1
+      },
+      "domain": {
+        "found": 1,
+        "total": 1
+      },
+      "c2_endpoint": {
+        "found": 2,
+        "total": 3
+      }
+    },
+    "victim_fields": {
+      "victim_ip": true,
+      "victim_mac": true,
+      "victim_hostname": true,
+      "victim_user": true
+    },
+    "victim_correct": 4,
+    "victim_total": 4,
+    "family_correct": null,
+    "hallucinated_ips": [],
+    "hallucinated_domains": [],
+    "hallucination_count": 0,
+    "ioc_tokens_emitted": 14,
+    "hallucination_rate": 0.0
+  },
+  "final_text": "Perfect. I now have all the evidence. Let me compile the final incident report.\n\nBased on my analysis of the PCAP file:\n\n**Victim Host:** 10.1.17.215 (MAC: 00:d0:b7:26:4a:74, Hostname: DESKTOP-L8C5GSJ, User: shutchenson)\n\n**Malware Family:** DynGate (signature-confirmed by User-Agent string \"Mozilla/4.0 (compatible; MSIE 6.0; DynGate)\")\n\n**Traffic Shape:** Host exhibits dual-channel C2 communication: HTTP beaconing with file delivery via 5.252.153.241:80 using `/api/file/get-file/` URIs, binary protocol to 45.125.66.32:2917, and HTTPS to authenticatoor.org via 82.221.136.26:443. Downloads include obfuscated PowerShell scripts, TeamViewer binaries, and unknown payloads. Behavioral indicators: 344 DNS queries to ping3.dyngate.com; PowerShell execution with \"startup shortcut created\" and \"PS process started\" status messages returned to C2.\n\n```json\n{\n  \"victim\": {\n    \"ip\": \"10.1.17.215\",\n    \"mac\": \"00:d0:b7:26:4a:74\",\n    \"hostname\": \"DESKTOP-L8C5GSJ\",\n    \"user\": \"shutchenson\"\n  },\n  \"malware_family\": \"DynGate\",\n  \"attribution_confidence\": \"signature-confirmed\",\n  \"iocs\": [\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"5.252.153.241:80\",\n      \"evidence\": \"Frames 5028-8202: HTTP GET requests to /api/file/get-file/* endpoints, responses 200 OK with file payloads; 5601 frames from victim (6.6 MB), total conversation 9076 frames\"\n    },\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"45.125.66.32:2917\",\n      \"evidence\": \"Frames 19302-19451: TCP connection with sustained data transfer, 7203 frames from victim (9.6 MB), total conversation 10940 frames. Binary protocol consistent with Metasploit/Cobalt Strike beacon\"\n    },\n    {\n      \"type\": \"c2_endpoint\",\n      \"value\": \"82.221.136.26:443\",\n      \"evidence\": \"Frames 2377-2441: TLS connection to authenticatoor.org, 1636 frames from victim (2.3 MB). SNI=authenticatoor.org confirmed in TLS handshake\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"ping3.dyngate.com\",\n      \"evidence\": \"344 DNS A-record queries from victim, highest frequency DNS query in capture. Known DynGate C2 infrastructure domain\"\n    },\n    {\n      \"type\": \"domain\",\n      \"value\": \"authenticatoor.org\",\n      \"evidence\": \"SNI in TLS ClientHello frame 2377, destination 82.221.136.26:443\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://5.252.153.241/api/file/get-file/29842.ps1\",\n      \"evidence\": \"Frame 5063: HTTP GET request, 200 response with obfuscated PowerShell script download\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://5.252.153.241/api/file/get-file/264872\",\n      \"evidence\": \"Frame 5031: HTTP GET request, 200 response with file download\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://5.252.153.241/api/file/get-file/TeamViewer\",\n      \"evidence\": \"Frame 8002: HTTP GET request, 200 response with TeamViewer binary download\"\n    },\n    {\n      \"type\": \"url\",\n      \"value\": \"http://5.252.153.241/1517096937\",\n      \"evidence\": \"Frames 7305-8202: Repeated HTTP GET requests to this endpoint every 5 seconds, mostly 404 responses with malware status strings ('startup shortcut created', 'PS process started'). C2 heartbeat/checkin pattern\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:b8ce40900788ea26b9e4c9af7efab533e8d39ed1370da09b93fcf72a16750ded\",\n      \"evidence\": \"Exported from frame 5063 response, filename 29842.ps1 (1512 bytes). Obfuscated PowerShell script using Base64 encoding with character replacement tricks\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:c74123dbccded43fda61651e102750b041d4c3af6fda88cd6436f9276653e103\",\n      \"evidence\": \"Exported from frame 5031 response, filename 264872 (417 bytes). Content type unknown, binary payload\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:9634ecaf469149379bba80a745f53d823948c41ce4e347860701cbdff6935192\",\n      \"evidence\": \"Exported from frame 8002 response, filename Teamviewer_Resource_fr (668968 bytes). TeamViewer binary or resource file\"\n    },\n    {\n      \"type\": \"file_hash\",\n      \"value\": \"sha256:a833f27c2bb4cad31344e70386c44b5c221f031d7cd2f2a6b8601919e790161e\",\n      \"evidence\": \"Exported from PCAP objects, filename pas.ps1 (1553 bytes). Obfuscated PowerShell script\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"29842.ps1\",\n      \"evidence\": \"Requested via HTTP GET /api/file/get-file/29842.ps1, frame 5063\"\n    },\n    {\n      \"type\": \"file_name\",\n      \"value\": \"Teamviewer_Resource_fr\",\n      \"evidence\": \"Requested via HTTP GET /api/file/get-file/TeamViewer, frame 8002\"\n    }\n  ],\n  \"benign_context\": [\n    \"10.1.17.2 (win-gsh54qlw48d.bluemoontuesday.com) - Domain controller, LDAP/Kerberos authentication traffic, NBNS registrations\",\n    \"23.40.146.4 - Microsoft CDN endpoint for kv801.prod.do.dsp.mp.microsoft.com (telemetry)\",\n    \"52.156.123.84 - Microsoft endpoint for geo.prod.do.dsp.mp.microsoft.com (telemetry)\",\n    \"Multiple Microsoft domains and CDN endpoints (edge.microsoft.com, clients2.google.com, etc.) - OS telemetry and software updates\"\n  ],\n  \"incident_summary\": \"Workstation DESKTOP-L8C5GSJ (10.1.17.215) infected with DynGate malware. Host established persistent C2 communication with three external endpoints (5.252.153.241:80, 45.125.66.32:2917, 82.221.136.26:443) and repeatedly resolved ping3.dyngate.com (344 queries). Attacker downloaded and executed obfuscated PowerShell scripts, TeamViewer binaries, and unknown payloads via HTTP API; created startup shortcuts for persistence and executed remote code. Infection timeline spans entire capture duration (0-3200 seconds) with active command execution and file downloads occurring throughout.\"\n}\n```"
+}
